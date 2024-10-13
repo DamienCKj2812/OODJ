@@ -5,11 +5,9 @@
 package models;
 
 import constants.Constants;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.util.Arrays;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import utils.FileManager;
 
 /**
@@ -24,103 +22,131 @@ public class Admin extends User {
         super(userID, username, password, "admin");
     }
 
-    public String[] getAllUsers() throws IOException {
+    public List<User> getAllUsers() throws IOException {
         String fileContent = fileManager.readFile();
-        return fileContent.split("\n");
+        String[] userLines = fileContent.split("\n");
+        List<User> users = new ArrayList<>();
+
+        for (String line : userLines) {
+            String[] userDetails = line.split("\\|");
+            if (userDetails.length >= 4) { // Check for the required number of details
+                User user = new User(userDetails[0], userDetails[1], userDetails[2], userDetails[3]);
+                users.add(user);
+            } else {
+                System.err.println("Skipping line due to incorrect format: " + line);
+            }
+        }
+
+        return users;
     }
 
-    public String[] getAllUsersBasidesMe() throws IOException {
-        String fileContent = fileManager.readFile();
-        String[] allUsers = fileContent.split("\n");
+    public List<User> getAllUsersBesidesMe() throws IOException {
+        List<User> users = getAllUsers();
         String currentUserID = this.getUserID(); // Get the userID of the current Admin
 
-        return Arrays.stream(allUsers) // Stream the array of users
-                .filter(line -> {
-                    String[] userData = line.split("\\|");
-                    return userData.length > 0 && !userData[0].equals(currentUserID); // Filter out the current user
-                })
-                .toArray(String[]::new); // Collect the filtered results back into an array
+        // Use an iterator to remove the current user from the list
+        users.removeIf(user -> user.getUserID().equals(currentUserID));
+
+        return users;
     }
 
     public User registerNewUser(String username, String password, String role) throws IOException {
-        // Read file content to check for existing username
-        String[] users = getAllUsers();
-        StringBuilder updatedUsers = new StringBuilder();
+        List<User> users = getAllUsers(); // Retrieve all users
 
         // Check for existing username
-        for (String line : users) {
-            String[] userData = line.split("\\|");
-            if (userData.length >= 2 && userData[1].equals(username)) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
                 System.out.println("Username already exists.");
                 return null; // Username already taken
             }
-            updatedUsers.append(line).append("\n"); // Add existing users to updated list
         }
 
         // Generate a unique userID using the current time in milliseconds
         String userID = "tp" + System.currentTimeMillis();
 
-        String userData = String.format("%s|%s|%s|%s", userID, username, password, role);
-        updatedUsers.append(userData); // Add new user to the updated list
+        // Create a new User object
+        User newUser = new User(userID, username, password, role);
+        users.add(newUser); // Add the new user to the list
 
         // Write the updated user list back to the file
+        StringBuilder updatedUsers = new StringBuilder();
+        for (User user : users) {
+            updatedUsers.append(user.getUserID()).append("|")
+                    .append(user.getUsername()).append("|")
+                    .append(user.getPassword()).append("|")
+                    .append(user.getRole()).append("\n");
+        }
         fileManager.writeFile(updatedUsers.toString().trim()); // Ensures no trailing newline
 
         System.out.println("Registration successful!");
-        return new User(userID, username, password, role); // Return the new User object
+        return newUser;
     }
 
     public boolean deleteUser(String userID) throws IOException {
-        String[] users = getAllUsers();
-        StringBuilder updatedUsers = new StringBuilder();
-
+        List<User> users = getAllUsers(); // Retrieve all users
         boolean userFound = false;
 
-        for (String line : users) {
-            String[] userData = line.split("\\|");
-            if (userData[0].equals(userID)) {
-                userFound = true; // User to be deleted is found
-                continue; // Skip this user
+        // Iterate and remove user with matching userID
+        for (User user : users) {
+            if (user.getUserID().equals(userID)) {
+                users.remove(user);
+                userFound = true;
+                break;
             }
-            updatedUsers.append(line).append("\n"); // Keep other users
         }
 
         if (userFound) {
-            System.out.println("Updated users list: \n" + updatedUsers.toString().trim());
-            // Write the updated user list back to the file
-            fileManager.writeFile(updatedUsers.toString().trim());
+            // Rebuild the user data for saving
+            StringBuilder updatedUsers = new StringBuilder();
+            for (User user : users) {
+                updatedUsers.append(user.getUserID()).append("|")
+                        .append(user.getUsername()).append("|")
+                        .append(user.getPassword()).append("|")
+                        .append(user.getRole()).append("\n");
+            }
+            fileManager.writeFile(updatedUsers.toString().trim()); // Write to file
+
             System.out.println("User deleted successfully!");
-            return true; // Deletion successful
+            return true;
         } else {
-            // Inform the user and throw an exception
             System.out.println("User not found: " + userID);
             throw new IllegalArgumentException("User with ID " + userID + " not found.");
         }
     }
 
     public boolean updateUser(String userID, String newUsername, String newPassword, String newRole) throws IOException {
-        String[] users = getAllUsers();
-        StringBuilder updatedUsers = new StringBuilder();
+        List<User> users = getAllUsers(); // Retrieve all users
         boolean userFound = false;
 
-        for (String line : users) {
-            String[] userData = line.split("\\|");
-            if (userData[0].equals(userID)) {
-                // Update the user's information
-                line = String.format("%s|%s|%s|%s", userID, newUsername, newPassword, newRole);
-                userFound = true; // User to be updated is found
+        // Iterate over users to find and update the user with the matching userID
+        for (User user : users) {
+            if (user.getUserID().equals(userID)) {
+                // Update user details
+                user.setUsername(newUsername);
+                user.setPassword(newPassword);
+                user.setRole(newRole);
+                userFound = true;
+                break;
             }
-            updatedUsers.append(line).append("\n"); // Keep this user (updated or not)
         }
 
         if (userFound) {
-            // Write the updated user list back to the file
+            // Rebuild and save the updated user list to the file
+            StringBuilder updatedUsers = new StringBuilder();
+            for (User user : users) {
+                updatedUsers.append(user.getUserID()).append("|")
+                        .append(user.getUsername()).append("|")
+                        .append(user.getPassword()).append("|")
+                        .append(user.getRole()).append("\n");
+            }
             fileManager.writeFile(updatedUsers.toString().trim());
+
             System.out.println("User updated successfully!");
-            return true; // Update successful
+            return true;
         } else {
-            System.out.println("User not found.");
+            System.out.println("User not found: " + userID);
             return false; // User not found
         }
     }
+
 }

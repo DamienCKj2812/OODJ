@@ -30,10 +30,30 @@ public class User {
         return role;
     }
 
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public void displayUserInfo() {
         System.out.println("User ID: " + userID);
         System.out.println("Username: " + username);
         System.out.println("Role: " + role);
     }
 
+    @Override
+    public String toString() {
+        return userID + "|" + username + "|" + password + "|" + role;
+    }
 }

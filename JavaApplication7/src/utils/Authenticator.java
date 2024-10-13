@@ -4,6 +4,7 @@ import java.io.IOException;
 import models.User;
 import constants.Constants; // Import the Constants class for the file path
 import models.Admin;
+import models.InventoryManager;
 
 public class Authenticator {
 
@@ -27,6 +28,8 @@ public class Authenticator {
                     // Check the role and return the corresponding object
                     if (role.equalsIgnoreCase("Admin")) {
                         return new Admin(userID, username, password); // Return Admin object
+                    } else if (role.equalsIgnoreCase("inventoryManager")) {
+                        return new InventoryManager(userID, username, password); // Return InventoryManager object
                     } else {
                         return new User(userID, username, password, role); // Return User object
                     }
