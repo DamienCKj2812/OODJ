@@ -16,11 +16,12 @@ public class Authenticator {
 
         for (String line : lines) {
             String[] userData = line.split("\\|");
-            if (userData.length == 4) {
+            if (userData.length == 5) {
                 String userID = userData[0];
                 String username = userData[1];
                 String password = userData[2];
-                String role = userData[3].trim();
+                String role = userData[3];
+                String status = userData[4].trim();
 
                 if (username.equals(inputUsername) && password.equals(inputPassword)) {
                     System.out.println("Login successful! User role: " + role);
@@ -31,7 +32,7 @@ public class Authenticator {
                     } else if (role.equalsIgnoreCase("inventoryManager")) {
                         return new InventoryManager(userID, username, password); // Return InventoryManager object
                     } else {
-                        return new User(userID, username, password, role); // Return User object
+                        return new User(userID, username, password, role, status); // Return User object
                     }
                 }
             }

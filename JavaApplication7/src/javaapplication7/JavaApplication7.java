@@ -1,5 +1,6 @@
 package javaapplication7;
 
+import UI.Admin.UserManagementUI;
 import UI.Authentication.LoginUI;
 import UI.InventoryManager.InventoryManagerHomeUI;
 import java.io.IOException;
@@ -24,12 +25,22 @@ public class JavaApplication7 {
             ex.printStackTrace();
         }
 
-        // Create and display the LoginUI
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginUI().setVisible(true);
-            }
-        });
+        try {
+
+            User user = au.login("adminUser", "admin123");
+            Admin admin = (Admin) user;
+
+            // Create and display the LoginUI
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    new UserManagementUI(admin).setVisible(true);
+                }
+            });
+
+           admin.getAllUsersBesidesMe();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 ////       - Testing purpose
 //        try {
@@ -54,5 +65,5 @@ public class JavaApplication7 {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
+        }
     }
-}

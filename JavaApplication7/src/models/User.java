@@ -6,12 +6,21 @@ public class User {
     private String username;
     private String password;
     private String role;
+    private String status;
 
     public User(String userID, String username, String password, String role) {
         this.userID = userID;
         this.username = username;
         this.password = password;
         this.role = role;
+    }
+
+    public User(String userID, String username, String password, String role, String status) {
+        this.userID = userID;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.status = status;
     }
 
     public String getUserID() {
@@ -30,6 +39,10 @@ public class User {
         return role;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
     public void setUserID(String userID) {
         this.userID = userID;
     }
@@ -46,14 +59,20 @@ public class User {
         this.role = role;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public void displayUserInfo() {
         System.out.println("User ID: " + userID);
         System.out.println("Username: " + username);
         System.out.println("Role: " + role);
+        System.out.println("Status: " + status);
+
     }
 
     @Override
     public String toString() {
-        return userID + "|" + username + "|" + password + "|" + role;
+        return userID + "|" + username + "|" + password + "|" + role + "|" + status;
     }
 }

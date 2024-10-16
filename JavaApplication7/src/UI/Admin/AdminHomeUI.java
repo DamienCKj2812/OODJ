@@ -39,8 +39,10 @@ public class AdminHomeUI extends javax.swing.JFrame {
         manageInventoryManagerFunctionsLabel = new javax.swing.JLabel();
         manageFinanceManagerFunctionsButton = new javax.swing.JButton();
         manageFinanceManagerFunctionsLabel = new javax.swing.JLabel();
-        managePurchaseManagerFunctionsButton3 = new javax.swing.JButton();
+        userManagementButton = new javax.swing.JButton();
         userManagementLabel = new javax.swing.JLabel();
+        activityLogsManagementButton = new javax.swing.JButton();
+        actitvityLogsManagementButton = new javax.swing.JLabel();
 
         jTextField1.setText("jTextField1");
 
@@ -144,16 +146,27 @@ public class AdminHomeUI extends javax.swing.JFrame {
         manageFinanceManagerFunctionsLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         manageFinanceManagerFunctionsLabel.setText("<html><div style='text-align: center;'>Manage Finance<br>Manager Functions</div></html>");
 
-        managePurchaseManagerFunctionsButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/user-group.png"))); // NOI18N
-        managePurchaseManagerFunctionsButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        managePurchaseManagerFunctionsButton3.addActionListener(new java.awt.event.ActionListener() {
+        userManagementButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/user-group.png"))); // NOI18N
+        userManagementButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        userManagementButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                managePurchaseManagerFunctionsButton3ActionPerformed(evt);
+                userManagementButtonActionPerformed(evt);
             }
         });
 
         userManagementLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         userManagementLabel.setText("<html><div style='text-align: center;'>User<br>Management</div></html>");
+
+        activityLogsManagementButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/log-files.png"))); // NOI18N
+        activityLogsManagementButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        activityLogsManagementButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                activityLogsManagementButtonActionPerformed(evt);
+            }
+        });
+
+        actitvityLogsManagementButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        actitvityLogsManagementButton.setText("<html><div style='text-align: center;'>Activity Log<br>Management</div></html>");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -161,7 +174,7 @@ public class AdminHomeUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,7 +182,7 @@ public class AdminHomeUI extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(21, 21, 21)
                                 .addComponent(manageSalesManagerFunctionsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(managePurchaseManagerFunctionsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
@@ -185,16 +198,20 @@ public class AdminHomeUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(127, 127, 127)
+                                .addGap(26, 26, 26)
                                 .addComponent(manageFinanceManagerFunctionsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(95, 95, 95))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(manageFinanceManagerFunctionsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(60, 60, 60)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(managePurchaseManagerFunctionsButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(userManagementButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(userManagementLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(activityLogsManagementButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(actitvityLogsManagementButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(62, 62, 62))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,9 +238,13 @@ public class AdminHomeUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(manageFinanceManagerFunctionsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(managePurchaseManagerFunctionsButton3)
+                        .addComponent(userManagementButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(userManagementLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(userManagementLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(activityLogsManagementButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(actitvityLogsManagementButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
@@ -249,9 +270,14 @@ public class AdminHomeUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_manageFinanceManagerFunctionsButtonActionPerformed
 
-    private void managePurchaseManagerFunctionsButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_managePurchaseManagerFunctionsButton3ActionPerformed
+    private void userManagementButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userManagementButtonActionPerformed
+        new UserManagementUI(admin).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_userManagementButtonActionPerformed
+
+    private void activityLogsManagementButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activityLogsManagementButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_managePurchaseManagerFunctionsButton3ActionPerformed
+    }//GEN-LAST:event_activityLogsManagementButtonActionPerformed
 
     public static void main(String args[]) {
 
@@ -264,6 +290,8 @@ public class AdminHomeUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel actitvityLogsManagementButton;
+    private javax.swing.JButton activityLogsManagementButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton manageFinanceManagerFunctionsButton;
@@ -271,7 +299,6 @@ public class AdminHomeUI extends javax.swing.JFrame {
     private javax.swing.JButton manageInventoryManagerFunctionsButton;
     private javax.swing.JLabel manageInventoryManagerFunctionsLabel;
     private javax.swing.JButton managePurchaseManagerFunctionsButton;
-    private javax.swing.JButton managePurchaseManagerFunctionsButton3;
     private javax.swing.JLabel managePurchaseManagerFunctionsLabel;
     private javax.swing.JButton manageSalesManagerFunctionsButton;
     private javax.swing.JLabel manageSalesManagerFunctionsLabel;
@@ -279,6 +306,7 @@ public class AdminHomeUI extends javax.swing.JFrame {
     private javax.swing.JLabel newStockCountValue;
     private javax.swing.JLabel userIDLabel;
     private javax.swing.JLabel userIDLabel2;
+    private javax.swing.JButton userManagementButton;
     private javax.swing.JLabel userManagementLabel;
     private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables

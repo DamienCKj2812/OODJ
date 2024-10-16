@@ -29,8 +29,8 @@ public class Admin extends User {
 
         for (String line : userLines) {
             String[] userDetails = line.split("\\|");
-            if (userDetails.length >= 4) { // Check for the required number of details
-                User user = new User(userDetails[0], userDetails[1], userDetails[2], userDetails[3]);
+            if (userDetails.length >= 5) { // Check for the required number of details
+                User user = new User(userDetails[0], userDetails[1], userDetails[2], userDetails[3], userDetails[4]);
                 users.add(user);
             } else {
                 System.err.println("Skipping line due to incorrect format: " + line);
@@ -74,7 +74,8 @@ public class Admin extends User {
             updatedUsers.append(user.getUserID()).append("|")
                     .append(user.getUsername()).append("|")
                     .append(user.getPassword()).append("|")
-                    .append(user.getRole()).append("\n");
+                    .append(user.getRole()).append("|")
+                    .append(user.getStatus()).append("\n");
         }
         fileManager.writeFile(updatedUsers.toString().trim()); // Ensures no trailing newline
 
@@ -102,7 +103,8 @@ public class Admin extends User {
                 updatedUsers.append(user.getUserID()).append("|")
                         .append(user.getUsername()).append("|")
                         .append(user.getPassword()).append("|")
-                        .append(user.getRole()).append("\n");
+                        .append(user.getRole()).append("|")
+                        .append(user.getStatus()).append("\n");
             }
             fileManager.writeFile(updatedUsers.toString().trim()); // Write to file
 
@@ -137,7 +139,8 @@ public class Admin extends User {
                 updatedUsers.append(user.getUserID()).append("|")
                         .append(user.getUsername()).append("|")
                         .append(user.getPassword()).append("|")
-                        .append(user.getRole()).append("\n");
+                        .append(user.getRole()).append("|")
+                        .append(user.getStatus()).append("\n");
             }
             fileManager.writeFile(updatedUsers.toString().trim());
 
