@@ -8,6 +8,7 @@ import constants.Constants;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import utils.FileManager;
 
 /**
@@ -48,6 +49,21 @@ public class Admin extends User {
         users.removeIf(user -> user.getUserID().equals(currentUserID));
 
         return users;
+    }
+
+    public User findUser(String userID) throws IOException {
+        List<User> users = getAllUsers(); // Retrieve all users
+
+        // Check for existing user ID
+        for (User user : users) {
+            if (user.getUserID().equals(userID)) {
+                System.out.println("User ID found: " + userID);
+                return user; // User with the specified ID found
+            }
+        }
+
+        // If no user is found, throw NoSuchElementException
+        throw new NoSuchElementException("User ID not found: " + userID);
     }
 
     public User registerNewUser(String username, String password, String role) throws IOException {
@@ -116,7 +132,7 @@ public class Admin extends User {
         }
     }
 
-    public boolean updateUser(String userID, String newUsername, String newPassword, String newRole) throws IOException {
+    public boolean updateUser(String userID, String newUsername, String newPassword, String newRole, String status) throws IOException {
         List<User> users = getAllUsers(); // Retrieve all users
         boolean userFound = false;
 
@@ -127,6 +143,7 @@ public class Admin extends User {
                 user.setUsername(newUsername);
                 user.setPassword(newPassword);
                 user.setRole(newRole);
+                user.setStatus(status);
                 userFound = true;
                 break;
             }

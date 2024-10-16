@@ -11,6 +11,7 @@ import java.awt.TextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -24,6 +25,7 @@ import javax.swing.table.TableCellRenderer;
 import models.Admin;
 import models.User;
 import utils.InputValidator;
+import utils.LogHandler;
 
 /**
  *
@@ -33,9 +35,11 @@ public class UserManagementUI extends javax.swing.JFrame {
 
     private Admin admin;
     private InputValidator inputValidator;
+    private LogHandler logHandler;
 
     public UserManagementUI(Admin admin) {
         this.admin = admin;
+        this.logHandler = new LogHandler(admin);
         initComponents();
         loadUserData();
         userTable.setRowHeight(30);
@@ -43,11 +47,19 @@ public class UserManagementUI extends javax.swing.JFrame {
         userTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1) { // Detect double-click
+                if (e.getClickCount() == 1) { // Detect single click
                     int row = userTable.rowAtPoint(e.getPoint());
                     int col = userTable.columnAtPoint(e.getPoint());
                     if (row >= 0 && col >= 0) {
-                        showCellContentDialog(row, col);
+                        if (col == 0) { // Check if the clicked column is the first column (User ID)
+                            JOptionPane.showMessageDialog(userTable,
+                                    "You cannot change the User ID",
+                                    "Warning",
+                                    JOptionPane.WARNING_MESSAGE);
+                        } else {
+                            // Call the method to show the dialog for editing other columns
+                            showCellContentDialog(row, col);
+                        }
                     }
                 }
             }
@@ -90,6 +102,8 @@ public class UserManagementUI extends javax.swing.JFrame {
         userTable = new javax.swing.JTable();
         filterLabel = new javax.swing.JLabel();
         filterTextField = new javax.swing.JTextField();
+        actionDescriptionLabel1 = new javax.swing.JLabel();
+        actionDescriptionLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -174,6 +188,11 @@ public class UserManagementUI extends javax.swing.JFrame {
 
         filterLabel.setText("Filter:");
 
+        actionDescriptionLabel1.setText("Click any of the cell to modify it");
+
+        actionDescriptionLabel.setForeground(new java.awt.Color(254, 0, 0));
+        actionDescriptionLabel.setText("*");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -187,7 +206,10 @@ public class UserManagementUI extends javax.swing.JFrame {
                         .addComponent(filterLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(filterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(actionDescriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(actionDescriptionLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -197,7 +219,9 @@ public class UserManagementUI extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(filterLabel)
-                    .addComponent(filterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(filterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(actionDescriptionLabel1)
+                    .addComponent(actionDescriptionLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
@@ -215,36 +239,90 @@ public class UserManagementUI extends javax.swing.JFrame {
     private void showCellContentDialog(int row, int col) {
         Object cellContent = userTable.getValueAt(row, col);
         String columnName = userTable.getColumnName(col);
+        String userID = (String) userTable.getValueAt(row, 0); // Get userID from the first column
+        User selectedUser = null; // Initialize selectedUser
 
-        JTextField textField = new JTextField(cellContent != null ? cellContent.toString() : "");
-        Object[] message = {
-            "Before: " + (cellContent != null ? cellContent.toString() : "No content"),
-            textField
-        };
-
-        int result = JOptionPane.showConfirmDialog(this,
-                message,
-                "Edit " + columnName,
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE);
-
-        if (result == JOptionPane.OK_OPTION) {
-            String newContent = textField.getText();
-            try {
-                inputValidator.validateNotEmpty(newContent, columnName); // Call validation method
-                userTable.setValueAt(newContent, row, col); // Update table if validation passes
-
+        try {
+            selectedUser = admin.findUser(userID);
+            if (selectedUser == null) {
                 JOptionPane.showMessageDialog(this,
-                        columnName + ": " + newContent,
-                        "Update Successful!",
-                        JOptionPane.INFORMATION_MESSAGE);
-            } catch (IllegalArgumentException ex) {
-                // Show a pop-up warning if validation fails
-                JOptionPane.showMessageDialog(this,
-                        ex.getMessage(),
-                        "Input Error",
-                        JOptionPane.WARNING_MESSAGE);
+                        "User not found: " + userID,
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return; // Exit if the user is not found
             }
+
+            JTextField textField = new JTextField(cellContent != null ? cellContent.toString() : "");
+            Object[] message = {
+                "Before: " + (cellContent != null ? cellContent.toString() : "No content"),
+                textField
+            };
+
+            int result = JOptionPane.showConfirmDialog(this,
+                    message,
+                    "Edit " + columnName,
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE);
+
+            if (result == JOptionPane.OK_OPTION) {
+                String newContent = textField.getText();
+                try {
+                    inputValidator.validateNotEmpty(newContent, columnName); // Validate new input
+
+                    // Call updateUser based on the column name
+                    boolean updateSuccessful = false;
+                    switch (columnName) {
+                        case "Username":
+                            updateSuccessful = admin.updateUser(userID, newContent, selectedUser.getPassword(), selectedUser.getRole(), selectedUser.getStatus());
+                            break;
+                        case "Password":
+                            updateSuccessful = admin.updateUser(userID, selectedUser.getUsername(), newContent, selectedUser.getRole(), selectedUser.getStatus());
+                            break;
+                        case "Role":
+                            updateSuccessful = admin.updateUser(userID, selectedUser.getUsername(), selectedUser.getPassword(), newContent, selectedUser.getStatus());
+                            break;
+                        case "Account Status":
+                            updateSuccessful = admin.updateUser(userID, selectedUser.getUsername(), selectedUser.getPassword(), selectedUser.getRole(), newContent);
+                            break;
+                        default:
+                            // If column is not recognized, handle accordingly
+                            JOptionPane.showMessageDialog(this,
+                                    "Column not recognized: " + columnName,
+                                    "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                            return;
+                    }
+
+                    if (updateSuccessful) {
+                        userTable.setValueAt(newContent, row, col); // Update the table if the update was successful
+                        logHandler.addLogActionToFile(MessageFormat.format("admin: {0} changed the {1} of the user: {2} from {3} to {4}", admin.getUsername(), columnName, selectedUser.getUsername(), cellContent, newContent));
+                        JOptionPane.showMessageDialog(this,
+                                columnName + ": " + newContent,
+                                "Update Successful!",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                                "Failed to update user: " + userID,
+                                "Update Failed",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+
+                } catch (IllegalArgumentException ex) {
+                    // Show a pop-up warning if validation fails
+                    JOptionPane.showMessageDialog(this,
+                            ex.getMessage(),
+                            "Input Error",
+                            JOptionPane.WARNING_MESSAGE);
+                }
+            }
+
+        } catch (IOException e) {
+            // Handle the exception and show a message
+            JOptionPane.showMessageDialog(this,
+                    "Error finding user: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return; // Exit the method on error
         }
     }
 
@@ -306,6 +384,8 @@ public class UserManagementUI extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel actionDescriptionLabel;
+    private javax.swing.JLabel actionDescriptionLabel1;
     private javax.swing.JButton backToHomeButton;
     private javax.swing.JLabel filterLabel;
     private javax.swing.JTextField filterTextField;
