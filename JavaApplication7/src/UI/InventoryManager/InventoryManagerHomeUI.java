@@ -260,7 +260,15 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
     }//GEN-LAST:event_updateStockLevelButtonActionPerformed
 
     private void editStockInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editStockInfoButtonActionPerformed
-        // TODO add your handling code here:
+        if (user instanceof Admin) {
+            Admin admin = (Admin) user;
+            new EditStockInfoUI(admin.getInventoryManager()).setVisible(true);
+        } else {
+            InventoryManager inventoryManager = (InventoryManager) user;
+            new EditStockInfoUI(inventoryManager).setVisible(true);
+        }
+        this.dispose();
+
     }//GEN-LAST:event_editStockInfoButtonActionPerformed
 
     private void AdminPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminPageButtonActionPerformed

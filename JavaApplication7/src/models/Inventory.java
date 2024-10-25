@@ -111,31 +111,39 @@ public class Inventory {
 
     public Item deleteItem(String itemID) throws IOException {
         List<Item> items = getInventoryItems();
-        Item deletedItem = null;
+        StringBuilder updatedItems = new StringBuilder();
+        boolean itemFound = false;
+        Item selectedItem = getItem(itemID);
 
-        // Iterate over the list to find the item to delete
-        for (Iterator<Item> iterator = items.iterator(); iterator.hasNext();) {
-            Item item = iterator.next();
-
-            // If the item matches the ID, delete it and save it to return later
-            if (item.getItemID().equalsIgnoreCase(itemID)) {
-                deletedItem = item;
-                iterator.remove(); // Remove item from list
-                break;
+        // Iterate through the list of items
+        for (Item item : items) {
+            if (item.getItemID().equals(itemID)) {
+                itemFound = true; // Mark as found if the item ID matches
+                continue; // Skip adding this item to the updated list
             }
+
+            // Append the item details to the updatedItems StringBuilder
+            updatedItems.append(item.getItemID())
+                    .append("|")
+                    .append(item.getName())
+                    .append("|")
+                    .append(item.getPrice())
+                    .append("|")
+                    .append(item.getQuantity())
+                    .append("|")
+                    .append(item.getSupplierID())
+                    .append("\n");
         }
 
-        if (deletedItem == null) {
-            System.out.println("Item does not exist.");
-            return null;
+        // If the item was not found, throw an exception
+        if (!itemFound) {
+            throw new NoSuchElementException("Item with ID " + itemID + " not found.");
         }
 
-        // Write updated list back to the file
-        fileManager.writeFile(items.toString().trim());
-        System.out.println("Item deleted successfully!");
-
-        // Return the deleted item
-        return deletedItem;
+        // Write the updated items back to the text file
+        fileManager.writeFile(updatedItems.toString().trim());
+        System.out.println("Item with ID " + itemID + " has been deleted.");
+        return selectedItem;
     }
 
 }

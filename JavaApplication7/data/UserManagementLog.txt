@@ -1,5 +1,0 @@
-adminUser|admin: adminUser changed the Account Status of the user: purchaseManagerUser from active to suspended|1729094486
-adminUser|admin: adminUser changed the Username of the user: inventoryManagerUser from inventoryManagerUser to inventoryManager|1729094540
-adminUser|admin: adminUser changed the Password of the user: salesManagerUser from salesManager123 to salesManager12334|1729095320
-adminUser|admin: adminUser changed the Password of the user: salesManagerUser from salesManager12334 to salesManager123|1729095354
-adminUser|admin: adminUser changed the Password of the user: salesManagerUser from salesManager123 to sale|1729095381

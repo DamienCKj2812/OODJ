@@ -19,7 +19,7 @@ import models.User;
  */
 public class LogHandler {
 
-    FileManager fm = new FileManager(Constants.USER_MANAGEMENT_LOG_PATH);
+    FileManager fm = new FileManager(Constants.LOG_REPORT_PATH);
     User user;
 
     public LogHandler(User user) {

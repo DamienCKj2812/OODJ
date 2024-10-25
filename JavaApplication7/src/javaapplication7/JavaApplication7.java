@@ -33,7 +33,7 @@ public class JavaApplication7 {
             // Create and display the LoginUI
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
-                    new UserManagementUI(admin).setVisible(true);
+                    new InventoryManagerHomeUI(admin).setVisible(true);
                 }
             });
 

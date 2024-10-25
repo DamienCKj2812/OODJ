@@ -18,9 +18,11 @@ import utils.FileManager;
 public class Admin extends User {
 
     private FileManager fileManager = new FileManager(Constants.USER_DATA_PATH);
+    private InventoryManager inventoryManager;
 
     public Admin(String userID, String username, String password) {
         super(userID, username, password, "admin");
+        this.inventoryManager = new InventoryManager(userID, username, password);
     }
 
     public List<User> getAllUsers() throws IOException {
@@ -167,6 +169,31 @@ public class Admin extends User {
             System.out.println("User not found: " + userID);
             return false; // User not found
         }
+    }
+
+    // Delegating InventoryManager methods
+    public InventoryManager getInventoryManager() {
+        return inventoryManager;
+    }
+
+    public List<Item> getInventoryItems() throws IOException {
+        return inventoryManager.getInventoryItems();
+    }
+
+    public Item getItem(String itemId) throws IOException {
+        return inventoryManager.getItem(itemId);
+    }
+
+    public boolean updateItem(String itemId, String newName, String newPrice, String newQuantity, String newSupplierID) throws IOException {
+        return inventoryManager.updateItem(itemId, newName, newPrice, newQuantity, newSupplierID);
+    }
+
+    public Item addItem(String newName, String newPrice, String newQuantity, String newSupplierID) throws IOException {
+        return inventoryManager.addItem(newName, newPrice, newQuantity, newSupplierID);
+    }
+
+    public Item deleteItem(String itemId) throws IOException {
+        return inventoryManager.deleteItem(itemId);
     }
 
 }
