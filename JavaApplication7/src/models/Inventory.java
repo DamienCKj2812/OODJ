@@ -20,8 +20,8 @@ public class Inventory {
 
         for (String line : itemLines) {
             String[] itemDetails = line.split("\\|");
-            if (itemDetails.length >= 5) { // Check for the required number of details
-                Item item = new Item(itemDetails[0], itemDetails[1], itemDetails[2], itemDetails[3], itemDetails[4]);
+            if (itemDetails.length >= 7) { // Check for the required number of details
+                Item item = new Item(itemDetails[0], itemDetails[1], itemDetails[2], itemDetails[3], itemDetails[4], itemDetails[5], itemDetails[6]);
                 items.add(item);
             } else {
                 System.err.println("Skipping line due to incorrect format: " + line);
@@ -44,7 +44,7 @@ public class Inventory {
         throw new NoSuchElementException("Item with ID " + itemId + " not found.");
     }
 
-    public boolean updateItem(String itemId, String newName, String newPrice, String newQuantity, String newSupplierID) throws IOException {
+    public boolean updateItem(String itemId, String newName, String newDescription, String newPrice, String newQuantity, String newReorderPoint, String newSupplierID) throws IOException {
         List<Item> items = getInventoryItems();
         StringBuilder updatedItems = new StringBuilder();
         boolean itemFound = false;
@@ -55,8 +55,10 @@ public class Inventory {
                 // If the item is found, update its details
                 itemFound = true;
                 item.setName(newName);
+                item.setDescription(newDescription);
                 item.setPrice(newPrice);
                 item.setQuantity(newQuantity);
+                item.setReorderPoint(newReorderPoint);
                 item.setSupplierID(newSupplierID);
             }
             // Append the item details to the updatedItems StringBuilder
@@ -64,9 +66,13 @@ public class Inventory {
                     .append("|")
                     .append(item.getName())
                     .append("|")
+                    .append(item.getDescription())
+                    .append("|")
                     .append(item.getPrice())
                     .append("|")
                     .append(item.getQuantity())
+                    .append("|")
+                    .append(item.getReorderPoint())
                     .append("|")
                     .append(item.getSupplierID())
                     .append("\n");
@@ -83,30 +89,43 @@ public class Inventory {
         return true; // Return true indicating the update was successful
     }
 
-    public Item addItem(String newName, String newPrice, String newQuantity, String newSupplierID) throws IOException {
+    public Item addItem(String newName, String newDescription, String newPrice, String newQuantity, String newReorderPoint, String newSupplierID) throws IOException {
         List<Item> items = getInventoryItems();
-        StringBuilder updatedItem = new StringBuilder();
+        StringBuilder updatedItems = new StringBuilder();
 
-        // Check for existing username
         for (Item item : items) {
             if (item.getName().compareToIgnoreCase(newName) == 0) {
-                System.out.println("Item name already exists.");
-                return null; // Item name already taken
+                // Throw an exception if the item name already exists
+                throw new IllegalArgumentException("Item name already exists: " + newName);
             }
-            updatedItem.append(item).append("\n"); // Add existing users to updated list
+            updatedItems.append(item.getItemID())
+                    .append("|")
+                    .append(item.getName())
+                    .append("|")
+                    .append(item.getDescription())
+                    .append("|")
+                    .append(item.getPrice())
+                    .append("|")
+                    .append(item.getQuantity())
+                    .append("|")
+                    .append(item.getReorderPoint())
+                    .append("|")
+                    .append(item.getSupplierID())
+                    .append("\n");
         }
 
         // Generate a unique itemID using the current time in milliseconds
         String newItemID = "item" + System.currentTimeMillis();
 
-        String itemData = String.format("%s|%s|%s|%s|%s", newItemID, newName, newPrice, newQuantity, newSupplierID);
-        updatedItem.append(itemData); // Add new item to the updated list
+        String itemData = String.format("%s|%s|%s|%s|%s|%s|%s", newItemID, newName, newDescription, newPrice, newQuantity, newReorderPoint, newSupplierID);
+
+        updatedItems.append(itemData);
 
         // Write the updated item list back to the file
-        fileManager.writeFile(updatedItem.toString().trim()); // Ensures no trailing newline
+        fileManager.writeFile(updatedItems.toString().trim()); // Ensures no trailing newline
 
-        System.out.println("Item added successful!");
-        return new Item(newItemID, newName, newPrice, newQuantity, newSupplierID); // Return the new Item object
+        System.out.println("Item added successfully!");
+        return new Item(newItemID, newName, newDescription, newPrice, newQuantity, newReorderPoint, newSupplierID); // Return the new Item object
     }
 
     public Item deleteItem(String itemID) throws IOException {
@@ -127,9 +146,13 @@ public class Inventory {
                     .append("|")
                     .append(item.getName())
                     .append("|")
+                    .append(item.getDescription())
+                    .append("|")
                     .append(item.getPrice())
                     .append("|")
                     .append(item.getQuantity())
+                    .append("|")
+                    .append(item.getReorderPoint())
                     .append("|")
                     .append(item.getSupplierID())
                     .append("\n");

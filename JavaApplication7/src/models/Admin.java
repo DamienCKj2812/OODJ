@@ -184,12 +184,12 @@ public class Admin extends User {
         return inventoryManager.getItem(itemId);
     }
 
-    public boolean updateItem(String itemId, String newName, String newPrice, String newQuantity, String newSupplierID) throws IOException {
-        return inventoryManager.updateItem(itemId, newName, newPrice, newQuantity, newSupplierID);
+    public boolean updateItem(String itemId, String newName, String newDescription, String newPrice, String newQuantity, String newReorderPoint, String newSupplierID) throws IOException {
+        return inventoryManager.updateItem(itemId, newName, newDescription, newPrice, newQuantity, newReorderPoint, newSupplierID);
     }
 
-    public Item addItem(String newName, String newPrice, String newQuantity, String newSupplierID) throws IOException {
-        return inventoryManager.addItem(newName, newPrice, newQuantity, newSupplierID);
+    public Item addItem(String newName, String newDescription, String newPrice, String newQuantity, String newReorderPoint, String newSupplierID) throws IOException {
+        return inventoryManager.addItem(newName, newDescription, newPrice, newQuantity, newReorderPoint, newSupplierID);
     }
 
     public Item deleteItem(String itemId) throws IOException {

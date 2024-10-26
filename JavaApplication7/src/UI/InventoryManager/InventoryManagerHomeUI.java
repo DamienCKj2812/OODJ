@@ -244,7 +244,14 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemEntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEntryButtonActionPerformed
-        // TODO add your handling code here:
+        if (user instanceof Admin) {
+            Admin admin = (Admin) user;
+            new ItemEntryUI(admin.getInventoryManager()).setVisible(true);
+        } else {
+            InventoryManager inventoryManager = (InventoryManager) user;
+            new ItemEntryUI(inventoryManager).setVisible(true);
+        }
+        this.dispose();
     }//GEN-LAST:event_itemEntryButtonActionPerformed
 
     private void supplierEntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierEntryButtonActionPerformed
@@ -260,14 +267,7 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
     }//GEN-LAST:event_updateStockLevelButtonActionPerformed
 
     private void editStockInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editStockInfoButtonActionPerformed
-        if (user instanceof Admin) {
-            Admin admin = (Admin) user;
-            new EditStockInfoUI(admin.getInventoryManager()).setVisible(true);
-        } else {
-            InventoryManager inventoryManager = (InventoryManager) user;
-            new EditStockInfoUI(inventoryManager).setVisible(true);
-        }
-        this.dispose();
+
 
     }//GEN-LAST:event_editStockInfoButtonActionPerformed
 

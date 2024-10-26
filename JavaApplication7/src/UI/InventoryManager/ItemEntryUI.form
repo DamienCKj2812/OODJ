@@ -31,6 +31,8 @@
                       <Component id="filterLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="filterTextField" min="-2" pref="75" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="addNewItemButton" min="-2" pref="102" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="actionDescriptionLabel3" min="-2" pref="5" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -47,11 +49,14 @@
           <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="filterLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="filterTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="actionDescriptionLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="actionDescriptionLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="addNewItemButton" alignment="1" min="-2" pref="28" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="filterLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="filterTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="actionDescriptionLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="actionDescriptionLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
@@ -175,7 +180,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="stockTable">
+        <Component class="javax.swing.JTable" name="itemTable">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="4" rowCount="4">
@@ -208,6 +213,15 @@
         </Property>
         <Property name="text" type="java.lang.String" value="*"/>
       </Properties>
+    </Component>
+    <Component class="java.awt.Button" name="addNewItemButton">
+      <Properties>
+        <Property name="label" type="java.lang.String" value="Add new Item"/>
+        <Property name="name" type="java.lang.String" value="" noResource="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addNewItemButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
