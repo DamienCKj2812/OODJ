@@ -30,6 +30,7 @@ public class PurchaseManagerHomeUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        logout = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         view_list_of_items = new javax.swing.JButton();
         view_list_of_supplier = new javax.swing.JButton();
@@ -57,6 +58,15 @@ public class PurchaseManagerHomeUI extends javax.swing.JFrame {
 
         jLabel6.setText("stock_value");
 
+        logout.setBackground(new java.awt.Color(255, 102, 0));
+        logout.setForeground(new java.awt.Color(255, 255, 255));
+        logout.setText("Logout");
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -80,6 +90,10 @@ public class PurchaseManagerHomeUI extends javax.swing.JFrame {
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(14, 14, 14))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(69, 69, 69)
+                .addComponent(logout)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,6 +110,8 @@ public class PurchaseManagerHomeUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel6))
+                .addGap(31, 31, 31)
+                .addComponent(logout)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -289,6 +305,10 @@ public class PurchaseManagerHomeUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_view_list_purchaseOrderActionPerformed
 
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logoutActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -338,6 +358,7 @@ public class PurchaseManagerHomeUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JButton logout;
     private javax.swing.JButton purchase_order;
     private javax.swing.JButton view_list_of_items;
     private javax.swing.JButton view_list_of_supplier;
