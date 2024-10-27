@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -23,40 +22,31 @@ import models.Supplier;
 import utils.InputValidator;
 import utils.LogHandler;
 
-/**
- *
- * @author Aorus
- */
-public class ItemEntryUI extends javax.swing.JFrame {
+public class SupplierEntryUI extends javax.swing.JFrame {
 
     private InventoryManager inventoryManager;
     private LogHandler logHandler;
 
-    public ItemEntryUI(InventoryManager inventoryManager) {
+    public SupplierEntryUI(InventoryManager inventoryManager) {
         this.inventoryManager = inventoryManager;
         this.logHandler = new LogHandler(inventoryManager);
         initComponents();
-        loadStockData();
+        loadSupplierData();
+        supplierTable.setRowHeight(30);
 
-        itemTable.setRowHeight(30);
-
-        itemTable.addMouseListener(new MouseAdapter() {
+        supplierTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 1) { // Detect single click
-                    int row = itemTable.rowAtPoint(e.getPoint());
-                    int col = itemTable.columnAtPoint(e.getPoint());
+                    int row = supplierTable.rowAtPoint(e.getPoint());
+                    int col = supplierTable.columnAtPoint(e.getPoint());
                     if (row >= 0 && col >= 0) {
                         if (col == 0) { // Check if the clicked column is the first column (User ID)
-                            JOptionPane.showMessageDialog(itemTable,
+                            JOptionPane.showMessageDialog(supplierTable,
                                     "You cannot change the Item ID",
                                     "Warning",
                                     JOptionPane.WARNING_MESSAGE);
-                        } else if (col == 4) {
-                            JOptionPane.showMessageDialog(itemTable,
-                                    "You cannot change the Supplier ID",
-                                    "Warning",
-                                    JOptionPane.WARNING_MESSAGE);
+
                         } else {
                             // Call the method to show the dialog for editing other columns
                             showCellContentDialog(row, col);
@@ -84,71 +74,17 @@ public class ItemEntryUI extends javax.swing.JFrame {
         });
     }
 
-    private void loadStockData() {
-        try {
-            String[] columnNames = {"Item ID", "Item Name", "Description", "Price", "SupplierId"};
-            DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-
-            List<Item> items = inventoryManager.getInventoryItems();
-
-            for (Item item : items) {
-                model.addRow(new Object[]{
-                    item.getItemID(),
-                    item.getName(),
-                    item.getDescription(),
-                    item.getPrice(),
-                    item.getSupplierID(),
-                    "Actions" // Placeholder for the Actions column
-                });
-            }
-
-            itemTable.setModel(model);
-
-        } catch (IOException e) {
-            System.err.println("Error loading item data: " + e.getMessage());
-        }
-    }
-
-    private void filterStockTable() {
-        String filterText = filterTextField.getText().toLowerCase();
-        DefaultTableModel model = (DefaultTableModel) itemTable.getModel();
-        model.setRowCount(0);
-
-        try {
-            List<Item> items = inventoryManager.getInventoryItems();
-            items.stream()
-                    .filter(item -> item.getItemID().toLowerCase().contains(filterText)
-                    || item.getName().toLowerCase().contains(filterText)
-                    || item.getDescription().toLowerCase().contains(filterText)
-                    || item.getPrice().toLowerCase().contains(filterText)
-                    || item.getSupplierID().toLowerCase().contains(filterText))
-                    .forEach(item -> {
-                        model.addRow(new Object[]{
-                            item.getItemID(),
-                            item.getName(),
-                            item.getDescription(),
-                            item.getPrice(),
-                            item.getSupplierID(),
-                            "Actions" // Placeholder for the Actions column
-                        });
-                    });
-        } catch (IOException e) {
-            System.err.println("Error loading user data: " + e.getMessage());
-        }
-
-    }
-
     private void showCellContentDialog(int row, int col) {
-        Object cellContent = itemTable.getValueAt(row, col);
-        String columnName = itemTable.getColumnName(col);
-        String itemId = (String) itemTable.getValueAt(row, 0);
-        Item selectedItem = null;
+        Object cellContent = supplierTable.getValueAt(row, col);
+        String columnName = supplierTable.getColumnName(col);
+        String supplierId = (String) supplierTable.getValueAt(row, 0);
+        Supplier selectedSupplier = null;
 
         try {
-            selectedItem = inventoryManager.getItem(itemId);
-            if (selectedItem == null) {
+            selectedSupplier = inventoryManager.getSupplier(supplierId);
+            if (selectedSupplier == null) {
                 JOptionPane.showMessageDialog(this,
-                        "Item not found: " + itemId,
+                        "Supplier not found: " + supplierId,
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -156,7 +92,7 @@ public class ItemEntryUI extends javax.swing.JFrame {
 
             JTextField textField = new JTextField(cellContent != null ? cellContent.toString() : "");
 
-            JButton deleteButton = new JButton("Delete Item");
+            JButton deleteButton = new JButton("Delete Supplier");
             deleteButton.setBackground(Color.RED);
             deleteButton.setForeground(Color.WHITE);
 
@@ -164,26 +100,26 @@ public class ItemEntryUI extends javax.swing.JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     int confirm = JOptionPane.showConfirmDialog(deleteButton.getParent(),
-                            "Are you sure you want to delete this item?",
+                            "Are you sure you want to delete this supplier?",
                             "Confirm Delete",
                             JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         try {
-                            Item deletedItem = inventoryManager.deleteItem(itemId);
-                            ((DefaultTableModel) itemTable.getModel()).removeRow(row);
+                            Supplier deletedSupplier = inventoryManager.removeSupplier(supplierId);
+                            ((DefaultTableModel) supplierTable.getModel()).removeRow(row);
                             JOptionPane.showMessageDialog(deleteButton.getParent(),
-                                    "Item deleted successfully: " + deletedItem.getItemID(),
+                                    "Supplier deleted successfully: " + deletedSupplier.getId(),
                                     "Delete Successful",
                                     JOptionPane.INFORMATION_MESSAGE);
 
                             logHandler.addLogActionToFile(String.format(
-                                    "Removed the item (%s - %s)",
-                                    deletedItem.getItemID(),
-                                    deletedItem.getName()
+                                    "Removed the Supplier (%s - %s)",
+                                    deletedSupplier.getId(),
+                                    deletedSupplier.getName()
                             ));
                         } catch (IOException e1) {
                             JOptionPane.showMessageDialog(deleteButton.getParent(),
-                                    "Failed to delete item: " + e1.getMessage(),
+                                    "Failed to delete Supplier: " + e1.getMessage(),
                                     "Delete Failed",
                                     JOptionPane.ERROR_MESSAGE);
                         }
@@ -207,21 +143,22 @@ public class ItemEntryUI extends javax.swing.JFrame {
                 String newContent = textField.getText();
                 InputValidator.validateNotEmpty(newContent, columnName); // Validate new input
 
-                // Additional validation based on column name
-                if ("Price".equals(columnName)) {
-                    InputValidator.validateIsNumber(newContent, columnName); // Validate if it's a number
-                }
-
-                boolean updateSuccessful = false;
+                Supplier updatedSupplier = null;
                 switch (columnName) {
-                    case "Item Name":
-                        updateSuccessful = inventoryManager.updateItem(itemId, newContent, selectedItem.getDescription(), selectedItem.getPrice(), selectedItem.getQuantity(), selectedItem.getReorderPoint(), selectedItem.getSupplierID());
+                    case "Supplier Name":
+                        updatedSupplier = inventoryManager.updateSupplier(supplierId, newContent, selectedSupplier.getContactPerson(), selectedSupplier.getAddress(), selectedSupplier.getPhoneNumber(), selectedSupplier.getProductsSupplied());
                         break;
-                    case "Description":
-                        updateSuccessful = inventoryManager.updateItem(itemId, selectedItem.getName(), newContent, selectedItem.getPrice(), selectedItem.getQuantity(), selectedItem.getReorderPoint(), selectedItem.getSupplierID());
+                    case "Contact Person":
+                        updatedSupplier = inventoryManager.updateSupplier(supplierId, selectedSupplier.getName(), newContent, selectedSupplier.getAddress(), selectedSupplier.getPhoneNumber(), selectedSupplier.getProductsSupplied());
                         break;
-                    case "Price":
-                        updateSuccessful = inventoryManager.updateItem(itemId, selectedItem.getName(), selectedItem.getDescription(), newContent, selectedItem.getQuantity(), selectedItem.getReorderPoint(), selectedItem.getSupplierID());
+                    case "Address":
+                        updatedSupplier = inventoryManager.updateSupplier(supplierId, selectedSupplier.getName(), selectedSupplier.getContactPerson(), newContent, selectedSupplier.getPhoneNumber(), selectedSupplier.getProductsSupplied());
+                        break;
+                    case "Phone Number":
+                        updatedSupplier = inventoryManager.updateSupplier(supplierId, selectedSupplier.getName(), selectedSupplier.getContactPerson(), selectedSupplier.getAddress(), newContent, selectedSupplier.getProductsSupplied());
+                        break;
+                    case "Products Supplied":
+                        updatedSupplier = inventoryManager.updateSupplier(supplierId, selectedSupplier.getName(), selectedSupplier.getContactPerson(), selectedSupplier.getAddress(), selectedSupplier.getPhoneNumber(), newContent);
                         break;
                     default:
                         // If column is not recognized, handle accordingly
@@ -232,12 +169,12 @@ public class ItemEntryUI extends javax.swing.JFrame {
                         return;
                 }
 
-                if (updateSuccessful) {
-                    itemTable.setValueAt(newContent, row, col);
+                if (updatedSupplier != null) {
+                    supplierTable.setValueAt(newContent, row, col);
                     logHandler.addLogActionToFile(String.format(
                             "Modified the Item's %s (%s): from %s to %s",
                             columnName,
-                            selectedItem.getItemID(),
+                            updatedSupplier.getId(),
                             cellContent,
                             newContent
                     ));
@@ -247,7 +184,7 @@ public class ItemEntryUI extends javax.swing.JFrame {
                             JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(this,
-                            "Failed to update item: " + itemId,
+                            "Failed to update supplier: " + supplierId,
                             "Update Failed",
                             JOptionPane.ERROR_MESSAGE);
                 }
@@ -256,7 +193,7 @@ public class ItemEntryUI extends javax.swing.JFrame {
         } catch (IOException e) {
             // Handle the exception and show a message
             JOptionPane.showMessageDialog(this,
-                    "Error finding user: " + e.getMessage(),
+                    "Error finding supplier: " + e.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException ex) {
@@ -266,6 +203,38 @@ public class ItemEntryUI extends javax.swing.JFrame {
                     "Input Error",
                     JOptionPane.WARNING_MESSAGE);
         }
+    }
+
+    private void filterStockTable() {
+        String filterText = filterTextField.getText().toLowerCase();
+        DefaultTableModel model = (DefaultTableModel) supplierTable.getModel();
+        model.setRowCount(0);
+
+        try {
+            List<Supplier> suppliers = inventoryManager.getAllSupplier();
+            suppliers.stream()
+                    .filter(supplier -> supplier.getId().toLowerCase().contains(filterText)
+                    || supplier.getName().toLowerCase().contains(filterText)
+                    || supplier.getName().toLowerCase().contains(filterText)
+                    || supplier.getContactPerson().toLowerCase().contains(filterText)
+                    || supplier.getAddress().toLowerCase().contains(filterText)
+                    || supplier.getPhoneNumber().toLowerCase().contains(filterText)
+                    || supplier.getProductsSupplied().toLowerCase().contains(filterText))
+                    .forEach(supplier -> {
+                        model.addRow(new Object[]{
+                            supplier.getId(),
+                            supplier.getName(),
+                            supplier.getContactPerson(),
+                            supplier.getAddress(),
+                            supplier.getPhoneNumber(),
+                            supplier.getProductsSupplied(),
+                            "Actions" // Placeholder for the Actions column
+                        });
+                    });
+        } catch (IOException e) {
+            System.err.println("Error loading user data: " + e.getMessage());
+        }
+
     }
 
     /**
@@ -284,12 +253,12 @@ public class ItemEntryUI extends javax.swing.JFrame {
         newStockCountValue = new javax.swing.JLabel();
         backToHomeButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        itemTable = new javax.swing.JTable();
-        filterLabel = new javax.swing.JLabel();
+        supplierTable = new javax.swing.JTable();
         filterTextField = new javax.swing.JTextField();
         actionDescriptionLabel2 = new javax.swing.JLabel();
         actionDescriptionLabel3 = new javax.swing.JLabel();
-        addNewItemButton = new java.awt.Button();
+        addNewSupplierButton = new java.awt.Button();
+        filterLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -354,12 +323,12 @@ public class ItemEntryUI extends javax.swing.JFrame {
                     .addComponent(newStockCountValue, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userIDLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 260, Short.MAX_VALUE)
                 .addComponent(backToHomeButton)
                 .addContainerGap())
         );
 
-        itemTable.setModel(new javax.swing.table.DefaultTableModel(
+        supplierTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -370,22 +339,28 @@ public class ItemEntryUI extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(itemTable);
+        jScrollPane1.setViewportView(supplierTable);
 
-        filterLabel.setText("Filter:");
+        filterTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filterTextFieldActionPerformed(evt);
+            }
+        });
 
         actionDescriptionLabel2.setText("Click any of the cell to modify it");
 
         actionDescriptionLabel3.setForeground(new java.awt.Color(254, 0, 0));
         actionDescriptionLabel3.setText("*");
 
-        addNewItemButton.setLabel("Add new Item");
-        addNewItemButton.setName(""); // NOI18N
-        addNewItemButton.addActionListener(new java.awt.event.ActionListener() {
+        addNewSupplierButton.setLabel("Add new supplier");
+        addNewSupplierButton.setName(""); // NOI18N
+        addNewSupplierButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addNewItemButtonActionPerformed(evt);
+                addNewSupplierButtonActionPerformed(evt);
             }
         });
+
+        filterLabel.setText("Filter:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -396,34 +371,42 @@ public class ItemEntryUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 711, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(filterLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(filterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(filterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addNewItemButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addNewSupplierButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(actionDescriptionLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(actionDescriptionLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 645, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addComponent(actionDescriptionLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(actionDescriptionLabel2)
+                        .addGap(17, 17, 17))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(addNewItemButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(filterLabel)
-                        .addComponent(filterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(actionDescriptionLabel2)
-                        .addComponent(actionDescriptionLabel3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(actionDescriptionLabel3)
+                            .addComponent(actionDescriptionLabel2))
+                        .addGap(8, 8, 8))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(addNewSupplierButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(filterLabel)
+                            .addComponent(filterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        addNewSupplierButton.getAccessibleContext().setAccessibleName("Add new supplier");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -433,105 +416,111 @@ public class ItemEntryUI extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_backToHomeButtonActionPerformed
 
-    private void addNewItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewItemButtonActionPerformed
-        JDialog addItemDialog = new JDialog((JFrame) null, "Add New Item", true);
-        addItemDialog.setLayout(new BoxLayout(addItemDialog.getContentPane(), BoxLayout.Y_AXIS));
-        addItemDialog.setSize(300, 300);
-        addItemDialog.setLocationRelativeTo(null);
+    private void filterTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_filterTextFieldActionPerformed
 
-        final List<Supplier> suppliers; // Declare suppliers as final
-
-        try {
-            suppliers = inventoryManager.getAllSupplier();
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(addItemDialog,
-                    "Failed to load suppliers.",
-                    "Load Failed",
-                    JOptionPane.ERROR_MESSAGE);
-            return; // Exit the method if suppliers cannot be loaded
-        }
+    private void addNewSupplierButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewSupplierButtonActionPerformed
+        JDialog addSupplierDialog = new JDialog((JFrame) null, "Add New Item", true);
+        addSupplierDialog.setLayout(new BoxLayout(addSupplierDialog.getContentPane(), BoxLayout.Y_AXIS));
+        addSupplierDialog.setSize(300, 300);
+        addSupplierDialog.setLocationRelativeTo(null);
 
         // Create input fields
-        JTextField itemNameField = new JTextField(20);
-        JTextField itemDescriptionField = new JTextField(20);
-        JTextField priceField = new JTextField(20);
-
-        // Create a dropdown for supplier names
-        String[] supplierNames = suppliers.stream()
-                .map(Supplier::getName) // Extract supplier names
-                .toArray(String[]::new);
-        JComboBox<String> supplierNameDropdown = new JComboBox<>(supplierNames);
+        JTextField supplierNameField = new JTextField(20);
+        JTextField contactPerson = new JTextField(20);
+        JTextField address = new JTextField(20);
+        JTextField phoneNumber = new JTextField(20);
+        JTextField productSupplied = new JTextField(20);
 
         // Add components to the dialog
-        addItemDialog.add(new JLabel("Item Name:"));
-        addItemDialog.add(itemNameField);
+        addSupplierDialog.add(new JLabel("Supplier Name:"));
+        addSupplierDialog.add(supplierNameField);
 
-        addItemDialog.add(new JLabel("Item Description:"));
-        addItemDialog.add(itemDescriptionField);
+        addSupplierDialog.add(new JLabel("Contact Person:"));
+        addSupplierDialog.add(contactPerson);
 
-        addItemDialog.add(new JLabel("Price:"));
-        addItemDialog.add(priceField);
+        addSupplierDialog.add(new JLabel("Address:"));
+        addSupplierDialog.add(address);
 
-        addItemDialog.add(new JLabel("Supplier Name:"));
-        addItemDialog.add(supplierNameDropdown);
+        addSupplierDialog.add(new JLabel("Phone Number:"));
+        addSupplierDialog.add(phoneNumber);
+
+        addSupplierDialog.add(new JLabel("Products Supplied:"));
+        addSupplierDialog.add(productSupplied);
 
         JButton okButton = new JButton("Add");
         okButton.addActionListener(e -> {
             try {
-                InputValidator.validateNotEmpty(itemNameField.getText(), "Item Name");
-                InputValidator.validateNotEmpty(itemDescriptionField.getText(), "Item Description");
-                InputValidator.validateNotEmpty(priceField.getText(), "Price");
-                InputValidator.validateIsNumber(priceField.getText(), "Price");
+                InputValidator.validateNotEmpty(supplierNameField.getText(), "Supplier Name");
+                InputValidator.validateNotEmpty(contactPerson.getText(), "Contact Person");
+                InputValidator.validateNotEmpty(address.getText(), "Address");
+                InputValidator.validateNotEmpty(phoneNumber.getText(), "Phone Number");
+                InputValidator.validateNotEmpty(productSupplied.getText(), "Product Supplied");
 
-                // Retrieve selected supplier ID
-                String selectedSupplierID = suppliers.stream()
-                        .filter(supplier -> supplier.getName().equals(supplierNameDropdown.getSelectedItem().toString()))
-                        .map(Supplier::getId)
-                        .findFirst()
-                        .orElse(null);
-
-                Item addedItem = inventoryManager.addItem(
-                        itemNameField.getText(),
-                        itemDescriptionField.getText(),
-                        priceField.getText(),
-                        "0",
-                        "0",
-                        selectedSupplierID
-                );
+                Supplier addedSuppier = inventoryManager.addSupplier(supplierNameField.getText(), contactPerson.getText(), address.getText(), phoneNumber.getText(), productSupplied.getText());
 
                 // Log the action
                 logHandler.addLogActionToFile(String.format(
-                        "Add an item (id: %s, name: %s, description: %s, price: %s, supplier: %s)",
-                        addedItem.getItemID(),
-                        addedItem.getName(),
-                        addedItem.getDescription(),
-                        addedItem.getPrice(),
-                        addedItem.getSupplierID()
+                        "Add an supplier (id: %s, name: %s, contact person: %s, address: %s, phone number: %s, products supplied: %s)",
+                        addedSuppier.getId(),
+                        addedSuppier.getName(),
+                        addedSuppier.getContactPerson(),
+                        addedSuppier.getAddress(),
+                        addedSuppier.getPhoneNumber(),
+                        addedSuppier.getProductsSupplied()
                 ));
 
-                loadStockData();
-                addItemDialog.dispose();
+                loadSupplierData();
+                addSupplierDialog.dispose();
             } catch (IllegalArgumentException ex) {
-                JOptionPane.showMessageDialog(addItemDialog,
+                JOptionPane.showMessageDialog(this,
                         ex.getMessage(),
                         "Input Error",
                         JOptionPane.WARNING_MESSAGE);
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(addItemDialog,
-                        "Failed to add item.",
-                        "Add Failed",
+                JOptionPane.showMessageDialog(addSupplierDialog,
+                        "Failed to add supplier.",
+                        "Update Failed",
                         JOptionPane.ERROR_MESSAGE);
             }
         });
+        addSupplierDialog.add(okButton);
 
-        addItemDialog.add(okButton);
-        addItemDialog.setVisible(true);
-    }//GEN-LAST:event_addNewItemButtonActionPerformed
+        addSupplierDialog.setVisible(true);
+    }//GEN-LAST:event_addNewSupplierButtonActionPerformed
+
+    private void loadSupplierData() {
+        try {
+            String[] columnNames = {"Supplier ID", "Supplier Name", "Contact Person", "Address", "Phone Number", "Products Supplied"};
+            DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+            List<Supplier> suppliers = inventoryManager.getAllSupplier();
+
+            for (Supplier supplier : suppliers) {
+                model.addRow(new Object[]{
+                    supplier.getId(),
+                    supplier.getName(),
+                    supplier.getContactPerson(),
+                    supplier.getAddress(),
+                    supplier.getPhoneNumber(),
+                    supplier.getProductsSupplied(),
+                    "Actions" // Placeholder for the Actions column
+                });
+            }
+
+            supplierTable.setModel(model);
+
+        } catch (IOException e) {
+            System.err.println("Error loading supplier data: " + e.getMessage());
+        }
+    }
 
     public static void main(String args[]) {
+
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                new EditStockInfoUI(inventoryManager).setVisible(true);
+//                new SupplierEntryUI().setVisible(true);
 //            }
 //        });
     }
@@ -539,15 +528,15 @@ public class ItemEntryUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel actionDescriptionLabel2;
     private javax.swing.JLabel actionDescriptionLabel3;
-    private java.awt.Button addNewItemButton;
+    private java.awt.Button addNewSupplierButton;
     private javax.swing.JButton backToHomeButton;
     private javax.swing.JLabel filterLabel;
     private javax.swing.JTextField filterTextField;
-    private javax.swing.JTable itemTable;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel newStockCountLabel;
     private javax.swing.JLabel newStockCountValue;
+    private javax.swing.JTable supplierTable;
     private javax.swing.JLabel userIDLabel;
     private javax.swing.JLabel userIDLabel2;
     private javax.swing.JLabel usernameLabel;

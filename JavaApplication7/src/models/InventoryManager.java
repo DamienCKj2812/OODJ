@@ -6,6 +6,7 @@ import java.util.List;
 public class InventoryManager extends User {
 
     Inventory inventory = new Inventory();
+    SupplierAction supplierAction = new SupplierAction();
 
     public InventoryManager(String userID, String username, String password) {
         super(userID, username, password, "inventoryManager");
@@ -30,5 +31,25 @@ public class InventoryManager extends User {
 
     public Item deleteItem(String itemId) throws IOException {
         return inventory.deleteItem(itemId);
+    }
+
+    public List<Supplier> getAllSupplier() throws IOException {
+        return supplierAction.getAllSupplier();
+    }
+
+    public Supplier getSupplier(String supplierID) throws IOException {
+        return supplierAction.getSupplier(supplierID);
+    }
+
+    public Supplier removeSupplier(String supplierID) throws IOException {
+        return supplierAction.removeSupplier(supplierID);
+    }
+
+    public Supplier addSupplier(String newName, String newContactPerson, String newAddress, String newPhoneNumber, String newProductsSupplied) throws IOException {
+        return supplierAction.addSupplier(newName, newContactPerson, newAddress, newPhoneNumber, newProductsSupplied);
+    }
+
+    public Supplier updateSupplier(String supplierID, String newName, String newContactPerson, String newAddress, String newPhoneNumber, String newProductsSupplied) throws IOException {
+        return supplierAction.updateSupplier(supplierID, newName, newContactPerson, newAddress, newPhoneNumber, newProductsSupplied);
     }
 }

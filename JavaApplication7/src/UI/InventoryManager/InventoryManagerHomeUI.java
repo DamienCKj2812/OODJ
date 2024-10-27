@@ -49,10 +49,8 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
         itemEntryLabel = new javax.swing.JLabel();
         supplierEntryButton = new javax.swing.JButton();
         supplierEntryLabel = new javax.swing.JLabel();
-        updateStockLevelButton = new javax.swing.JButton();
-        updateStockLevelLabel = new javax.swing.JLabel();
-        editStockInfoButton = new javax.swing.JButton();
-        editStockInfoLabel = new javax.swing.JLabel();
+        manageStockButton = new javax.swing.JButton();
+        manageStockLabel = new javax.swing.JLabel();
 
         menu1.setLabel("File");
         menuBar1.add(menu1);
@@ -164,27 +162,16 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
         supplierEntryLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         supplierEntryLabel.setText("Supplier Entry");
 
-        updateStockLevelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/update-stock.png"))); // NOI18N
-        updateStockLevelButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        updateStockLevelButton.addActionListener(new java.awt.event.ActionListener() {
+        manageStockButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/ready-stock.png"))); // NOI18N
+        manageStockButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        manageStockButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateStockLevelButtonActionPerformed(evt);
+                manageStockButtonActionPerformed(evt);
             }
         });
 
-        updateStockLevelLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        updateStockLevelLabel.setText("Update Stock Level");
-
-        editStockInfoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/ready-stock.png"))); // NOI18N
-        editStockInfoButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        editStockInfoButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editStockInfoButtonActionPerformed(evt);
-            }
-        });
-
-        editStockInfoLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        editStockInfoLabel.setText("Edit Stock Info");
+        manageStockLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        manageStockLabel.setText("Manage Stock");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -192,28 +179,26 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(updateStockLevelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(itemEntryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(updateStockLevelLabel)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(itemEntryLabel)))
-                .addGap(62, 62, 62)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(supplierEntryButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(supplierEntryLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                                .addComponent(itemEntryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                                .addComponent(itemEntryLabel)))
+                        .addGap(91, 91, 91)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(editStockInfoLabel)
-                            .addComponent(editStockInfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(61, 61, 61))
+                            .addComponent(supplierEntryButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(supplierEntryLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(63, 63, 63))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(166, 166, 166)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(manageStockLabel)
+                            .addComponent(manageStockButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,20 +209,16 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(itemEntryButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(itemEntryLabel)
-                        .addGap(42, 42, 42)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(updateStockLevelButton)
-                            .addComponent(editStockInfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(editStockInfoLabel)
-                            .addComponent(updateStockLevelLabel)))
+                        .addComponent(itemEntryLabel))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(supplierEntryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(supplierEntryLabel)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addComponent(manageStockButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(manageStockLabel)
+                .addGap(28, 28, 28))
         );
 
         pack();
@@ -255,21 +236,30 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
     }//GEN-LAST:event_itemEntryButtonActionPerformed
 
     private void supplierEntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierEntryButtonActionPerformed
-        // TODO add your handling code here:
+        if (user instanceof Admin) {
+            Admin admin = (Admin) user;
+            new SupplierEntryUI(admin.getInventoryManager()).setVisible(true);
+        } else {
+            InventoryManager inventoryManager = (InventoryManager) user;
+            new SupplierEntryUI(inventoryManager).setVisible(true);
+        }
+        this.dispose();
     }//GEN-LAST:event_supplierEntryButtonActionPerformed
 
     private void itemEntryButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEntryButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_itemEntryButton1ActionPerformed
 
-    private void updateStockLevelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateStockLevelButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_updateStockLevelButtonActionPerformed
-
-    private void editStockInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editStockInfoButtonActionPerformed
-
-
-    }//GEN-LAST:event_editStockInfoButtonActionPerformed
+    private void manageStockButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageStockButtonActionPerformed
+        if (user instanceof Admin) {
+            Admin admin = (Admin) user;
+            new ManageStockUI(admin.getInventoryManager()).setVisible(true);
+        } else {
+            InventoryManager inventoryManager = (InventoryManager) user;
+            new ManageStockUI(inventoryManager).setVisible(true);
+        }
+        this.dispose();
+    }//GEN-LAST:event_manageStockButtonActionPerformed
 
     private void AdminPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminPageButtonActionPerformed
         if (user instanceof Admin) {
@@ -291,12 +281,12 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AdminPageButton;
-    private javax.swing.JButton editStockInfoButton;
-    private javax.swing.JLabel editStockInfoLabel;
     private javax.swing.JButton itemEntryButton;
     private javax.swing.JButton itemEntryButton1;
     private javax.swing.JLabel itemEntryLabel;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton manageStockButton;
+    private javax.swing.JLabel manageStockLabel;
     private java.awt.Menu menu1;
     private java.awt.Menu menu2;
     private java.awt.Menu menu3;
@@ -307,8 +297,6 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
     private javax.swing.JLabel newStockCountValue;
     private javax.swing.JButton supplierEntryButton;
     private javax.swing.JLabel supplierEntryLabel;
-    private javax.swing.JButton updateStockLevelButton;
-    private javax.swing.JLabel updateStockLevelLabel;
     private javax.swing.JLabel userIDLabel;
     private javax.swing.JLabel userIDLabel2;
     private javax.swing.JLabel usernameLabel;

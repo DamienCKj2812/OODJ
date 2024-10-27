@@ -8,11 +8,13 @@ import models.Admin;
 import models.User;
 import utils.Authenticator;
 import models.InventoryManager;
+import models.SupplierAction;
 
 public class JavaApplication7 {
 
     public static void main(String[] args) {
         Authenticator au = new Authenticator();
+        SupplierAction sa = new SupplierAction();
 
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -37,33 +39,32 @@ public class JavaApplication7 {
                 }
             });
 
-           admin.getAllUsersBesidesMe();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-////       - Testing purpose
+//       - Testing purpose
 //        try {
 //            User user = au.login("inventoryManagerUser", "inventoryManager123");
 //
 //            if (user instanceof Admin) {
 //                Admin admin = (Admin) user; // Cast to Admin
-//                admin.updateUser("tp1728738654707", "ben dover", "ben123", "salesManager");
-//                admin.registerNewUser("Ben Dover", "ben123", "financeManager");
-//                admin.deleteUser("tp1728757489896");
+////                admin.updateUser("tp1728738654707", "ben dover", "ben123", "salesManager");
+////                admin.registerNewUser("Ben Dover", "ben123", "financeManager");
+////                admin.deleteUser("tp1728757489896");
 //                System.out.println((admin.getAllUsers()));
 //            } else if (user instanceof InventoryManager) {
 //                InventoryManager inventoryManager = (InventoryManager) user;
-//                System.out.println((inventoryManager.getInventoryItems()));
-//                System.out.println(inventoryManager.getItem("item5623405430000"));
-//                inventoryManager.updateItem("item6542054300001", "Ligma Balls", "69.00", "420", "supplier0234054300001");
-//                System.out.println(inventoryManager.addItem("Freezer", "150.00", "200", "supplier0234054300001"));
-//                System.out.println(inventoryManager.deleteItem("item1728755935837"));
+////                System.out.println(sa.getAllSupplier());
+////                System.out.println(sa.removeSupplier("sp1729950430259"));
+//                System.out.println(sa.addSupplier("asdasdasd", "asasdasdasdasddasd", "asdasdasdasd, Townsville, State, ZIP", "+1-555-234-56asd78", "Office asdasdasdSupplies"));
+//
 //            } else {
 //                user.displayUserInfo();
 //            }
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        }
+//    }
     }

@@ -48,6 +48,24 @@ public class Item {
         return supplierID;
     }
 
+    public String getStockStatus() {
+        try {
+            int quantity = Integer.parseInt(this.quantity); // Ensure this.quantity is a String
+            int reorderPoint = Integer.parseInt(this.reorderPoint); // Ensure this.reorderPoint is a String
+
+            if (quantity < reorderPoint) {
+                return "Danger";
+            }
+            if (quantity - reorderPoint < 20) {
+                return "Warning";
+            } else {
+                return "Sufficient";
+            }
+        } catch (NumberFormatException e) {
+            return "Invalid input: Please ensure quantity and reorder point are valid numbers.";
+        }
+    }
+
     public void setItemID(String itemID) {
         this.itemID = itemID;
     }

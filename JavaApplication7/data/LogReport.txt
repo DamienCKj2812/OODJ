@@ -33,3 +33,13 @@ adminUser|Modified the Item's Item Name (item1729950084953): from pwksdfmlksmdf 
 adminUser|Modified the Item's Item Name (item1729950430254): from sdfsd to hi|1729951137
 adminUser|user: adminUser has removed the item (item1729950119979 -  ergge)|1729951148
 adminUser|Removed the item (item1729951053064 - asd)|1729951177
+adminUser|Modified the Item's Supplier Name (sp1729950430270): from GameHub to GitHub|1730009185
+adminUser|Removed the Supplier (sp1729950430270 - GitHub)|1730009196
+adminUser|Add an supplier (id: sp1730011437724, name: asda, contact person: sdasd, address: asdasd, phone number: asdasd, products supplied: asd)|1730011437
+adminUser|Add an item (id: item1730020612887, name: kdfmsksdfsdf, description: asdfasdf, price: 12.00, supplier: sp1729950430258)|1730020612
+adminUser|Modified the Item's Price (item1730020612887): from 12.00 to 69.00|1730020622
+adminUser|Updated the Item's Quantity (item1730020612888): from 0 to 20|1730029182
+adminUser|Updated the Item's Quantity (item1730020612888): from 20 to 0|1730029226
+adminUser|Updated the Item's Quantity (item1730020612893): from 100 to 20|1730029232
+adminUser|Updated the Item's Quantity (item1730020612893): from 20 to 19|1730029238
+adminUser|Updated the Item's Quantity (item1730020612893): from 19 to 30|1730029242

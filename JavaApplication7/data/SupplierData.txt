@@ -1,0 +1,15 @@
+sp1729950430255|Global Supplies|Jane Smith|456 Commerce Rd, Townsville, State, ZIP|+1-555-234-5678|Office Supplies
+sp1729950430256|Ace Parts Co.|Mike Johnson|789 Industrial Ave, City, State, ZIP|+1-555-345-6789|Automotive
+sp1729950430257|PureHealth Essentials|Laura Lee|101 Wellness Way, Village, State, ZIP|+1-555-456-7890|Healthcare
+sp1729950430258|TechWorld Ltd.|Kevin Brown|202 Silicon St, Tech City, State, ZIP|+1-555-567-8901|Electronics
+sp1729950430259|EcoLiving Products|Sarah Green|303 Nature Ln, Eco City, State, ZIP|+1-555-678-9012|Household
+sp1729950430260|Fashion Forward|Tom Davis|404 Style Blvd, Fashion Town, State, ZIP|+1-555-789-0123|Apparel
+sp1729950430261|Green Earth Supplies|Emma Taylor|505 Green Rd, Eco City, State, ZIP|+1-555-890-1234|Agriculture
+sp1729950430262|AutoDrive Ltd.|Gary White|606 Motor Pkwy, Auto City, State, ZIP|+1-555-901-2345|Automotive
+sp1729950430263|BrightLight Solutions|Rachel Black|707 Shine Ave, Bright City, State, ZIP|+1-555-012-3456|Lighting
+sp1729950430264|GlobalTech Innovations|Chris Knight|808 Innovation Dr, Tech Park, State, ZIP|+1-555-123-4568|Electronics
+sp1729950430265|Fresh Farms|Mary Jones|909 Farm Rd, Ruralville, State, ZIP|+1-555-234-5679|Agriculture
+sp1729950430266|MedicCare Supplies|Jack Wilson|1010 Health St, Med City, State, ZIP|+1-555-345-6780|Healthcare
+sp1729950430267|BuildIt Hardware|Linda Adams|1111 Build Blvd, Tool City, State, ZIP|+1-555-456-7891|Construction
+sp1729950430268|SleekWear|Nancy Miller|1212 Fashion Ln, Trend City, State, ZIP|+1-555-567-8902|Apparel
+sp1729950430269|Spark Energy Solutions|Phil Harris|1313 Energy Dr, Power Town, State, ZIP|+1-555-678-9013|Energy
