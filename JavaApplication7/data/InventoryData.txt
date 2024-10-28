@@ -1,0 +1,4 @@
+item1729950062299|asdasdas|dqweqwe|113.00|0|0|Supplier 1
+item1729950084953|asd|qfwefqwef|69.00|0|0|Supplier 1
+item1729950097561|123123|12v 3123|99.00|0|0|Supplier 3
+item1729950430254|hi|fsdfsdf|12.00|0|0|Supplier 2
