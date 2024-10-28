@@ -13,6 +13,11 @@ import models.SupplierAction;
 public class JavaApplication7 {
 
     public static void main(String[] args) {
+
+        // TODO code application logic here
+        System.out.println("Hello harzixuan");
+        System.out.println("wake up");
+
         Authenticator au = new Authenticator();
         SupplierAction sa = new SupplierAction();
 
@@ -66,5 +71,4 @@ public class JavaApplication7 {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-//    }
-    }
+}
