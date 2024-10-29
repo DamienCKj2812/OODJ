@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import models.InventoryManager;
 import models.Item;
 import models.Supplier;
+import state.UserSession;
 import utils.InputValidator;
 import utils.LogHandler;
 
@@ -429,6 +430,10 @@ public class ItemEntryUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void backToHomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToHomeButtonActionPerformed
+        UserSession userState = UserSession.getInstance();
+        if (userState.getLoggedInAdmin() != null) {
+            new InventoryManagerHomeUI(userState.getLoggedInAdmin()).setVisible(true);
+        }
         new InventoryManagerHomeUI(inventoryManager).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backToHomeButtonActionPerformed

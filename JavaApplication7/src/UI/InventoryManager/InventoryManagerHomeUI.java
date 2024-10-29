@@ -4,10 +4,13 @@ import UI.Admin.AdminHomeUI;
 import models.Admin;
 import models.InventoryManager;
 import models.User;
+import state.UserSession;
 
 public class InventoryManagerHomeUI extends javax.swing.JFrame {
 
     private User user;
+    UserSession userState = UserSession.getInstance();
+    Admin admin = userState.getLoggedInAdmin();
 
     public InventoryManagerHomeUI(User user) {
         this.user = user;
@@ -16,7 +19,7 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
         usernameLabel.setText(user.getUsername());
         userIDLabel.setText(user.getUserID());
 
-        if (user instanceof Admin) {
+        if (admin != null) {
             AdminPageButton.setVisible(true); // Make the button visible
         } else {
             AdminPageButton.setVisible(false); // Hide the button for non-admin users
@@ -262,11 +265,10 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
     }//GEN-LAST:event_manageStockButtonActionPerformed
 
     private void AdminPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminPageButtonActionPerformed
-        if (user instanceof Admin) {
-            Admin admin = (Admin) user;
-            new AdminHomeUI(admin).setVisible(true);
-            this.dispose();
-        }
+
+        new AdminHomeUI(admin).setVisible(true);
+        this.dispose();
+
     }//GEN-LAST:event_AdminPageButtonActionPerformed
 
     public static void main(String args[]) {
