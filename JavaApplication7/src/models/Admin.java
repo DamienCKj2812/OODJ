@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import utils.FileManager;
+import utils.LogHandler;
 
 /**
  *
@@ -19,6 +20,7 @@ public class Admin extends User {
 
     private FileManager fileManager = new FileManager(Constants.USER_DATA_PATH);
     private InventoryManager inventoryManager;
+
 
     public Admin(String userID, String username, String password) {
         super(userID, username, password, "admin");
