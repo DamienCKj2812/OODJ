@@ -3,6 +3,7 @@ package javaapplication7;
 import UI.Admin.UserManagementUI;
 import UI.Authentication.LoginUI;
 import UI.InventoryManager.InventoryManagerHomeUI;
+import UI.PurchaseManager.PurchaseManagerHomeUI;
 import java.io.IOException;
 import models.Admin;
 import models.User;
@@ -40,7 +41,7 @@ public class JavaApplication7 {
             // Create and display the LoginUI
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
-                    new LoginUI().setVisible(true);
+                    new PurchaseManagerHomeUI().setVisible(true);
                 }
             });
 
