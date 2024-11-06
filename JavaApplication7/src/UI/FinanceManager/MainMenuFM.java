@@ -26,11 +26,20 @@ public class MainMenuFM extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        MainMenuFM_greet1 = new javax.swing.JLabel();
+        MainMenuFM_username = new javax.swing.JLabel();
+        MainMenuFM_greet2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Welcome");
+        MainMenuFM_greet1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        MainMenuFM_greet1.setText("Good day,");
+
+        MainMenuFM_username.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        MainMenuFM_username.setText("Username");
+
+        MainMenuFM_greet2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        MainMenuFM_greet2.setText("Welcome back to Finance Manager Dashboard");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -38,15 +47,24 @@ public class MainMenuFM extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(344, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(MainMenuFM_greet1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(MainMenuFM_username))
+                    .addComponent(MainMenuFM_greet2))
+                .addContainerGap(246, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(278, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(MainMenuFM_greet1)
+                    .addComponent(MainMenuFM_username))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(MainMenuFM_greet2)
+                .addContainerGap(331, Short.MAX_VALUE))
         );
 
         pack();
@@ -88,6 +106,8 @@ public class MainMenuFM extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel MainMenuFM_greet1;
+    private javax.swing.JLabel MainMenuFM_greet2;
+    private javax.swing.JLabel MainMenuFM_username;
     // End of variables declaration//GEN-END:variables
 }
