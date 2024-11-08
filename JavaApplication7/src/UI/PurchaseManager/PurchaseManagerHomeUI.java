@@ -56,7 +56,7 @@ public class PurchaseManagerHomeUI extends javax.swing.JFrame {
 
         jLabel5.setText("userid");
 
-        jLabel6.setText("stock_value");
+        jLabel6.setText("stock_valuee");
 
         logout.setBackground(new java.awt.Color(255, 102, 0));
         logout.setForeground(new java.awt.Color(255, 255, 255));
