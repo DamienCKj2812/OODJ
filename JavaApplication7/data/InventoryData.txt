@@ -1,4 +1,10 @@
-102|Smartphone|800.00|30|S002
-104|Monitor|200.00|25|S003
-106|Mouse|15.50|60|S004
-109|Headset|46.00|35|S001
+item1730020612888|Microwave|Compact microwave for quick heating|89.99|0|15|sp1729950430259
+item1730020612889|Washing Machine|High-efficiency washing machine|299.99|50|10|sp1729950430260
+item1730020612890|Dishwasher|Energy-saving dishwasher with eco mode|349.00|40|5|sp1729950430261
+item1730020612891|Air Conditioner|Split AC unit with rapid cooling|450.00|30|8|sp1729950430262
+item1730020612892|Vacuum Cleaner|Powerful vacuum for home cleaning|129.99|85|12|sp1729950430263
+item1730020612893|Blender|High-speed blender with multiple settings|59.99|30|20|sp1729950430264
+item1730020612894|Toaster|Four-slice toaster with browning control|24.99|200|30|sp1729950430265
+item1730020612895|Coffee Maker|Single-serve coffee maker|49.99|150|25|sp1729950430266
+item1730020612896|Oven|Electric oven with convection setting|399.00|20|5|sp1729950430267
+item1730020612897|Freezer|Chest freezer with large capacity|299.99|25|6|sp1729950430268

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package UI.InventoryManager;
 
 import java.awt.Color;
@@ -10,15 +6,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import models.InventoryManager;
 import models.Item;
-import models.User;
+import models.Supplier;
+import state.UserSession;
 import utils.InputValidator;
 import utils.LogHandler;
 
@@ -26,33 +28,33 @@ import utils.LogHandler;
  *
  * @author Aorus
  */
-public class EditStockInfoUI extends javax.swing.JFrame {
+public class ItemEntryUI extends javax.swing.JFrame {
 
     private InventoryManager inventoryManager;
     private LogHandler logHandler;
 
-    public EditStockInfoUI(InventoryManager inventoryManager) {
+    public ItemEntryUI(InventoryManager inventoryManager) {
         this.inventoryManager = inventoryManager;
         this.logHandler = new LogHandler(inventoryManager);
         initComponents();
         loadStockData();
 
-        stockTable.setRowHeight(30);
+        itemTable.setRowHeight(30);
 
-        stockTable.addMouseListener(new MouseAdapter() {
+        itemTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 1) { // Detect single click
-                    int row = stockTable.rowAtPoint(e.getPoint());
-                    int col = stockTable.columnAtPoint(e.getPoint());
+                    int row = itemTable.rowAtPoint(e.getPoint());
+                    int col = itemTable.columnAtPoint(e.getPoint());
                     if (row >= 0 && col >= 0) {
                         if (col == 0) { // Check if the clicked column is the first column (User ID)
-                            JOptionPane.showMessageDialog(stockTable,
+                            JOptionPane.showMessageDialog(itemTable,
                                     "You cannot change the Item ID",
                                     "Warning",
                                     JOptionPane.WARNING_MESSAGE);
                         } else if (col == 4) {
-                            JOptionPane.showMessageDialog(stockTable,
+                            JOptionPane.showMessageDialog(itemTable,
                                     "You cannot change the Supplier ID",
                                     "Warning",
                                     JOptionPane.WARNING_MESSAGE);
@@ -85,7 +87,7 @@ public class EditStockInfoUI extends javax.swing.JFrame {
 
     private void loadStockData() {
         try {
-            String[] columnNames = {"Item ID", "Stock Name", "Price", "Quantity", "SupplierId"};
+            String[] columnNames = {"Item ID", "Item Name", "Description", "Price", "SupplierId"};
             DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
             List<Item> items = inventoryManager.getInventoryItems();
@@ -94,14 +96,14 @@ public class EditStockInfoUI extends javax.swing.JFrame {
                 model.addRow(new Object[]{
                     item.getItemID(),
                     item.getName(),
+                    item.getDescription(),
                     item.getPrice(),
-                    item.getQuantity(),
                     item.getSupplierID(),
                     "Actions" // Placeholder for the Actions column
                 });
             }
 
-            stockTable.setModel(model);
+            itemTable.setModel(model);
 
         } catch (IOException e) {
             System.err.println("Error loading item data: " + e.getMessage());
@@ -110,7 +112,7 @@ public class EditStockInfoUI extends javax.swing.JFrame {
 
     private void filterStockTable() {
         String filterText = filterTextField.getText().toLowerCase();
-        DefaultTableModel model = (DefaultTableModel) stockTable.getModel();
+        DefaultTableModel model = (DefaultTableModel) itemTable.getModel();
         model.setRowCount(0);
 
         try {
@@ -118,15 +120,15 @@ public class EditStockInfoUI extends javax.swing.JFrame {
             items.stream()
                     .filter(item -> item.getItemID().toLowerCase().contains(filterText)
                     || item.getName().toLowerCase().contains(filterText)
+                    || item.getDescription().toLowerCase().contains(filterText)
                     || item.getPrice().toLowerCase().contains(filterText)
-                    || item.getQuantity().toLowerCase().contains(filterText)
                     || item.getSupplierID().toLowerCase().contains(filterText))
                     .forEach(item -> {
                         model.addRow(new Object[]{
                             item.getItemID(),
                             item.getName(),
+                            item.getDescription(),
                             item.getPrice(),
-                            item.getQuantity(),
                             item.getSupplierID(),
                             "Actions" // Placeholder for the Actions column
                         });
@@ -138,9 +140,9 @@ public class EditStockInfoUI extends javax.swing.JFrame {
     }
 
     private void showCellContentDialog(int row, int col) {
-        Object cellContent = stockTable.getValueAt(row, col);
-        String columnName = stockTable.getColumnName(col);
-        String itemId = (String) stockTable.getValueAt(row, 0);
+        Object cellContent = itemTable.getValueAt(row, col);
+        String columnName = itemTable.getColumnName(col);
+        String itemId = (String) itemTable.getValueAt(row, 0);
         Item selectedItem = null;
 
         try {
@@ -160,8 +162,6 @@ public class EditStockInfoUI extends javax.swing.JFrame {
             deleteButton.setForeground(Color.WHITE);
 
             deleteButton.addActionListener(new ActionListener() {
-                private boolean itemDeleted = false; // Track item deletion status
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     int confirm = JOptionPane.showConfirmDialog(deleteButton.getParent(),
@@ -170,23 +170,18 @@ public class EditStockInfoUI extends javax.swing.JFrame {
                             JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         try {
-                            Item deletedItem = inventoryManager.deleteItem(itemId); 
-                            ((DefaultTableModel) stockTable.getModel()).removeRow(row);
+                            Item deletedItem = inventoryManager.deleteItem(itemId);
+                            ((DefaultTableModel) itemTable.getModel()).removeRow(row);
                             JOptionPane.showMessageDialog(deleteButton.getParent(),
                                     "Item deleted successfully: " + deletedItem.getItemID(),
                                     "Delete Successful",
                                     JOptionPane.INFORMATION_MESSAGE);
-                            itemDeleted = true; // Set itemDeleted to true after successful deletion
 
-                            if (itemDeleted) {
-                                logHandler.addLogActionToFile(String.format(
-                                        "user: %s has removed the item (%s - %s)",
-                                        inventoryManager.getUsername(),
-                                        deletedItem.getItemID(),
-                                        deletedItem.getName()
-                                ));
-                            }
-
+                            logHandler.addLogActionToFile(String.format(
+                                    "Removed the item (%s - %s)",
+                                    deletedItem.getItemID(),
+                                    deletedItem.getName()
+                            ));
                         } catch (IOException e1) {
                             JOptionPane.showMessageDialog(deleteButton.getParent(),
                                     "Failed to delete item: " + e1.getMessage(),
@@ -211,63 +206,51 @@ public class EditStockInfoUI extends javax.swing.JFrame {
 
             if (result == JOptionPane.OK_OPTION) {
                 String newContent = textField.getText();
-                try {
-                    InputValidator.validateNotEmpty(newContent, columnName); // Validate new input
+                InputValidator.validateNotEmpty(newContent, columnName); // Validate new input
 
-                    // Additional validation based on column name
-                    if ("Price".equals(columnName)) {
-                        InputValidator.validateIsNumber(newContent, columnName); // Validate if it's a number
-                    } else if ("Quantity".equals(columnName)) {
-                        InputValidator.validateIsInteger(newContent, columnName); // Validate if it's an integer
-                    }
+                // Additional validation based on column name
+                if ("Price".equals(columnName)) {
+                    InputValidator.validateIsNumber(newContent, columnName); // Validate if it's a number
+                }
 
-                    boolean updateSuccessful = false;
-                    switch (columnName) {
-                        case "Stock Name":
-                            updateSuccessful = inventoryManager.updateItem(itemId, newContent, selectedItem.getPrice(), selectedItem.getQuantity(), selectedItem.getSupplierID());
-                            break;
-                        case "Price":
-                            updateSuccessful = inventoryManager.updateItem(itemId, selectedItem.getName(), newContent, selectedItem.getQuantity(), selectedItem.getSupplierID());
-                            break;
-                        case "Quantity":
-                            updateSuccessful = inventoryManager.updateItem(itemId, selectedItem.getName(), selectedItem.getPrice(), newContent, selectedItem.getSupplierID());
-                            break;
-                        default:
-                            // If column is not recognized, handle accordingly
-                            JOptionPane.showMessageDialog(this,
-                                    "Column not recognized: " + columnName,
-                                    "Error",
-                                    JOptionPane.ERROR_MESSAGE);
-                            return;
-                    }
-
-                    if (updateSuccessful) {
-                        stockTable.setValueAt(newContent, row, col);
-                        logHandler.addLogActionToFile(String.format(
-                                "user: %s has modified the Item's %s (%s): from %s to %s",
-                                inventoryManager.getUsername(),
-                                columnName,
-                                selectedItem.getItemID(),
-                                cellContent,
-                                newContent
-                        ));
+                boolean updateSuccessful = false;
+                switch (columnName) {
+                    case "Item Name":
+                        updateSuccessful = inventoryManager.updateItem(itemId, newContent, selectedItem.getDescription(), selectedItem.getPrice(), selectedItem.getQuantity(), selectedItem.getReorderPoint(), selectedItem.getSupplierID());
+                        break;
+                    case "Description":
+                        updateSuccessful = inventoryManager.updateItem(itemId, selectedItem.getName(), newContent, selectedItem.getPrice(), selectedItem.getQuantity(), selectedItem.getReorderPoint(), selectedItem.getSupplierID());
+                        break;
+                    case "Price":
+                        updateSuccessful = inventoryManager.updateItem(itemId, selectedItem.getName(), selectedItem.getDescription(), newContent, selectedItem.getQuantity(), selectedItem.getReorderPoint(), selectedItem.getSupplierID());
+                        break;
+                    default:
+                        // If column is not recognized, handle accordingly
                         JOptionPane.showMessageDialog(this,
-                                columnName + ": " + newContent,
-                                "Update Successful!",
-                                JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(this,
-                                "Failed to update item: " + itemId,
-                                "Update Failed",
+                                "Column not recognized: " + columnName,
+                                "Error",
                                 JOptionPane.ERROR_MESSAGE);
-                    }
+                        return;
+                }
 
-                } catch (IllegalArgumentException ex) {
-                    // Show a pop-up warning if validation fails
+                if (updateSuccessful) {
+                    itemTable.setValueAt(newContent, row, col);
+                    logHandler.addLogActionToFile(String.format(
+                            "Modified the Item's %s (%s): from %s to %s",
+                            columnName,
+                            selectedItem.getItemID(),
+                            cellContent,
+                            newContent
+                    ));
                     JOptionPane.showMessageDialog(this,
-                            ex.getMessage(),
-                            "Input Error",
-                            JOptionPane.WARNING_MESSAGE);
+                            columnName + ": " + newContent,
+                            "Update Successful!",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "Failed to update item: " + itemId,
+                            "Update Failed",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
 
@@ -277,7 +260,12 @@ public class EditStockInfoUI extends javax.swing.JFrame {
                     "Error finding user: " + e.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            return; // Exit the method on error
+        } catch (IllegalArgumentException ex) {
+            // Show a pop-up warning if validation fails
+            JOptionPane.showMessageDialog(this,
+                    ex.getMessage(),
+                    "Input Error",
+                    JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -297,11 +285,12 @@ public class EditStockInfoUI extends javax.swing.JFrame {
         newStockCountValue = new javax.swing.JLabel();
         backToHomeButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        stockTable = new javax.swing.JTable();
+        itemTable = new javax.swing.JTable();
         filterLabel = new javax.swing.JLabel();
         filterTextField = new javax.swing.JTextField();
         actionDescriptionLabel2 = new javax.swing.JLabel();
         actionDescriptionLabel3 = new javax.swing.JLabel();
+        addNewItemButton = new java.awt.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -371,7 +360,7 @@ public class EditStockInfoUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        stockTable.setModel(new javax.swing.table.DefaultTableModel(
+        itemTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -382,7 +371,7 @@ public class EditStockInfoUI extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(stockTable);
+        jScrollPane1.setViewportView(itemTable);
 
         filterLabel.setText("Filter:");
 
@@ -390,6 +379,14 @@ public class EditStockInfoUI extends javax.swing.JFrame {
 
         actionDescriptionLabel3.setForeground(new java.awt.Color(254, 0, 0));
         actionDescriptionLabel3.setText("*");
+
+        addNewItemButton.setLabel("Add new Item");
+        addNewItemButton.setName(""); // NOI18N
+        addNewItemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addNewItemButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -403,6 +400,8 @@ public class EditStockInfoUI extends javax.swing.JFrame {
                         .addComponent(filterLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(filterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addNewItemButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(actionDescriptionLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -415,11 +414,13 @@ public class EditStockInfoUI extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(filterLabel)
-                    .addComponent(filterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(actionDescriptionLabel2)
-                    .addComponent(actionDescriptionLabel3))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addNewItemButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(filterLabel)
+                        .addComponent(filterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(actionDescriptionLabel2)
+                        .addComponent(actionDescriptionLabel3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
@@ -429,9 +430,108 @@ public class EditStockInfoUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void backToHomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToHomeButtonActionPerformed
+        UserSession userState = UserSession.getInstance();
+        if (userState.getLoggedInAdmin() != null) {
+            new InventoryManagerHomeUI(userState.getLoggedInAdmin()).setVisible(true);
+        }
         new InventoryManagerHomeUI(inventoryManager).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backToHomeButtonActionPerformed
+
+    private void addNewItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewItemButtonActionPerformed
+        JDialog addItemDialog = new JDialog((JFrame) null, "Add New Item", true);
+        addItemDialog.setLayout(new BoxLayout(addItemDialog.getContentPane(), BoxLayout.Y_AXIS));
+        addItemDialog.setSize(300, 300);
+        addItemDialog.setLocationRelativeTo(null);
+
+        final List<Supplier> suppliers; // Declare suppliers as final
+
+        try {
+            suppliers = inventoryManager.getAllSupplier();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(addItemDialog,
+                    "Failed to load suppliers.",
+                    "Load Failed",
+                    JOptionPane.ERROR_MESSAGE);
+            return; // Exit the method if suppliers cannot be loaded
+        }
+
+        // Create input fields
+        JTextField itemNameField = new JTextField(20);
+        JTextField itemDescriptionField = new JTextField(20);
+        JTextField priceField = new JTextField(20);
+
+        // Create a dropdown for supplier names
+        String[] supplierNames = suppliers.stream()
+                .map(Supplier::getName) // Extract supplier names
+                .toArray(String[]::new);
+        JComboBox<String> supplierNameDropdown = new JComboBox<>(supplierNames);
+
+        // Add components to the dialog
+        addItemDialog.add(new JLabel("Item Name:"));
+        addItemDialog.add(itemNameField);
+
+        addItemDialog.add(new JLabel("Item Description:"));
+        addItemDialog.add(itemDescriptionField);
+
+        addItemDialog.add(new JLabel("Price:"));
+        addItemDialog.add(priceField);
+
+        addItemDialog.add(new JLabel("Supplier Name:"));
+        addItemDialog.add(supplierNameDropdown);
+
+        JButton okButton = new JButton("Add");
+        okButton.addActionListener(e -> {
+            try {
+                InputValidator.validateNotEmpty(itemNameField.getText(), "Item Name");
+                InputValidator.validateNotEmpty(itemDescriptionField.getText(), "Item Description");
+                InputValidator.validateNotEmpty(priceField.getText(), "Price");
+                InputValidator.validateIsNumber(priceField.getText(), "Price");
+
+                // Retrieve selected supplier ID
+                String selectedSupplierID = suppliers.stream()
+                        .filter(supplier -> supplier.getName().equals(supplierNameDropdown.getSelectedItem().toString()))
+                        .map(Supplier::getId)
+                        .findFirst()
+                        .orElse(null);
+
+                Item addedItem = inventoryManager.addItem(
+                        itemNameField.getText(),
+                        itemDescriptionField.getText(),
+                        priceField.getText(),
+                        "0",
+                        "0",
+                        selectedSupplierID
+                );
+
+                // Log the action
+                logHandler.addLogActionToFile(String.format(
+                        "Add an item (id: %s, name: %s, description: %s, price: %s, supplier: %s)",
+                        addedItem.getItemID(),
+                        addedItem.getName(),
+                        addedItem.getDescription(),
+                        addedItem.getPrice(),
+                        addedItem.getSupplierID()
+                ));
+
+                loadStockData();
+                addItemDialog.dispose();
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(addItemDialog,
+                        ex.getMessage(),
+                        "Input Error",
+                        JOptionPane.WARNING_MESSAGE);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(addItemDialog,
+                        "Failed to add item.",
+                        "Add Failed",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        addItemDialog.add(okButton);
+        addItemDialog.setVisible(true);
+    }//GEN-LAST:event_addNewItemButtonActionPerformed
 
     public static void main(String args[]) {
 //        java.awt.EventQueue.invokeLater(new Runnable() {
@@ -444,14 +544,15 @@ public class EditStockInfoUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel actionDescriptionLabel2;
     private javax.swing.JLabel actionDescriptionLabel3;
+    private java.awt.Button addNewItemButton;
     private javax.swing.JButton backToHomeButton;
     private javax.swing.JLabel filterLabel;
     private javax.swing.JTextField filterTextField;
+    private javax.swing.JTable itemTable;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel newStockCountLabel;
     private javax.swing.JLabel newStockCountValue;
-    private javax.swing.JTable stockTable;
     private javax.swing.JLabel userIDLabel;
     private javax.swing.JLabel userIDLabel2;
     private javax.swing.JLabel usernameLabel;

@@ -16,6 +16,8 @@ import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -252,10 +254,22 @@ public class UserManagementUI extends javax.swing.JFrame {
                 return; // Exit if the user is not found
             }
 
-            JTextField textField = new JTextField(cellContent != null ? cellContent.toString() : "");
+            // Create a component based on the column name
+            JComponent inputComponent;
+            if ("Role".equals(columnName)) {
+                // Create a JComboBox for the "Role" column with predefined roles
+                JComboBox<String> roleComboBox = new JComboBox<>(new String[]{"admin", "salesManager", "purchaseManager", "financeManagaer", "inventoryManager"});
+                roleComboBox.setSelectedItem(cellContent != null ? cellContent.toString() : "");
+                inputComponent = roleComboBox;
+            } else {
+                // Use JTextField for other columns
+                JTextField textField = new JTextField(cellContent != null ? cellContent.toString() : "");
+                inputComponent = textField;
+            }
+
             Object[] message = {
                 "Before: " + (cellContent != null ? cellContent.toString() : "No content"),
-                textField
+                inputComponent
             };
 
             int result = JOptionPane.showConfirmDialog(this,
@@ -265,7 +279,15 @@ public class UserManagementUI extends javax.swing.JFrame {
                     JOptionPane.PLAIN_MESSAGE);
 
             if (result == JOptionPane.OK_OPTION) {
-                String newContent = textField.getText();
+                String newContent;
+                if ("Role".equals(columnName)) {
+                    // Get the selected value from JComboBox for "Role"
+                    newContent = (String) ((JComboBox<?>) inputComponent).getSelectedItem();
+                } else {
+                    // Get text from JTextField for other columns
+                    newContent = ((JTextField) inputComponent).getText();
+                }
+
                 try {
                     inputValidator.validateNotEmpty(newContent, columnName); // Validate new input
 
@@ -285,7 +307,6 @@ public class UserManagementUI extends javax.swing.JFrame {
                             updateSuccessful = admin.updateUser(userID, selectedUser.getUsername(), selectedUser.getPassword(), selectedUser.getRole(), newContent);
                             break;
                         default:
-                            // If column is not recognized, handle accordingly
                             JOptionPane.showMessageDialog(this,
                                     "Column not recognized: " + columnName,
                                     "Error",

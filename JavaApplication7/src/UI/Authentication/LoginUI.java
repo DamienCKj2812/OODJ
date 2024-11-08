@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import models.Admin;
 import models.InventoryManager;
 import models.User;
+import state.UserSession;
 import utils.Authenticator;
 import utils.InputValidator;
 
@@ -144,10 +145,10 @@ public class LoginUI extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameInputFieldActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-
+        UserSession userState = UserSession.getInstance();
         // Get user input from text fields
         this.username = usernameInputField.getText();
-        this.password = new String(passwordInputField.getPassword());;
+        this.password = new String(passwordInputField.getPassword());
 
         try {
             // Validate inputs
@@ -156,6 +157,8 @@ public class LoginUI extends javax.swing.JFrame {
 
             // Attempt login
             User user = au.login(this.username, this.password);
+
+            System.out.println(user.getRole());
 
             // Check if user is null (login failed)
             if (user == null) {
@@ -166,9 +169,11 @@ public class LoginUI extends javax.swing.JFrame {
             } else if (user instanceof Admin) {
                 Admin admin = (Admin) user;
                 new AdminHomeUI(admin).setVisible(true);
+                userState.setLoggedInAdmin(admin);
                 this.dispose();
             } else if (user instanceof InventoryManager) {
                 InventoryManager inventoryManager = (InventoryManager) user;
+                userState.setLoggedInInventoryManager(inventoryManager);
                 new InventoryManagerHomeUI(inventoryManager).setVisible(true);
                 this.dispose();
             } else {
