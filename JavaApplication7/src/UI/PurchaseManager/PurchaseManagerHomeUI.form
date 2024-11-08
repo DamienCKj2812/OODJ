@@ -149,7 +149,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
-            <Property name="text" type="java.lang.String" value="stock_valuee"/>
+            <Property name="text" type="java.lang.String" value="stock_valueee"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="logout">
