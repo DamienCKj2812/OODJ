@@ -26,9 +26,10 @@ public class MainMenuFM extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSeparator1 = new javax.swing.JSeparator();
         panel1 = new java.awt.Panel();
         MainMenuFM_CSS = new javax.swing.JButton();
-        MainMenuFM_VPO = new javax.swing.JButton();
+        MainMenuFM_PO = new javax.swing.JButton();
         MainMenuFM_MP = new javax.swing.JButton();
         MainMenuFM_SPS = new javax.swing.JButton();
         MainMenuFM_LO = new javax.swing.JButton();
@@ -42,37 +43,50 @@ public class MainMenuFM extends javax.swing.JFrame {
         MainMenuFM_CSS.setBackground(new java.awt.Color(169, 188, 208));
         MainMenuFM_CSS.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         MainMenuFM_CSS.setForeground(new java.awt.Color(27, 27, 30));
-        MainMenuFM_CSS.setText("Check Stock Status");
+        MainMenuFM_CSS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/stock-warehouse-removebg.png"))); // NOI18N
+        MainMenuFM_CSS.setText("Stock Status");
+        MainMenuFM_CSS.setActionCommand("Stock Status");
+        MainMenuFM_CSS.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        MainMenuFM_CSS.setIconTextGap(10);
         MainMenuFM_CSS.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MainMenuFM_CSSActionPerformed(evt);
             }
         });
 
-        MainMenuFM_VPO.setBackground(new java.awt.Color(216, 219, 226));
-        MainMenuFM_VPO.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        MainMenuFM_VPO.setForeground(new java.awt.Color(55, 63, 81));
-        MainMenuFM_VPO.setText("View Purchase Order");
-        MainMenuFM_VPO.addActionListener(new java.awt.event.ActionListener() {
+        MainMenuFM_PO.setBackground(new java.awt.Color(216, 219, 226));
+        MainMenuFM_PO.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        MainMenuFM_PO.setForeground(new java.awt.Color(55, 63, 81));
+        MainMenuFM_PO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/po-removebg.png"))); // NOI18N
+        MainMenuFM_PO.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        MainMenuFM_PO.setIconTextGap(10);
+        MainMenuFM_PO.setLabel("Purchase Order");
+        MainMenuFM_PO.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MainMenuFM_VPOActionPerformed(evt);
+                MainMenuFM_POActionPerformed(evt);
             }
         });
 
-        MainMenuFM_MP.setBackground(new java.awt.Color(88, 164, 176));
+        MainMenuFM_MP.setBackground(new java.awt.Color(132, 194, 204));
         MainMenuFM_MP.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         MainMenuFM_MP.setForeground(new java.awt.Color(55, 63, 81));
+        MainMenuFM_MP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/payment-removebg.png"))); // NOI18N
         MainMenuFM_MP.setText("Make Payment");
+        MainMenuFM_MP.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        MainMenuFM_MP.setIconTextGap(10);
         MainMenuFM_MP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MainMenuFM_MPActionPerformed(evt);
             }
         });
 
-        MainMenuFM_SPS.setBackground(new java.awt.Color(55, 63, 81));
+        MainMenuFM_SPS.setBackground(new java.awt.Color(173, 203, 204));
         MainMenuFM_SPS.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        MainMenuFM_SPS.setForeground(new java.awt.Color(88, 164, 176));
+        MainMenuFM_SPS.setForeground(new java.awt.Color(76, 102, 99));
+        MainMenuFM_SPS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/supplier-payment-removebg.png"))); // NOI18N
         MainMenuFM_SPS.setText("Supplier Payment Status");
+        MainMenuFM_SPS.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        MainMenuFM_SPS.setIconTextGap(10);
         MainMenuFM_SPS.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MainMenuFM_SPSActionPerformed(evt);
@@ -92,7 +106,7 @@ public class MainMenuFM extends javax.swing.JFrame {
         MainMenuFM_username.setForeground(new java.awt.Color(88, 164, 176));
         MainMenuFM_username.setText("Username");
 
-        MainMenuFM_greet2.setFont(new java.awt.Font("MV Boli", 1, 18)); // NOI18N
+        MainMenuFM_greet2.setFont(new java.awt.Font("MV Boli", 1, 24)); // NOI18N
         MainMenuFM_greet2.setForeground(new java.awt.Color(59, 59, 59));
         MainMenuFM_greet2.setText("Welcome back to Finance Manager Dashboard");
 
@@ -102,28 +116,31 @@ public class MainMenuFM extends javax.swing.JFrame {
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panel1Layout.createSequentialGroup()
-                        .addComponent(MainMenuFM_greet1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(MainMenuFM_username))
-                    .addComponent(MainMenuFM_greet2)
-                    .addGroup(panel1Layout.createSequentialGroup()
-                        .addGap(82, 82, 82)
-                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(panel1Layout.createSequentialGroup()
-                                .addComponent(MainMenuFM_VPO)
-                                .addGap(113, 113, 113)
-                                .addComponent(MainMenuFM_CSS))
-                            .addGroup(panel1Layout.createSequentialGroup()
-                                .addComponent(MainMenuFM_MP)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(MainMenuFM_SPS)))))
-                .addContainerGap(49, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(MainMenuFM_LO, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(MainMenuFM_LO, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panel1Layout.createSequentialGroup()
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panel1Layout.createSequentialGroup()
+                                .addComponent(MainMenuFM_greet1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(MainMenuFM_username))
+                            .addComponent(MainMenuFM_greet2, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panel1Layout.createSequentialGroup()
+                        .addComponent(MainMenuFM_PO, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(MainMenuFM_MP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panel1Layout.createSequentialGroup()
+                        .addComponent(MainMenuFM_CSS)
+                        .addGap(18, 18, 18)
+                        .addComponent(MainMenuFM_SPS)))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,15 +151,15 @@ public class MainMenuFM extends javax.swing.JFrame {
                     .addComponent(MainMenuFM_username))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(MainMenuFM_greet2)
-                .addGap(54, 54, 54)
+                .addGap(65, 65, 65)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(MainMenuFM_CSS, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MainMenuFM_VPO, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(MainMenuFM_PO)
+                    .addComponent(MainMenuFM_MP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(MainMenuFM_MP, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MainMenuFM_SPS, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                    .addComponent(MainMenuFM_CSS)
+                    .addComponent(MainMenuFM_SPS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(70, 70, 70)
                 .addComponent(MainMenuFM_LO, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -161,9 +178,9 @@ public class MainMenuFM extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void MainMenuFM_VPOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuFM_VPOActionPerformed
+    private void MainMenuFM_POActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuFM_POActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_MainMenuFM_VPOActionPerformed
+    }//GEN-LAST:event_MainMenuFM_POActionPerformed
 
     private void MainMenuFM_CSSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuFM_CSSActionPerformed
         // TODO add your handling code here:
@@ -216,11 +233,12 @@ public class MainMenuFM extends javax.swing.JFrame {
     private javax.swing.JButton MainMenuFM_CSS;
     private javax.swing.JButton MainMenuFM_LO;
     private javax.swing.JButton MainMenuFM_MP;
+    private javax.swing.JButton MainMenuFM_PO;
     private javax.swing.JButton MainMenuFM_SPS;
-    private javax.swing.JButton MainMenuFM_VPO;
     private javax.swing.JLabel MainMenuFM_greet1;
     private javax.swing.JLabel MainMenuFM_greet2;
     private javax.swing.JLabel MainMenuFM_username;
+    private javax.swing.JSeparator jSeparator1;
     private java.awt.Panel panel1;
     // End of variables declaration//GEN-END:variables
 }
