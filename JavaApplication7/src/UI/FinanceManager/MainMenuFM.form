@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.JSeparator" name="jSeparator1">
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -41,37 +45,42 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="MainMenuFM_greet1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="MainMenuFM_username" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="MainMenuFM_LO" min="-2" pref="100" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="MainMenuFM_greet2" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="MainMenuFM_VPO" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
-                                  <Component id="MainMenuFM_CSS" min="-2" max="-2" attributes="0"/>
+                                  <Component id="MainMenuFM_greet1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="MainMenuFM_username" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="MainMenuFM_MP" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="MainMenuFM_SPS" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="MainMenuFM_greet2" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="49" max="32767" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="MainMenuFM_LO" min="-2" pref="100" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="MainMenuFM_PO" min="-2" pref="345" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="MainMenuFM_MP" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="MainMenuFM_CSS" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="MainMenuFM_SPS" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace pref="50" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -85,17 +94,17 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="MainMenuFM_greet2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="MainMenuFM_CSS" alignment="3" min="-2" pref="80" max="-2" attributes="0"/>
-                      <Component id="MainMenuFM_VPO" alignment="3" min="-2" pref="80" max="-2" attributes="0"/>
+                      <Component id="MainMenuFM_PO" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="MainMenuFM_MP" alignment="3" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="MainMenuFM_MP" alignment="3" min="-2" pref="80" max="-2" attributes="0"/>
-                      <Component id="MainMenuFM_SPS" alignment="3" min="-2" pref="80" max="-2" attributes="0"/>
+                      <Component id="MainMenuFM_CSS" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="MainMenuFM_SPS" alignment="3" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="43" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                   <Component id="MainMenuFM_LO" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -114,13 +123,19 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="1e" green="1b" red="1b" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Check Stock Status"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/assets/stock-warehouse-removebg.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Stock Status"/>
+            <Property name="actionCommand" type="java.lang.String" value="Stock Status"/>
+            <Property name="horizontalTextPosition" type="int" value="4"/>
+            <Property name="iconTextGap" type="int" value="10"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MainMenuFM_CSSActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="MainMenuFM_VPO">
+        <Component class="javax.swing.JButton" name="MainMenuFM_PO">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="e2" green="db" red="d8" type="rgb"/>
@@ -131,16 +146,21 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="51" green="3f" red="37" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="View Purchase Order"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/assets/po-removebg.png"/>
+            </Property>
+            <Property name="horizontalTextPosition" type="int" value="2"/>
+            <Property name="iconTextGap" type="int" value="10"/>
+            <Property name="label" type="java.lang.String" value="Purchase Order"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MainMenuFM_VPOActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MainMenuFM_POActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="MainMenuFM_MP">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="b0" green="a4" red="58" type="rgb"/>
+              <Color blue="cc" green="c2" red="84" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial Rounded MT Bold" size="18" style="0"/>
@@ -148,7 +168,12 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="51" green="3f" red="37" type="rgb"/>
             </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/assets/payment-removebg.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Make Payment"/>
+            <Property name="horizontalTextPosition" type="int" value="2"/>
+            <Property name="iconTextGap" type="int" value="10"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MainMenuFM_MPActionPerformed"/>
@@ -157,15 +182,20 @@
         <Component class="javax.swing.JButton" name="MainMenuFM_SPS">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="51" green="3f" red="37" type="rgb"/>
+              <Color blue="cc" green="cb" red="ad" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial Rounded MT Bold" size="18" style="0"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="b0" green="a4" red="58" type="rgb"/>
+              <Color blue="63" green="66" red="4c" type="rgb"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/assets/supplier-payment-removebg.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Supplier Payment Status"/>
+            <Property name="horizontalTextPosition" type="int" value="4"/>
+            <Property name="iconTextGap" type="int" value="10"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MainMenuFM_SPSActionPerformed"/>
@@ -210,7 +240,7 @@
         <Component class="javax.swing.JLabel" name="MainMenuFM_greet2">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="MV Boli" size="18" style="1"/>
+              <Font name="MV Boli" size="24" style="1"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="3b" green="3b" red="3b" type="rgb"/>
