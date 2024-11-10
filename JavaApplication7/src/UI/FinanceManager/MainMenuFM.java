@@ -40,12 +40,11 @@ public class MainMenuFM extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 204, 255));
 
-        MainMenuFM_CSS.setBackground(new java.awt.Color(169, 188, 208));
+        MainMenuFM_CSS.setBackground(new java.awt.Color(163, 176, 204));
         MainMenuFM_CSS.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         MainMenuFM_CSS.setForeground(new java.awt.Color(27, 27, 30));
         MainMenuFM_CSS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/stock-warehouse-removebg.png"))); // NOI18N
         MainMenuFM_CSS.setText("Stock Status");
-        MainMenuFM_CSS.setActionCommand("Stock Status");
         MainMenuFM_CSS.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         MainMenuFM_CSS.setIconTextGap(10);
         MainMenuFM_CSS.addActionListener(new java.awt.event.ActionListener() {
@@ -60,16 +59,15 @@ public class MainMenuFM extends javax.swing.JFrame {
         MainMenuFM_PO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/po-removebg.png"))); // NOI18N
         MainMenuFM_PO.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         MainMenuFM_PO.setIconTextGap(10);
-        MainMenuFM_PO.setLabel("Purchase Order");
         MainMenuFM_PO.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MainMenuFM_POActionPerformed(evt);
             }
         });
 
-        MainMenuFM_MP.setBackground(new java.awt.Color(132, 194, 204));
+        MainMenuFM_MP.setBackground(new java.awt.Color(153, 157, 204));
         MainMenuFM_MP.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        MainMenuFM_MP.setForeground(new java.awt.Color(55, 63, 81));
+        MainMenuFM_MP.setForeground(new java.awt.Color(54, 49, 76));
         MainMenuFM_MP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/payment-removebg.png"))); // NOI18N
         MainMenuFM_MP.setText("Make Payment");
         MainMenuFM_MP.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
@@ -82,7 +80,7 @@ public class MainMenuFM extends javax.swing.JFrame {
 
         MainMenuFM_SPS.setBackground(new java.awt.Color(173, 203, 204));
         MainMenuFM_SPS.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        MainMenuFM_SPS.setForeground(new java.awt.Color(76, 102, 99));
+        MainMenuFM_SPS.setForeground(new java.awt.Color(47, 63, 61));
         MainMenuFM_SPS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/supplier-payment-removebg.png"))); // NOI18N
         MainMenuFM_SPS.setText("Supplier Payment Status");
         MainMenuFM_SPS.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -104,7 +102,7 @@ public class MainMenuFM extends javax.swing.JFrame {
 
         MainMenuFM_username.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         MainMenuFM_username.setForeground(new java.awt.Color(88, 164, 176));
-        MainMenuFM_username.setText("Username");
+        MainMenuFM_username.setText("'Username'");
 
         MainMenuFM_greet2.setFont(new java.awt.Font("MV Boli", 1, 24)); // NOI18N
         MainMenuFM_greet2.setForeground(new java.awt.Color(59, 59, 59));
@@ -126,7 +124,7 @@ public class MainMenuFM extends javax.swing.JFrame {
                                 .addComponent(MainMenuFM_greet1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(MainMenuFM_username))
-                            .addComponent(MainMenuFM_greet2, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(MainMenuFM_greet2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(panel1Layout.createSequentialGroup()
