@@ -205,6 +205,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Dashboard"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblDashboardMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -247,6 +250,9 @@
                     <Property name="autoscrolls" type="boolean" value="true"/>
                     <Property name="focusCycleRoot" type="boolean" value="true"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblListOfItemsMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -289,6 +295,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Sales Entry"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblSalesEntryMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -333,6 +342,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Sales Report"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblSalesReportMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -375,6 +387,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Stock Level"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblStockLevelMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -417,6 +432,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Requisition"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblRequisitionMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

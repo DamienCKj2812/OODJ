@@ -227,6 +227,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="Dashboard"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblDashboardMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -269,6 +272,9 @@
                         <Property name="autoscrolls" type="boolean" value="true"/>
                         <Property name="focusCycleRoot" type="boolean" value="true"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblListOfItemsMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -311,6 +317,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="Sales Entry"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblSalesEntryMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -355,6 +364,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Sales Report"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblSalesReportMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -397,6 +409,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Stock Level"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblStockLevelMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -456,19 +471,19 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="lblRequisition3" min="-2" pref="182" max="-2" attributes="0"/>
+                          <Component id="lblPurchaseOrder" min="-2" pref="182" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblRequisition3" alignment="0" pref="45" max="32767" attributes="0"/>
+                      <Component id="lblPurchaseOrder" alignment="0" pref="45" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="lblRequisition3">
+                <Component class="javax.swing.JLabel" name="lblPurchaseOrder">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="18" style="1"/>
@@ -478,6 +493,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Purchase Order"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblPurchaseOrderMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

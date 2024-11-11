@@ -4,19 +4,124 @@
  */
 package UI.SalesManager;
 
-/**
- *
- * @author USER
- */
+import javax.swing.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import models.Item;
+
 public class SMSalesEntry extends javax.swing.JFrame {
 
-    /**
-     * Creates new form SMSalesEntry
-     */
-    public SMSalesEntry() {
+    private List<ItemData> inventoryItems = new ArrayList<>();
+
+      public SMSalesEntry() {
         initComponents();
+        loadInventoryData();
+        populateItemCodeComboBox();
+        setupQuantitySpinner();
     }
 
+    private void loadInventoryData() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("data/InventoryData.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] itemDetails = line.split("\\|");
+                if (itemDetails.length >= 5) {
+                    String itemCode = itemDetails[0];
+                    String itemName = itemDetails[1];
+                    double unitPrice = Double.parseDouble(itemDetails[3]);
+                    int quantityInStock = Integer.parseInt(itemDetails[4]);  // Inventory quantity
+                    inventoryItems.add(new ItemData(itemCode, itemName, unitPrice, quantityInStock));
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error loading inventory data: " + e.getMessage());
+        }
+    }
+
+    private void populateItemCodeComboBox() {
+        cmbItemCode.addItem("Please choose an item");
+        for (ItemData item : inventoryItems) {
+            cmbItemCode.addItem(item.getItemCode());
+        }
+
+        cmbItemCode.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String selectedCode = (String) cmbItemCode.getSelectedItem();
+                displaySelectedItemDetails(selectedCode);
+            }
+        });
+    }
+
+    private void displaySelectedItemDetails(String itemCode) {
+        for (ItemData item : inventoryItems) {
+        if (item.getItemCode().equals(itemCode)) {
+            // Set the item details in the text fields
+            txtItemName.setText(item.getItemName());
+            txtUnitPrice.setText(String.valueOf(item.getUnitPrice()));
+
+            // Reset quantity spinner to 0 when switching items
+            spnQuantitySold.setValue(0);
+
+            // Set the max quantity of the spinner based on the selected item
+            setMaxQuantityInSpinner(item.getQuantityInStock());
+
+            // Recalculate total amount with the updated quantity (which is 0)
+            updateTotalAmount();
+            break;
+        }
+    }
+    }
+
+    private void setupQuantitySpinner() {
+        spnQuantitySold.setModel(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
+        
+        // Add ChangeListener to update total amount whenever quantity is changed
+        spnQuantitySold.addChangeListener(e -> updateTotalAmount());
+    }
+
+    private void setMaxQuantityInSpinner(int maxQuantity) {
+        // Update the spinner model to have a max value of the available stock
+        spnQuantitySold.setModel(new SpinnerNumberModel(0, 0, maxQuantity, 1));
+    }
+
+    private void updateTotalAmount() {
+        try {
+            // Get the quantity and unit price
+            int quantitySold = (int) spnQuantitySold.getValue();
+            double unitPrice = Double.parseDouble(txtUnitPrice.getText());
+
+            // Calculate total amount
+            double totalAmount = quantitySold * unitPrice;
+
+            // Display the total amount
+            txtTotalAmount.setText(String.format("%.2f", totalAmount));
+        } catch (NumberFormatException e) {
+            // Handle potential errors, for example, if unit price is not a valid number
+            txtTotalAmount.setText("0.00");
+        }
+    }
+
+    private class ItemData {
+        private String itemCode;
+        private String itemName;
+        private double unitPrice;
+        private int quantityInStock;
+
+        public ItemData(String itemCode, String itemName, double unitPrice, int quantityInStock) {
+            this.itemCode = itemCode;
+            this.itemName = itemName;
+            this.unitPrice = unitPrice;
+            this.quantityInStock = quantityInStock;
+        }
+
+        public String getItemCode() { return itemCode; }
+        public String getItemName() { return itemName; }
+        public double getUnitPrice() { return unitPrice; }
+        public int getQuantityInStock() { return quantityInStock; }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,12 +153,11 @@ public class SMSalesEntry extends javax.swing.JFrame {
         jPanel9 = new javax.swing.JPanel();
         lblItemCode = new javax.swing.JLabel();
         lblItemCode1 = new javax.swing.JLabel();
-        lblItemCode3 = new javax.swing.JLabel();
         lblItemCode2 = new javax.swing.JLabel();
         lblItemCode4 = new javax.swing.JLabel();
         lblItemCode6 = new javax.swing.JLabel();
         lblItemCode5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cmbItemCode = new javax.swing.JComboBox<>();
         txtItemName = new javax.swing.JTextField();
         spnQuantitySold = new javax.swing.JSpinner();
         txtUnitPrice = new javax.swing.JTextField();
@@ -62,6 +166,7 @@ public class SMSalesEntry extends javax.swing.JFrame {
         txtaNotes = new javax.swing.JTextArea();
         jPanel10 = new javax.swing.JPanel();
         btnAddSales = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,6 +180,11 @@ public class SMSalesEntry extends javax.swing.JFrame {
         lblDashboard.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/layout-1.png"))); // NOI18N
         lblDashboard.setText("Dashboard");
+        lblDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblDashboardMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -98,6 +208,11 @@ public class SMSalesEntry extends javax.swing.JFrame {
         lblListOfItems.setText("List of Items");
         lblListOfItems.setAutoscrolls(true);
         lblListOfItems.setFocusCycleRoot(true);
+        lblListOfItems.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblListOfItemsMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -139,9 +254,9 @@ public class SMSalesEntry extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,6 +277,11 @@ public class SMSalesEntry extends javax.swing.JFrame {
         lblSalesReport.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblSalesReport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/report-1321938.png"))); // NOI18N
         lblSalesReport.setText("Sales Report");
+        lblSalesReport.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSalesReportMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -185,6 +305,11 @@ public class SMSalesEntry extends javax.swing.JFrame {
         lblStockLevel.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblStockLevel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/in-stock (1).png"))); // NOI18N
         lblStockLevel.setText("Stock Level");
+        lblStockLevel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblStockLevelMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -208,6 +333,11 @@ public class SMSalesEntry extends javax.swing.JFrame {
         lblRequisition.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblRequisition.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/management (1).png"))); // NOI18N
         lblRequisition.setText("Requisition");
+        lblRequisition.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblRequisitionMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
@@ -232,6 +362,11 @@ public class SMSalesEntry extends javax.swing.JFrame {
         lblRequisition3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblRequisition3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/shopping-list (1).png"))); // NOI18N
         lblRequisition3.setText("Purchase Order");
+        lblRequisition3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblRequisition3MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -252,12 +387,12 @@ public class SMSalesEntry extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                    .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
+                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                    .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -305,9 +440,6 @@ public class SMSalesEntry extends javax.swing.JFrame {
         lblItemCode1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblItemCode1.setText("Item Name");
 
-        lblItemCode3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblItemCode3.setText("Date Sold");
-
         lblItemCode2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblItemCode2.setText("Quantity Sold");
 
@@ -320,19 +452,22 @@ public class SMSalesEntry extends javax.swing.JFrame {
         lblItemCode5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblItemCode5.setText("Notes");
 
-        jComboBox1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbItemCode.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        cmbItemCode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbItemCodeActionPerformed(evt);
+            }
+        });
 
         txtItemName.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        txtItemName.setText("jTextField1");
 
         spnQuantitySold.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
+        txtUnitPrice.setEditable(false);
         txtUnitPrice.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        txtUnitPrice.setText("jTextField2");
 
+        txtTotalAmount.setEditable(false);
         txtTotalAmount.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        txtTotalAmount.setText("jTextField3");
 
         txtaNotes.setColumns(20);
         txtaNotes.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -350,54 +485,59 @@ public class SMSalesEntry extends javax.swing.JFrame {
                         .addComponent(lblItemCode5)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1)
+                        .addGap(30, 30, 30))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblItemCode2)
+                            .addComponent(spnQuantitySold, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblItemCode4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblItemCode6)
                             .addGroup(jPanel9Layout.createSequentialGroup()
-                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblItemCode)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblItemCode3))
-                                .addGap(45, 45, 45)
-                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lblItemCode1)
-                                    .addComponent(txtItemName, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
-                                    .addComponent(lblItemCode4)
-                                    .addComponent(txtUnitPrice))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lblItemCode2)
-                                    .addComponent(lblItemCode6)
-                                    .addGroup(jPanel9Layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(txtTotalAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(spnQuantitySold))))
-                        .addGap(30, 30, 30))))
+                                .addGap(6, 6, 6)
+                                .addComponent(txtTotalAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(57, 57, 57))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblItemCode)
+                            .addComponent(cmbItemCode, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblItemCode1)
+                            .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(77, 77, 77))))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblItemCode)
+                    .addComponent(lblItemCode1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbItemCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(70, 70, 70)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblItemCode)
-                            .addComponent(lblItemCode1)
-                            .addComponent(lblItemCode2))
+                            .addComponent(lblItemCode4)
+                            .addComponent(lblItemCode6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(spnQuantitySold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtTotalAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addGap(147, 147, 147)
-                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblItemCode3)
-                            .addComponent(lblItemCode4)
-                            .addComponent(lblItemCode6))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTotalAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblItemCode2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(spnQuantitySold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblItemCode5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -413,13 +553,23 @@ public class SMSalesEntry extends javax.swing.JFrame {
             }
         });
 
+        btnClear.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+            .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnAddSales, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAddSales, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnClear, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
@@ -427,6 +577,8 @@ public class SMSalesEntry extends javax.swing.JFrame {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(btnAddSales)
+                .addGap(38, 38, 38)
+                .addComponent(btnClear)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -437,16 +589,13 @@ public class SMSalesEntry extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -465,7 +614,7 @@ public class SMSalesEntry extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 975, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -476,8 +625,106 @@ public class SMSalesEntry extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSalesActionPerformed
-        // TODO add your handling code here:
+    // Get the selected item code
+    String itemCode = (String) cmbItemCode.getSelectedItem();
+    
+    // Validate that the item code is not "Please choose an item"
+    if ("Please choose an item".equals(itemCode)) {
+        // Show an error message to the user
+        JOptionPane.showMessageDialog(this, "Please select a valid item code.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        return;  // Exit the method without adding the sale
+    }
+
+    // Validate that quantity sold is greater than 0
+    int quantitySold = (Integer) spnQuantitySold.getValue();
+    if (quantitySold <= 0) {
+        JOptionPane.showMessageDialog(this, "Quantity sold must be greater than 0.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Proceed with adding the sale
+    String notes = txtaNotes.getText();  // Get the notes (can be empty)
+
+    // Get the current date in Unix format (e.g., timestamp)
+    long unixTimestamp = System.currentTimeMillis() / 1000L;  // Current time in seconds
+
+    // Prepare data to write to SalesEntryData.txt
+    String saleData = itemCode + "|" + quantitySold + "|" + unixTimestamp + "|" + notes;
+    
+    // Add the sale data to SalesEntryData.txt
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/SalesEntryData.txt", true))) {
+        writer.newLine();  // Add a new line
+        writer.write(saleData);  // Write the sale data
+    } catch (IOException e) {
+        e.printStackTrace();  // Handle file writing exceptions
+    }
+    
+    // Clear fields after adding the sale
+    cmbItemCode.setSelectedIndex(0);  // Reset to default "Please choose an item"
+    spnQuantitySold.setValue(0);  // Reset quantity sold
+    txtaNotes.setText("");  // Clear the notes field
+   
     }//GEN-LAST:event_btnAddSalesActionPerformed
+
+    private void lblDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDashboardMouseClicked
+        SMDashboard newPage = new SMDashboard();   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMSalesEntry.this.dispose();
+    }//GEN-LAST:event_lblDashboardMouseClicked
+
+    private void lblListOfItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblListOfItemsMouseClicked
+        SMListOfItem newPage = new SMListOfItem();   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMSalesEntry.this.dispose();
+    }//GEN-LAST:event_lblListOfItemsMouseClicked
+
+    private void lblSalesReportMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesReportMouseClicked
+        SMSalesReport newPage = new SMSalesReport();   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMSalesEntry.this.dispose();
+    }//GEN-LAST:event_lblSalesReportMouseClicked
+
+    private void lblStockLevelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockLevelMouseClicked
+       SMStockLevel newPage = new SMStockLevel();   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMSalesEntry.this.dispose();
+    }//GEN-LAST:event_lblStockLevelMouseClicked
+
+    private void lblRequisitionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisitionMouseClicked
+        SMRequisition newPage = new SMRequisition();   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMSalesEntry.this.dispose();
+    }//GEN-LAST:event_lblRequisitionMouseClicked
+
+    private void lblRequisition3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisition3MouseClicked
+        SMPurchaseOrder newPage = new SMPurchaseOrder();   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMSalesEntry.this.dispose();
+    }//GEN-LAST:event_lblRequisition3MouseClicked
+
+    private void cmbItemCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbItemCodeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbItemCodeActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        cmbItemCode.setSelectedIndex(0);  // 0 index is the empty value
+    spnQuantitySold.setValue(0);  // Optional: Reset quantity sold to 0
+    txtaNotes.setText(""); 
+    spnQuantitySold.setValue(0);  // Set the value to 0
+    txtUnitPrice.setText("0");
+    }//GEN-LAST:event_btnClearActionPerformed
 
     /**
      * @param args the command line arguments
@@ -513,10 +760,12 @@ public class SMSalesEntry extends javax.swing.JFrame {
             }
         });
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddSales;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btnClear;
+    private javax.swing.JComboBox<String> cmbItemCode;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel12;
@@ -535,7 +784,6 @@ public class SMSalesEntry extends javax.swing.JFrame {
     private javax.swing.JLabel lblItemCode;
     private javax.swing.JLabel lblItemCode1;
     private javax.swing.JLabel lblItemCode2;
-    private javax.swing.JLabel lblItemCode3;
     private javax.swing.JLabel lblItemCode4;
     private javax.swing.JLabel lblItemCode5;
     private javax.swing.JLabel lblItemCode6;

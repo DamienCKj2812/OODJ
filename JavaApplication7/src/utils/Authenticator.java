@@ -5,6 +5,7 @@ import models.User;
 import constants.Constants; // Import the Constants class for the file path
 import models.Admin;
 import models.InventoryManager;
+import models.SalesManager;
 
 public class Authenticator {
 
@@ -31,6 +32,8 @@ public class Authenticator {
                         return new Admin(userID, username, password); // Return Admin object
                     } else if (role.equalsIgnoreCase("inventoryManager")) {
                         return new InventoryManager(userID, username, password); // Return InventoryManager object
+                    } else if (role.equalsIgnoreCase("salesManager")) {
+                        return new SalesManager(userID, username, password); // Return InventoryManager object
                     } else {
                         return new User(userID, username, password, role, status); // Return User object
                     }

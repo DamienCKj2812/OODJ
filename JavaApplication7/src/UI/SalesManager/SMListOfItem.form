@@ -44,8 +44,8 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="jPanel3" max="32767" attributes="0"/>
-              <Component id="jPanel6" alignment="0" pref="195" max="32767" attributes="0"/>
-              <Component id="jPanel12" alignment="0" pref="195" max="32767" attributes="0"/>
+              <Component id="jPanel6" alignment="0" pref="197" max="32767" attributes="0"/>
+              <Component id="jPanel12" alignment="0" pref="197" max="32767" attributes="0"/>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="lblRequisition1" max="32767" attributes="0"/>
@@ -53,7 +53,7 @@
                   <Component id="jPanel14" max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="jPanel13" pref="189" max="32767" attributes="0"/>
+                  <Component id="jPanel13" pref="191" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -90,9 +90,9 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel4" pref="195" max="32767" attributes="0"/>
-                  <Component id="jPanel5" pref="195" max="32767" attributes="0"/>
-                  <Component id="jPanel7" alignment="1" pref="195" max="32767" attributes="0"/>
+                  <Component id="jPanel4" pref="197" max="32767" attributes="0"/>
+                  <Component id="jPanel5" pref="197" max="32767" attributes="0"/>
+                  <Component id="jPanel7" alignment="1" pref="197" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -146,6 +146,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Dashboard"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblDashboardMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -185,6 +188,9 @@
                     <Property name="autoscrolls" type="boolean" value="true"/>
                     <Property name="focusCycleRoot" type="boolean" value="true"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="lblListOfItemsKeyPressed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -199,6 +205,9 @@
                   <Dimension value="[139, 45]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel7MouseClicked"/>
+              </Events>
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -227,6 +236,11 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Sales Entry"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblSalesEntryMouseClicked"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblSalesEntryMousePressed"/>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="lblSalesEntryKeyPressed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -271,6 +285,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Sales Report"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblSalesReportMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -313,6 +330,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Stock Level"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblStockLevelMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -355,6 +375,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Requisition"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblRequisitionMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -390,6 +413,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Purchase Order"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblRequisition1MouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

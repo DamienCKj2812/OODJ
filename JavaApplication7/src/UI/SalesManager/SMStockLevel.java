@@ -83,6 +83,11 @@ public class SMStockLevel extends javax.swing.JFrame {
         lblDashboard.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/layout-1.png"))); // NOI18N
         lblDashboard.setText("Dashboard");
+        lblDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblDashboardMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -106,6 +111,11 @@ public class SMStockLevel extends javax.swing.JFrame {
         lblListOfItems.setText("List of Items");
         lblListOfItems.setAutoscrolls(true);
         lblListOfItems.setFocusCycleRoot(true);
+        lblListOfItems.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblListOfItemsMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -129,6 +139,11 @@ public class SMStockLevel extends javax.swing.JFrame {
         lblSalesEntry.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblSalesEntry.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/bar-chart-5567326.png"))); // NOI18N
         lblSalesEntry.setText("Sales Entry");
+        lblSalesEntry.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSalesEntryMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -171,6 +186,11 @@ public class SMStockLevel extends javax.swing.JFrame {
         lblSalesReport.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblSalesReport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/report-1321938.png"))); // NOI18N
         lblSalesReport.setText("Sales Report");
+        lblSalesReport.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSalesReportMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -193,6 +213,11 @@ public class SMStockLevel extends javax.swing.JFrame {
         lblStockLevel.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblStockLevel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/in-stock (1).png"))); // NOI18N
         lblStockLevel.setText("Stock Level");
+        lblStockLevel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblStockLevelMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -216,6 +241,11 @@ public class SMStockLevel extends javax.swing.JFrame {
         lblRequisition.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblRequisition.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/management (1).png"))); // NOI18N
         lblRequisition.setText("Requisition");
+        lblRequisition.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblRequisitionMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
@@ -240,6 +270,11 @@ public class SMStockLevel extends javax.swing.JFrame {
         lblRequisition3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblRequisition3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/shopping-list (1).png"))); // NOI18N
         lblRequisition3.setText("Purchase Order");
+        lblRequisition3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblRequisition3MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -336,6 +371,58 @@ public class SMStockLevel extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void lblDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDashboardMouseClicked
+        SMDashboard newPage = new SMDashboard();   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMStockLevel.this.dispose();
+    }//GEN-LAST:event_lblDashboardMouseClicked
+
+    private void lblListOfItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblListOfItemsMouseClicked
+        SMListOfItem newPage = new SMListOfItem();   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMStockLevel.this.dispose();
+    }//GEN-LAST:event_lblListOfItemsMouseClicked
+
+    private void lblSalesEntryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesEntryMouseClicked
+        SMSalesEntry newPage = new SMSalesEntry();   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMStockLevel.this.dispose();
+    }//GEN-LAST:event_lblSalesEntryMouseClicked
+
+    private void lblSalesReportMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesReportMouseClicked
+        SMSalesReport newPage = new SMSalesReport();   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMStockLevel.this.dispose();
+    }//GEN-LAST:event_lblSalesReportMouseClicked
+
+    private void lblRequisitionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisitionMouseClicked
+       SMRequisition newPage = new SMRequisition();   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMStockLevel.this.dispose();
+    }//GEN-LAST:event_lblRequisitionMouseClicked
+
+    private void lblRequisition3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisition3MouseClicked
+        SMPurchaseOrder newPage = new SMPurchaseOrder();   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMStockLevel.this.dispose();
+    }//GEN-LAST:event_lblRequisition3MouseClicked
+
+    private void lblStockLevelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockLevelMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblStockLevelMouseClicked
 
     /**
      * @param args the command line arguments
