@@ -13,129 +13,51 @@ import java.util.NoSuchElementException;
 
 public class PurchaseManager extends User {
 
-    private FileManager fileManager;
+    private RequisitionAction requisitionAction = new RequisitionAction();
+    private PurchaseOrderAction purchaseOrderAction = new PurchaseOrderAction();
 
     public PurchaseManager(String userID, String username, String password) {
         super(userID, username, password, "purchaseManager");
-        fileManager = new FileManager(Constants.PURCHASE_ORDER_DATA_PATH);
     }
 
-    public List<PurchaseOrder> getPurchaseOrders() throws IOException {
-        String fileContent = fileManager.readFile();
-        String[] poLines = fileContent.split("\n");
-        List<PurchaseOrder> purchaseOrders = new ArrayList<>();
-
-        for (String line : poLines) {
-            String[] poDetails = line.split("\\|");
-            if (poDetails.length >= 11) {
-                PurchaseOrder purchaseOrder = new PurchaseOrder(poDetails[0], poDetails[1], poDetails[2], poDetails[3], poDetails[4], poDetails[5], poDetails[6], poDetails[7], poDetails[8], poDetails[9], poDetails[10]);
-                purchaseOrders.add(purchaseOrder);
-            } else {
-                System.err.println("Skipping line due to incorrect format: " + line);
-            }
-        }
-        return purchaseOrders;
+    public List<PurchaseOrder> getAllPurchaseOrders() throws IOException {
+        return purchaseOrderAction.getAllPurchaseOrders();
     }
 
-    public PurchaseOrder getPurchaseOrder(String poNumber) throws IOException {
-        List<PurchaseOrder> purchaseOrders = getPurchaseOrders();
-        for (PurchaseOrder po : purchaseOrders) {
-            if (po.getPoNumber().equals(poNumber)) {
-                return po;
-            }
-        }
-        throw new NoSuchElementException("Purchase Order with PO Number " + poNumber + " not found.");
+    public PurchaseOrder getPurchaseOrder(String requisitionId) throws IOException {
+        return purchaseOrderAction.getPurchaseOrder(requisitionId);
     }
 
-    public boolean createPurchaseOrder(String requisitionID, String itemCode, String itemName, String quantity, String supplierID, String orderDate, String expectedDeliveryDate, String status, String totalCost) throws IOException {
-        List<PurchaseOrder> purchaseOrders = getPurchaseOrders();
-        StringBuilder updatedOrders = new StringBuilder();
-
-        for (PurchaseOrder po : purchaseOrders) {
-            updatedOrders.append(po.getPoNumber()).append("|")
-                    .append(po.getRequisitionID()).append("|")
-                    .append(po.getItemCode()).append("|")
-                    .append(po.getItemName()).append("|")
-                    .append(po.getQuantity()).append("|")
-                    .append(po.getSupplierID()).append("|")
-                    .append(po.getOrderDate()).append("|")
-                    .append(po.getExpectedDeliveryDate()).append("|")
-                    .append(po.getStatus()).append("|")
-                    .append(po.getTotalCost()).append("|")
-                    .append(po.getPurchaseManagerID()).append("\n");
-        }
-
-        // Generate a unique PO Number using the current time in milliseconds
-        String newPONumber = "PO" + System.currentTimeMillis();
-
-        String newPurchaseOrderData = String.format("%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", 
-                newPONumber, requisitionID, itemCode, itemName, quantity, supplierID, orderDate, expectedDeliveryDate, status, totalCost, "purchaseManagerID");
-
-        updatedOrders.append(newPurchaseOrderData);
-
-        fileManager.writeFile(updatedOrders.toString().trim());
-        return true;
+    public PurchaseOrder removePurchaseOrder(String requisitionId) throws IOException {
+        return purchaseOrderAction.removePurchaseOrder(requisitionId);
     }
 
-    public boolean updatePurchaseOrder(String poNumber, String newStatus) throws IOException {
-        List<PurchaseOrder> purchaseOrders = getPurchaseOrders();
-        StringBuilder updatedOrders = new StringBuilder();
-        boolean poFound = false;
-
-        for (PurchaseOrder po : purchaseOrders) {
-            if (po.getPoNumber().equals(poNumber)) {
-                poFound = true;
-                po.setStatus(newStatus);
-            }
-            updatedOrders.append(po.getPoNumber()).append("|")
-                    .append(po.getRequisitionID()).append("|")
-                    .append(po.getItemCode()).append("|")
-                    .append(po.getItemName()).append("|")
-                    .append(po.getQuantity()).append("|")
-                    .append(po.getSupplierID()).append("|")
-                    .append(po.getOrderDate()).append("|")
-                    .append(po.getExpectedDeliveryDate()).append("|")
-                    .append(po.getStatus()).append("|")
-                    .append(po.getTotalCost()).append("|")
-                    .append(po.getPurchaseManagerID()).append("\n");
-        }
-
-        if (!poFound) {
-            throw new NoSuchElementException("Purchase Order with PO Number " + poNumber + " not found.");
-        }
-
-        fileManager.writeFile(updatedOrders.toString().trim());
-        return true;
+    public PurchaseOrder addPurchaseOrder(String newRequisitionID, String newItemId, String newOrderQuantity, String newOrderDate, String newExpectedDeliveryDate, String newStatus, String newPurchaseManagerID) throws IOException {
+        return purchaseOrderAction.addPurchaseOrder(newRequisitionID, newItemId, newOrderQuantity, newOrderDate, newExpectedDeliveryDate, newStatus, newPurchaseManagerID);
     }
 
-    public boolean deletePurchaseOrder(String poNumber) throws IOException {
-        List<PurchaseOrder> purchaseOrders = getPurchaseOrders();
-        StringBuilder updatedOrders = new StringBuilder();
-        boolean poFound = false;
-
-        for (PurchaseOrder po : purchaseOrders) {
-            if (!po.getPoNumber().equals(poNumber)) {
-                updatedOrders.append(po.getPoNumber()).append("|")
-                        .append(po.getRequisitionID()).append("|")
-                        .append(po.getItemCode()).append("|")
-                        .append(po.getItemName()).append("|")
-                        .append(po.getQuantity()).append("|")
-                        .append(po.getSupplierID()).append("|")
-                        .append(po.getOrderDate()).append("|")
-                        .append(po.getExpectedDeliveryDate()).append("|")
-                        .append(po.getStatus()).append("|")
-                        .append(po.getTotalCost()).append("|")
-                        .append(po.getPurchaseManagerID()).append("\n");
-            } else {
-                poFound = true;
-            }
-        }
-
-        if (!poFound) {
-            throw new NoSuchElementException("Purchase Order with PO Number " + poNumber + " not found.");
-        }
-
-        fileManager.writeFile(updatedOrders.toString().trim());
-        return true;
+    public PurchaseOrder updatePurchaseOrder(String purchaseOrderId, String newRequisitionID, String newItemId, String newOrderQuantity, String newOrderDate, String newExpectedDeliveryDate, String newStatus, String newPurchaseManagerID) throws IOException {
+        return purchaseOrderAction.updatePurchaseOrder(purchaseOrderId, newRequisitionID, newItemId, newOrderQuantity, newOrderDate, newExpectedDeliveryDate, newStatus, newPurchaseManagerID);
     }
+
+    public List<Requisition> getAllRequisitions() throws IOException {
+        return requisitionAction.getAllRequisitions();
+    }
+
+    public Requisition getRequisition(String requisitionId) throws IOException {
+        return requisitionAction.getRequisition(requisitionId);
+    }
+
+    public Requisition removeRequisition(String requisitionId) throws IOException {
+        return requisitionAction.removeRequisition(requisitionId);
+    }
+
+    public Requisition addRequisition(String newItemId, String newQuantity, String newRequiredDate, String newSalesManagerId, String newRequisitionDate, String newStatus) throws IOException {
+        return requisitionAction.addRequisition(newItemId, newQuantity, newRequiredDate, newSalesManagerId, newRequisitionDate, newStatus);
+    }
+
+    public Requisition updateRequisition(String requisitionId, String newItemId, String newQuantity, String newRequiredDate, String newSalesManagerId, String newRequisitionDate, String newStatus) throws IOException {
+        return requisitionAction.updateRequisition(requisitionId, newItemId, newQuantity, newRequiredDate, newSalesManagerId, newRequisitionDate, newStatus);
+    }
+
 }
