@@ -61,6 +61,7 @@ public class MainMenuFM extends javax.swing.JFrame {
         MainMenuFM_PO.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         MainMenuFM_PO.setForeground(new java.awt.Color(55, 63, 81));
         MainMenuFM_PO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/po-removebg.png"))); // NOI18N
+        MainMenuFM_PO.setText("Purchase Order");
         MainMenuFM_PO.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         MainMenuFM_PO.setIconTextGap(10);
         MainMenuFM_PO.addActionListener(new java.awt.event.ActionListener() {
@@ -142,7 +143,7 @@ public class MainMenuFM extends javax.swing.JFrame {
                         .addComponent(MainMenuFM_CSS)
                         .addGap(18, 18, 18)
                         .addComponent(MainMenuFM_SPS)))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

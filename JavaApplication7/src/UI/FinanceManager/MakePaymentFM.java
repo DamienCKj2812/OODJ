@@ -27,35 +27,241 @@ public class MakePaymentFM extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        MakePaymentFM_ttl = new javax.swing.JLabel();
+        MakePaymentFM_close = new javax.swing.JButton();
+        MakePaymentFM_searchttl = new javax.swing.JLabel();
+        MakePaymentFM_searchfld = new javax.swing.JTextField();
+        MakePaymentFM_searchbtn = new javax.swing.JButton();
+        MakePaymentFM_POIDttl = new javax.swing.JLabel();
+        MakePaymentFM_POIDans = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        MakePaymentFM_SupIDttl = new javax.swing.JLabel();
+        MakePaymentFM_SupIDans = new javax.swing.JLabel();
+        MakePaymentFM_AmtDuettl = new javax.swing.JLabel();
+        MakePaymentFM_AmtDueans = new javax.swing.JLabel();
+        MakePaymentFM_DueDtettl = new javax.swing.JLabel();
+        MakePaymentFM_DueDteans = new javax.swing.JLabel();
+        MakePaymentFM_PODttl = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        MakePaymentFM_PSUttl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(153, 157, 204));
+
+        MakePaymentFM_ttl.setFont(new java.awt.Font("Arial Black", 2, 24)); // NOI18N
+        MakePaymentFM_ttl.setForeground(new java.awt.Color(58, 68, 93));
+        MakePaymentFM_ttl.setText("Make Payment");
+        MakePaymentFM_ttl.setToolTipText("");
+
+        MakePaymentFM_close.setBackground(new java.awt.Color(255, 75, 62));
+        MakePaymentFM_close.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        MakePaymentFM_close.setForeground(new java.awt.Color(255, 229, 72));
+        MakePaymentFM_close.setText("Close");
+
+        MakePaymentFM_searchttl.setBackground(new java.awt.Color(55, 63, 81));
+        MakePaymentFM_searchttl.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        MakePaymentFM_searchttl.setForeground(new java.awt.Color(58, 68, 93));
+        MakePaymentFM_searchttl.setText("Enter your PO ID here");
+
+        MakePaymentFM_searchfld.setBackground(new java.awt.Color(94, 87, 104));
+        MakePaymentFM_searchfld.setForeground(new java.awt.Color(28, 35, 33));
+        MakePaymentFM_searchfld.setToolTipText("");
+        MakePaymentFM_searchfld.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        MakePaymentFM_searchfld.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MakePaymentFM_searchfldActionPerformed(evt);
+            }
+        });
+
+        MakePaymentFM_searchbtn.setBackground(new java.awt.Color(94, 101, 114));
+        MakePaymentFM_searchbtn.setForeground(new java.awt.Color(238, 241, 239));
+        MakePaymentFM_searchbtn.setText("Search");
+        MakePaymentFM_searchbtn.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        MakePaymentFM_searchbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MakePaymentFM_searchbtnActionPerformed(evt);
+            }
+        });
+
+        MakePaymentFM_POIDttl.setBackground(new java.awt.Color(81, 52, 77));
+        MakePaymentFM_POIDttl.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
+        MakePaymentFM_POIDttl.setForeground(new java.awt.Color(81, 52, 77));
+        MakePaymentFM_POIDttl.setText("PO ID :");
+
+        MakePaymentFM_POIDans.setBackground(new java.awt.Color(111, 80, 96));
+        MakePaymentFM_POIDans.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        MakePaymentFM_POIDans.setForeground(new java.awt.Color(111, 80, 96));
+        MakePaymentFM_POIDans.setText("'poid'");
+
+        jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
+
+        MakePaymentFM_SupIDttl.setBackground(new java.awt.Color(81, 52, 77));
+        MakePaymentFM_SupIDttl.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
+        MakePaymentFM_SupIDttl.setForeground(new java.awt.Color(81, 52, 77));
+        MakePaymentFM_SupIDttl.setText("Supplier Name :");
+
+        MakePaymentFM_SupIDans.setBackground(new java.awt.Color(111, 80, 96));
+        MakePaymentFM_SupIDans.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        MakePaymentFM_SupIDans.setForeground(new java.awt.Color(111, 80, 96));
+        MakePaymentFM_SupIDans.setText("'supid'");
+
+        MakePaymentFM_AmtDuettl.setBackground(new java.awt.Color(81, 52, 77));
+        MakePaymentFM_AmtDuettl.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
+        MakePaymentFM_AmtDuettl.setForeground(new java.awt.Color(81, 52, 77));
+        MakePaymentFM_AmtDuettl.setText("Amount Due :");
+
+        MakePaymentFM_AmtDueans.setBackground(new java.awt.Color(111, 80, 96));
+        MakePaymentFM_AmtDueans.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        MakePaymentFM_AmtDueans.setForeground(new java.awt.Color(111, 80, 96));
+        MakePaymentFM_AmtDueans.setText("'amtdue'");
+
+        MakePaymentFM_DueDtettl.setBackground(new java.awt.Color(81, 52, 77));
+        MakePaymentFM_DueDtettl.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
+        MakePaymentFM_DueDtettl.setForeground(new java.awt.Color(81, 52, 77));
+        MakePaymentFM_DueDtettl.setText("Due Date :");
+
+        MakePaymentFM_DueDteans.setBackground(new java.awt.Color(111, 80, 96));
+        MakePaymentFM_DueDteans.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        MakePaymentFM_DueDteans.setForeground(new java.awt.Color(111, 80, 96));
+        MakePaymentFM_DueDteans.setText("'duedte'");
+
+        MakePaymentFM_PODttl.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
+        MakePaymentFM_PODttl.setForeground(new java.awt.Color(58, 68, 93));
+        MakePaymentFM_PODttl.setText("PO Details");
+        MakePaymentFM_PODttl.setToolTipText("");
+
+        jSeparator2.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
+
+        MakePaymentFM_PSUttl.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
+        MakePaymentFM_PSUttl.setForeground(new java.awt.Color(58, 68, 93));
+        MakePaymentFM_PSUttl.setText("Payment Status Update");
+        MakePaymentFM_PSUttl.setToolTipText("");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(MakePaymentFM_close, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(MakePaymentFM_ttl, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(MakePaymentFM_searchttl, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(MakePaymentFM_searchfld, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(MakePaymentFM_searchbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(325, 325, 325)
+                        .addComponent(MakePaymentFM_PODttl)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(MakePaymentFM_SupIDttl)
+                            .addComponent(MakePaymentFM_POIDttl))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(MakePaymentFM_POIDans)
+                            .addComponent(MakePaymentFM_SupIDans))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(MakePaymentFM_AmtDuettl)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(35, 35, 35)
+                                .addComponent(MakePaymentFM_DueDtettl)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(MakePaymentFM_DueDteans)
+                            .addComponent(MakePaymentFM_AmtDueans))
+                        .addGap(93, 93, 93))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 760, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(20, Short.MAX_VALUE))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(233, 233, 233)
+                .addComponent(MakePaymentFM_PSUttl)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(MakePaymentFM_ttl)
+                .addGap(18, 18, 18)
+                .addComponent(MakePaymentFM_searchttl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(MakePaymentFM_searchfld, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(MakePaymentFM_searchbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(MakePaymentFM_PODttl)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(MakePaymentFM_POIDttl)
+                            .addComponent(MakePaymentFM_POIDans))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(MakePaymentFM_SupIDttl)
+                            .addComponent(MakePaymentFM_SupIDans)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(MakePaymentFM_DueDtettl)
+                            .addComponent(MakePaymentFM_DueDteans))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(MakePaymentFM_AmtDuettl)
+                            .addComponent(MakePaymentFM_AmtDueans))))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(MakePaymentFM_PSUttl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 197, Short.MAX_VALUE)
+                .addComponent(MakePaymentFM_close, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void MakePaymentFM_searchfldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MakePaymentFM_searchfldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MakePaymentFM_searchfldActionPerformed
+
+    private void MakePaymentFM_searchbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MakePaymentFM_searchbtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MakePaymentFM_searchbtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -93,6 +299,23 @@ public class MakePaymentFM extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel MakePaymentFM_AmtDueans;
+    private javax.swing.JLabel MakePaymentFM_AmtDuettl;
+    private javax.swing.JLabel MakePaymentFM_DueDteans;
+    private javax.swing.JLabel MakePaymentFM_DueDtettl;
+    private javax.swing.JLabel MakePaymentFM_PODttl;
+    private javax.swing.JLabel MakePaymentFM_POIDans;
+    private javax.swing.JLabel MakePaymentFM_POIDttl;
+    private javax.swing.JLabel MakePaymentFM_PSUttl;
+    private javax.swing.JLabel MakePaymentFM_SupIDans;
+    private javax.swing.JLabel MakePaymentFM_SupIDttl;
+    private javax.swing.JButton MakePaymentFM_close;
+    private javax.swing.JButton MakePaymentFM_searchbtn;
+    private javax.swing.JTextField MakePaymentFM_searchfld;
+    private javax.swing.JLabel MakePaymentFM_searchttl;
+    private javax.swing.JLabel MakePaymentFM_ttl;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
 }
