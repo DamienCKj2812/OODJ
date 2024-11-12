@@ -43,3 +43,5 @@ adminUser|Updated the Item's Quantity (item1730020612888): from 20 to 0|17300292
 adminUser|Updated the Item's Quantity (item1730020612893): from 100 to 20|1730029232
 adminUser|Updated the Item's Quantity (item1730020612893): from 20 to 19|1730029238
 adminUser|Updated the Item's Quantity (item1730020612893): from 19 to 30|1730029242
+adminUser|admin: adminUser changed the Role of the user: inventoryManagerUser from inventoryManager to salesManager|1730291858
+adminUser|admin: adminUser changed the Role of the user: inventoryManagerUser from salesManager to inventoryManager|1730292001

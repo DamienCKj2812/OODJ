@@ -13,3 +13,4 @@ sp1729950430266|MedicCare Supplies|Jack Wilson|1010 Health St, Med City, State, 
 sp1729950430267|BuildIt Hardware|Linda Adams|1111 Build Blvd, Tool City, State, ZIP|+1-555-456-7891|Construction
 sp1729950430268|SleekWear|Nancy Miller|1212 Fashion Ln, Trend City, State, ZIP|+1-555-567-8902|Apparel
 sp1729950430269|Spark Energy Solutions|Phil Harris|1313 Energy Dr, Power Town, State, ZIP|+1-555-678-9013|Energy
+sp1731337128270|asdasdasd|asasdasdasdasddasd|asdasdasdasd, Townsville, State, ZIP|+1-555-234-56asd78|Office asdasdasdSupplies

@@ -276,7 +276,8 @@ public class AdminHomeUI extends javax.swing.JFrame {
     }//GEN-LAST:event_userManagementButtonActionPerformed
 
     private void activityLogsManagementButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activityLogsManagementButtonActionPerformed
-        // TODO add your handling code here:
+        new ActivityLogManagement(admin).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_activityLogsManagementButtonActionPerformed
 
     public static void main(String args[]) {
