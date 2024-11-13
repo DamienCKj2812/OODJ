@@ -45,3 +45,17 @@ adminUser|Updated the Item's Quantity (item1730020612893): from 20 to 19|1730029
 adminUser|Updated the Item's Quantity (item1730020612893): from 19 to 30|1730029242
 adminUser|admin: adminUser changed the Role of the user: inventoryManagerUser from inventoryManager to salesManager|1730291858
 adminUser|admin: adminUser changed the Role of the user: inventoryManagerUser from salesManager to inventoryManager|1730292001
+adminUser|admin: adminUser changed the Username of the user: adminUser from adminUser to adminUser1|1731411952
+adminUser|admin: adminUser changed the Password of the user: salesManagerUser from salesManager123 to salesManager123|1731412028
+adminUser|admin: adminUser changed the Password of the user: adminUser from admin123 to admin123|1731412032
+adminUser|admin: adminUser changed the Account Status of the user: adminUser from active  to active |1731412038
+adminUser|admin: adminUser changed the Role of the user: adminUser from admin to purchaseManager|1731412288
+adminUser|admin: adminUser changed the Role of the user: adminUser from purchaseManager to admin|1731412350
+adminUser|Modified the Item's Item Name (item1730020612888): from Microwave to Bigwave|1731426619
+adminUser|Removed the item (item1730020612888 - Bigwave)|1731426696
+adminUser|Add an item (id: item1731426832217, name: Microwave, description: best small wave, price: 120.00, supplier: sp1729950430255)|1731426832
+adminUser|Modified the Item's Supplier Name (sp1729950430255): from Global Supplies to Globlin Supplies|1731433350
+adminUser|Removed the Supplier (sp1729950430255 - Globlin Supplies)|1731433726
+adminUser|Add an supplier (id: sp1731433798724, name: Global Supply, contact person: 9999, address: asd, phone number: sqd, products supplied: qwdeqwd)|1731433798
+adminUser|Add an supplier (id: sp1731433846109, name: Global supplies, contact person: 01212, address: Serdang, phone number: 1201020120, products supplied: Electronics)|1731433846
+adminUser|Removed the Supplier (sp1731433798724 - Global Supply)|1731433889

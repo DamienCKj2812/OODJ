@@ -27,9 +27,9 @@
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" alignment="0" pref="538" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="filterLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" pref="538" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="filterLabel" min="-2" pref="41" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="filterTextField" min="-2" pref="75" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
@@ -75,11 +75,6 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="usernameLabel" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="newStockCountLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="newStockCountValue" max="32767" attributes="0"/>
-                      </Group>
                       <Component id="userIDLabel" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -103,12 +98,7 @@
                   <Component id="usernameLabel" min="-2" pref="26" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="userIDLabel" min="-2" pref="26" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="newStockCountLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                      <Component id="newStockCountValue" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                   <Component id="userIDLabel2" min="-2" pref="26" max="-2" attributes="0"/>
                   <EmptySpace pref="127" max="32767" attributes="0"/>
                   <Component id="backToHomeButton" min="-2" max="-2" attributes="0"/>
@@ -118,15 +108,6 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="newStockCountLabel">
-          <Properties>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="e1" green="e1" red="e1" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="New stock :"/>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="usernameLabel">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -149,12 +130,6 @@
         </Component>
         <Component class="javax.swing.JLabel" name="userIDLabel2">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="newStockCountValue">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="value"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>

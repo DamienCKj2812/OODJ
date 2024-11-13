@@ -179,6 +179,12 @@ public class LoginUI extends javax.swing.JFrame {
             } else {
                 user.displayUserInfo();
             }
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(this,
+                    "User not found",
+                    "Login Error",
+                    JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         } catch (IllegalArgumentException e) {
             // Handle input validation error
             JOptionPane.showMessageDialog(this,

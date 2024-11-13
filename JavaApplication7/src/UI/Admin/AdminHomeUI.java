@@ -26,11 +26,9 @@ public class AdminHomeUI extends javax.swing.JFrame {
 
         jTextField1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        newStockCountLabel = new javax.swing.JLabel();
         usernameLabel = new javax.swing.JLabel();
         userIDLabel = new javax.swing.JLabel();
         userIDLabel2 = new javax.swing.JLabel();
-        newStockCountValue = new javax.swing.JLabel();
         manageSalesManagerFunctionsButton = new javax.swing.JButton();
         manageSalesManagerFunctionsLabel = new javax.swing.JLabel();
         managePurchaseManagerFunctionsButton = new javax.swing.JButton();
@@ -50,10 +48,6 @@ public class AdminHomeUI extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(50, 54, 57));
 
-        newStockCountLabel.setForeground(new java.awt.Color(225, 225, 225));
-        newStockCountLabel.setText("New stock :");
-        newStockCountLabel.setToolTipText("");
-
         usernameLabel.setBackground(new java.awt.Color(0, 0, 0));
         usernameLabel.setForeground(new java.awt.Color(225, 225, 225));
         usernameLabel.setText("username");
@@ -64,9 +58,6 @@ public class AdminHomeUI extends javax.swing.JFrame {
 
         userIDLabel2.setToolTipText("");
 
-        newStockCountValue.setText("value");
-        newStockCountValue.setToolTipText("");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -75,15 +66,11 @@ public class AdminHomeUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(usernameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(newStockCountLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(newStockCountValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(userIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(96, 96, 96)
                         .addComponent(userIDLabel2)
-                        .addGap(0, 15, Short.MAX_VALUE))
-                    .addComponent(userIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 15, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -93,13 +80,9 @@ public class AdminHomeUI extends javax.swing.JFrame {
                 .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(newStockCountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(newStockCountValue, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(38, 38, 38)
                 .addComponent(userIDLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(184, Short.MAX_VALUE))
         );
 
         manageSalesManagerFunctionsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/profit.png"))); // NOI18N
@@ -303,8 +286,6 @@ public class AdminHomeUI extends javax.swing.JFrame {
     private javax.swing.JLabel managePurchaseManagerFunctionsLabel;
     private javax.swing.JButton manageSalesManagerFunctionsButton;
     private javax.swing.JLabel manageSalesManagerFunctionsLabel;
-    private javax.swing.JLabel newStockCountLabel;
-    private javax.swing.JLabel newStockCountValue;
     private javax.swing.JLabel userIDLabel;
     private javax.swing.JLabel userIDLabel2;
     private javax.swing.JButton userManagementButton;

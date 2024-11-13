@@ -75,11 +75,9 @@ public class ActivityLogManagement extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        newStockCountLabel = new javax.swing.JLabel();
         usernameLabel = new javax.swing.JLabel();
         userIDLabel = new javax.swing.JLabel();
         userIDLabel2 = new javax.swing.JLabel();
-        newStockCountValue = new javax.swing.JLabel();
         backToHomeButton = new javax.swing.JButton();
         filterLabel = new javax.swing.JLabel();
         filterTextField = new javax.swing.JTextField();
@@ -92,10 +90,6 @@ public class ActivityLogManagement extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(50, 54, 57));
 
-        newStockCountLabel.setForeground(new java.awt.Color(225, 225, 225));
-        newStockCountLabel.setText("New stock :");
-        newStockCountLabel.setToolTipText("");
-
         usernameLabel.setBackground(new java.awt.Color(0, 0, 0));
         usernameLabel.setForeground(new java.awt.Color(225, 225, 225));
         usernameLabel.setText("username");
@@ -105,9 +99,6 @@ public class ActivityLogManagement extends javax.swing.JFrame {
         userIDLabel.setToolTipText("");
 
         userIDLabel2.setToolTipText("");
-
-        newStockCountValue.setText("value");
-        newStockCountValue.setToolTipText("");
 
         backToHomeButton.setText("Back to Home");
         backToHomeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -124,10 +115,6 @@ public class ActivityLogManagement extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(usernameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(newStockCountLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(newStockCountValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(userIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,13 +132,9 @@ public class ActivityLogManagement extends javax.swing.JFrame {
                 .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(newStockCountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(newStockCountValue, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(38, 38, 38)
                 .addComponent(userIDLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
                 .addComponent(backToHomeButton)
                 .addContainerGap())
         );
@@ -297,8 +280,6 @@ public class ActivityLogManagement extends javax.swing.JFrame {
     private javax.swing.JTextField filterTextField;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel newStockCountLabel;
-    private javax.swing.JLabel newStockCountValue;
     private javax.swing.JLabel userIDLabel;
     private javax.swing.JLabel userIDLabel2;
     private javax.swing.JLabel usernameLabel;

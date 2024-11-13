@@ -1,4 +1,3 @@
-sp1729950430255|Global Supplies|Jane Smith|456 Commerce Rd, Townsville, State, ZIP|+1-555-234-5678|Office Supplies
 sp1729950430256|Ace Parts Co.|Mike Johnson|789 Industrial Ave, City, State, ZIP|+1-555-345-6789|Automotive
 sp1729950430257|PureHealth Essentials|Laura Lee|101 Wellness Way, Village, State, ZIP|+1-555-456-7890|Healthcare
 sp1729950430258|TechWorld Ltd.|Kevin Brown|202 Silicon St, Tech City, State, ZIP|+1-555-567-8901|Electronics
@@ -14,3 +13,4 @@ sp1729950430267|BuildIt Hardware|Linda Adams|1111 Build Blvd, Tool City, State, 
 sp1729950430268|SleekWear|Nancy Miller|1212 Fashion Ln, Trend City, State, ZIP|+1-555-567-8902|Apparel
 sp1729950430269|Spark Energy Solutions|Phil Harris|1313 Energy Dr, Power Town, State, ZIP|+1-555-678-9013|Energy
 sp1731337128270|asdasdasd|asasdasdasdasddasd|asdasdasdasd, Townsville, State, ZIP|+1-555-234-56asd78|Office asdasdasdSupplies
+sp1731433846109|Global supplies|01212|Serdang|1201020120|Electronics
