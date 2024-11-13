@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package models;
 
 import constants.Constants;
@@ -11,10 +7,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import utils.FileManager;
 
-/**
- *
- * @author USER
- */
 public class SalesManager extends User {
 
     private FileManager fileManager = new FileManager(Constants.SALES_ENTRY_DATA_PATH);
@@ -24,6 +16,7 @@ public class SalesManager extends User {
         super(userID, username, password, "salesManager");
     }
 
+    // Modified getSalesEntries to handle the new Sales constructor with itemName, unitPrice, and totalAmount
     public List<Sales> getSalesEntries() throws IOException {
         String fileContent = fileManager.readFile();
 
@@ -32,8 +25,16 @@ public class SalesManager extends User {
 
         for (String line : itemLines) {
             String[] salesDetail = line.split("\\|");
-            if (salesDetail.length >= 4) { // Check for the required number of details
-                Sales sale = new Sales(salesDetail[0], salesDetail[1], salesDetail[2], salesDetail[3]);
+            if (salesDetail.length >= 6) { // Check if there are enough fields (itemCode, quantitySold, dateSold, itemName, unitPrice, totalAmount)
+                String itemCode = salesDetail[0];
+                int quantitySold = Integer.parseInt(salesDetail[1]);
+                String dateSold = salesDetail[2];
+                String itemName = salesDetail[3]; // itemName (formerly notes)
+                double unitPrice = Double.parseDouble(salesDetail[4]);
+                double totalAmount = Double.parseDouble(salesDetail[5]);
+
+                // Creating a Sales object with all required fields
+                Sales sale = new Sales(itemCode, quantitySold, dateSold, itemName, unitPrice);
                 sales.add(sale);
             } else {
                 System.err.println("Skipping line due to incorrect format: " + line);
@@ -43,6 +44,7 @@ public class SalesManager extends User {
         return sales;
     }
 
+    // Modified getSales method to find sales by itemCode
     public Sales getSales(String salesId) throws IOException {
         List<Sales> salesEntries = getSalesEntries();
 
@@ -56,9 +58,11 @@ public class SalesManager extends User {
         throw new NoSuchElementException("Sales with ID " + salesId + " not found.");
     }
 
+    // Modified getSalesRevenue to use itemPrice and quantitySold from Sales
     public double getSalesRevenue(Sales salesEntry) throws IOException {
         Item itemSelected = inventory.getItem(salesEntry.getItemCode());
         return Double.parseDouble(itemSelected.getPrice()) * salesEntry.getQuantitySold();
     }
-
 }
+
+

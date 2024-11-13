@@ -7,19 +7,49 @@ package UI.SalesManager;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import models.Item;
+import models.Sales;
 
 public class SMSalesEntry extends javax.swing.JFrame {
 
     private List<ItemData> inventoryItems = new ArrayList<>();
+private int editingRowIndex = -1;
+
+public SMSalesEntry(Sales salesEntry, int rowIndex) {
+    initComponents();
+
+    // Load inventory data and populate combo box before setting values
+    loadInventoryData();
+    populateItemCodeComboBox();  // This must happen before setting item code
+    setupQuantitySpinner();
+
+    // Set item code and quantity sold based on Sales object
+    cmbItemCode.setSelectedItem(salesEntry.getItemCode());  // Set item code
+    spnQuantitySold.setValue(salesEntry.getQuantitySold());  // Set quantity sold
+    txtUnitPrice.setText(String.valueOf(salesEntry.getUnitPrice()));  // Set unit price
+    txtaNotes.setText(String.valueOf(salesEntry.getNotes()));  
+    // Retrieve totalAmount from the Sales object or file
+    double totalAmount = salesEntry.getTotalAmount();  // Use the Sales object or extract from the file if needed
+    txtTotalAmount.setText(String.format("%.2f", totalAmount));  // Set total amount
+
+    // Store the editing row index
+    editingRowIndex = rowIndex;
+    btnEdit.setEnabled(true);
+    btnAddSales.setEnabled(false);
+    }
 
       public SMSalesEntry() {
         initComponents();
         loadInventoryData();
         populateItemCodeComboBox();
         setupQuantitySpinner();
+        
+        
     }
 
     private void loadInventoryData() {
@@ -167,6 +197,8 @@ public class SMSalesEntry extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         btnAddSales = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -234,7 +266,7 @@ public class SMSalesEntry extends javax.swing.JFrame {
 
         lblSalesEntry.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblSalesEntry.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/bar-chart-5567326.png"))); // NOI18N
-        lblSalesEntry.setText("Sales Entry");
+        lblSalesEntry.setText("Sales");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -415,7 +447,7 @@ public class SMSalesEntry extends javax.swing.JFrame {
 
         lblListOfItem.setFont(new java.awt.Font("Arial Black", 1, 30)); // NOI18N
         lblListOfItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/bar-chart-5567326.png"))); // NOI18N
-        lblListOfItem.setText("Sales Entry");
+        lblListOfItem.setText("Sales");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -561,6 +593,23 @@ public class SMSalesEntry extends javax.swing.JFrame {
             }
         });
 
+        btnEdit.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnEdit.setText("Edit");
+        btnEdit.setEnabled(false);
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+
+        btnBack.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
@@ -568,8 +617,10 @@ public class SMSalesEntry extends javax.swing.JFrame {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAddSales, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnClear, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE))
+                    .addComponent(btnAddSales, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                    .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                    .addComponent(btnEdit, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                    .addComponent(btnBack, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
@@ -577,8 +628,12 @@ public class SMSalesEntry extends javax.swing.JFrame {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(btnAddSales)
-                .addGap(38, 38, 38)
+                .addGap(18, 18, 18)
+                .addComponent(btnEdit)
+                .addGap(18, 18, 18)
                 .addComponent(btnClear)
+                .addGap(18, 18, 18)
+                .addComponent(btnBack)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -624,15 +679,23 @@ public class SMSalesEntry extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private double getUnitPriceForItem(String itemCode) {
+    for (ItemData item :inventoryItems) {
+        if (item.getItemCode().equals(itemCode)) {
+            return item.getUnitPrice();
+        }
+    }
+    return 0.0;  // Default value if itemCode is not found
+}
+    
     private void btnAddSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSalesActionPerformed
-    // Get the selected item code
+       // Get the selected item code
     String itemCode = (String) cmbItemCode.getSelectedItem();
     
     // Validate that the item code is not "Please choose an item"
     if ("Please choose an item".equals(itemCode)) {
-        // Show an error message to the user
         JOptionPane.showMessageDialog(this, "Please select a valid item code.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        return;  // Exit the method without adding the sale
+        return;
     }
 
     // Validate that quantity sold is greater than 0
@@ -642,19 +705,32 @@ public class SMSalesEntry extends javax.swing.JFrame {
         return;
     }
 
+    // Get the unit price for the selected item
+    double unitPrice = getUnitPriceForItem(itemCode);  // Retrieve unit price using the new method
+
+    // Calculate the total amount
+    double totalAmount = unitPrice * quantitySold;
+
     // Proceed with adding the sale
-    String notes = txtaNotes.getText();  // Get the notes (can be empty)
+    String notes = txtaNotes.getText().trim();  // Get the notes (can be empty)
+    if (notes.isEmpty()) {
+        notes = "-";  // Set to "=" if notes are empty
+    }
 
     // Get the current date in Unix format (e.g., timestamp)
-    long unixTimestamp = System.currentTimeMillis() / 1000L;  // Current time in seconds
+    long unixTimestamp = System.currentTimeMillis() / 1000L;
 
     // Prepare data to write to SalesEntryData.txt
-    String saleData = itemCode + "|" + quantitySold + "|" + unixTimestamp + "|" + notes;
+    String saleData = itemCode + "|" + quantitySold + "|" + unixTimestamp + "|" + notes + "|" + unitPrice + "|" + totalAmount;
     
     // Add the sale data to SalesEntryData.txt
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/SalesEntryData.txt", true))) {
         writer.newLine();  // Add a new line
         writer.write(saleData);  // Write the sale data
+        
+        // Show success message
+        JOptionPane.showMessageDialog(this, "Sale added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        
     } catch (IOException e) {
         e.printStackTrace();  // Handle file writing exceptions
     }
@@ -663,7 +739,6 @@ public class SMSalesEntry extends javax.swing.JFrame {
     cmbItemCode.setSelectedIndex(0);  // Reset to default "Please choose an item"
     spnQuantitySold.setValue(0);  // Reset quantity sold
     txtaNotes.setText("");  // Clear the notes field
-   
     }//GEN-LAST:event_btnAddSalesActionPerformed
 
     private void lblDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDashboardMouseClicked
@@ -726,6 +801,57 @@ public class SMSalesEntry extends javax.swing.JFrame {
     txtUnitPrice.setText("0");
     }//GEN-LAST:event_btnClearActionPerformed
 
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+       try {
+        // Get the edited values from form fields
+        String itemCode = (String) cmbItemCode.getSelectedItem();
+        int quantitySold = (Integer) spnQuantitySold.getValue();
+        String notes = txtaNotes.getText().trim();
+        if (notes.isEmpty()) {
+            notes = "-";  // Set to "=" if notes are empty
+        }
+        double unitPrice = Double.parseDouble(txtUnitPrice.getText());
+        double totalAmount = quantitySold * unitPrice;
+        long unixTimestamp = System.currentTimeMillis() / 1000L;  // Get current timestamp
+
+        // Format the edited line
+        String editedLine = itemCode + "|" + quantitySold + "|" + unixTimestamp + "|" + notes + "|" + unitPrice + "|" + totalAmount;
+
+        // Read all lines from SalesEntryData.txt and update the specific row
+        File file = new File("data/SalesEntryData.txt");
+        List<String> lines = new ArrayList<>(Files.readAllLines(file.toPath()));
+        
+        // Update the selected row with new data
+        if (editingRowIndex >= 0 && editingRowIndex < lines.size()) {
+            lines.set(editingRowIndex, editedLine);
+            
+            // Write the updated lines back to the file
+            Files.write(file.toPath(), lines, StandardCharsets.UTF_8);
+            
+            JOptionPane.showMessageDialog(this, "Sale updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            
+            // Close the editing window
+            SMSales newPage = new SMSales();   // Replace with the name of your target frame
+        newPage.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Selected row is out of range!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error updating the sale: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Please enter valid numerical values.", "Input Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+       SMSales newPage =new SMSales();
+       newPage.setVisible(true);
+
+        SMSalesEntry.this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -764,7 +890,9 @@ public class SMSalesEntry extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddSales;
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnEdit;
     private javax.swing.JComboBox<String> cmbItemCode;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;

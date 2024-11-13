@@ -4,10 +4,11 @@
  */
 package UI.SalesManager;
 
-/**
- *
- * @author USER
- */
+import javax.swing.table.DefaultTableModel;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.table.TableRowSorter;
 public class SMSalesReport extends javax.swing.JFrame {
 
     /**
@@ -15,7 +16,52 @@ public class SMSalesReport extends javax.swing.JFrame {
      */
     public SMSalesReport() {
         initComponents();
+         loadSalesReport();
     }
+    
+    private void loadSalesReport() {
+     DefaultTableModel model = (DefaultTableModel) tbSalesReport.getModel();
+    model.setRowCount(0); // Clear existing rows
+    
+    // Enable sorting
+    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+    tbSalesReport.setRowSorter(sorter);
+
+    try (BufferedReader br = new BufferedReader(new FileReader("data/SalesEntryData.txt"))) {
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] saleData = line.split("\\|");
+            if (saleData.length >= 6) {
+                String itemCode = saleData[0];
+                int quantitySold = Integer.parseInt(saleData[1]);
+                String dateSold = saleData[2];
+                String notes = saleData[3];
+                double unitPrice = Double.parseDouble(saleData[4]);
+                double totalAmount = Double.parseDouble(saleData[5]);
+
+                // Retrieve item name from InventoryData.txt based on itemCode
+                String itemName = "";
+                try (BufferedReader inventoryReader = new BufferedReader(new FileReader("data/InventoryData.txt"))) {
+                    String inventoryLine;
+                    while ((inventoryLine = inventoryReader.readLine()) != null) {
+                        String[] inventoryData = inventoryLine.split("\\|");
+                        if (inventoryData.length >= 2 && inventoryData[0].equals(itemCode)) {
+                            itemName = inventoryData[1]; // Get the item name
+                            break;
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                // Add row to the table model
+                model.addRow(new Object[]{itemCode, itemName, quantitySold, dateSold,notes, unitPrice, totalAmount});
+            }
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -138,7 +184,7 @@ public class SMSalesReport extends javax.swing.JFrame {
 
         lblSalesEntry.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblSalesEntry.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/bar-chart-5567326.png"))); // NOI18N
-        lblSalesEntry.setText("Sales Entry");
+        lblSalesEntry.setText("Sales");
         lblSalesEntry.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblSalesEntryMouseClicked(evt);
@@ -314,17 +360,27 @@ public class SMSalesReport extends javax.swing.JFrame {
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
+        tbSalesReport.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        tbSalesReport.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tbSalesReport.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Item Code", "Item Name", "Quantity Sold", "Date Sold", "Unit Price", "Total Amount"
+                "Item Code", "Item Name", "Quantity Sold", "Date Sold", "Notes", "Unit Price", "Total Amount"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, true, true, true, false, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tbSalesReport);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -384,7 +440,7 @@ public class SMSalesReport extends javax.swing.JFrame {
     }//GEN-LAST:event_lblListOfItemsMouseClicked
 
     private void lblSalesEntryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesEntryMouseClicked
-        SMSalesEntry newPage = new SMSalesEntry();   // Replace with the name of your target frame
+        SMSales newPage = new SMSales();   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
