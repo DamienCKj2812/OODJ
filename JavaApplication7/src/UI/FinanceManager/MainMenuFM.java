@@ -143,7 +143,7 @@ public class MainMenuFM extends javax.swing.JFrame {
                         .addComponent(MainMenuFM_CSS)
                         .addGap(18, 18, 18)
                         .addComponent(MainMenuFM_SPS)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
