@@ -59,3 +59,4 @@ adminUser|Removed the Supplier (sp1729950430255 - Globlin Supplies)|1731433726
 adminUser|Add an supplier (id: sp1731433798724, name: Global Supply, contact person: 9999, address: asd, phone number: sqd, products supplied: qwdeqwd)|1731433798
 adminUser|Add an supplier (id: sp1731433846109, name: Global supplies, contact person: 01212, address: Serdang, phone number: 1201020120, products supplied: Electronics)|1731433846
 adminUser|Removed the Supplier (sp1731433798724 - Global Supply)|1731433889
+adminUser|Updated the Item's Quantity (item1730020612889): from 50 to 40|1731471718

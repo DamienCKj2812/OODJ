@@ -1,4 +1,4 @@
-item1730020612889|Washing Machine|High-efficiency washing machine|299.99|50|10|sp1729950430260
+item1730020612889|Washing Machine|High-efficiency washing machine|299.99|40|10|sp1729950430260
 item1730020612890|Dishwasher|Energy-saving dishwasher with eco mode|349.00|40|5|sp1729950430261
 item1730020612891|Air Conditioner|Split AC unit with rapid cooling|450.00|30|8|sp1729950430262
 item1730020612892|Vacuum Cleaner|Powerful vacuum for home cleaning|129.99|85|12|sp1729950430263
