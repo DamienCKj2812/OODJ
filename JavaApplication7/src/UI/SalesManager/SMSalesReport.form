@@ -120,12 +120,12 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jPanel5" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jPanel9" alignment="0" pref="200" max="32767" attributes="0"/>
-                  <Component id="jPanel12" alignment="0" pref="200" max="32767" attributes="0"/>
+                  <Component id="jPanel9" alignment="0" pref="195" max="32767" attributes="0"/>
+                  <Component id="jPanel12" alignment="0" pref="195" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPanel13" alignment="0" pref="194" max="32767" attributes="0"/>
-                          <Component id="jPanel14" alignment="0" pref="194" max="32767" attributes="0"/>
+                          <Component id="jPanel13" alignment="0" pref="183" max="32767" attributes="0"/>
+                          <Component id="jPanel14" alignment="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -160,9 +160,9 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jPanel6" alignment="0" pref="200" max="32767" attributes="0"/>
-                      <Component id="jPanel7" alignment="0" pref="200" max="32767" attributes="0"/>
-                      <Component id="jPanel8" alignment="1" pref="200" max="32767" attributes="0"/>
+                      <Component id="jPanel6" alignment="0" pref="195" max="32767" attributes="0"/>
+                      <Component id="jPanel7" alignment="0" pref="195" max="32767" attributes="0"/>
+                      <Component id="jPanel8" alignment="1" pref="195" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -216,6 +216,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="Dashboard"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblDashboardMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -258,6 +261,9 @@
                         <Property name="autoscrolls" type="boolean" value="true"/>
                         <Property name="focusCycleRoot" type="boolean" value="true"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblListOfItemsMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -298,8 +304,11 @@
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/imgSM/bar-chart-5567326.png"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Sales Entry"/>
+                        <Property name="text" type="java.lang.String" value="Sales"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblSalesEntryMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -383,6 +392,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Stock Level"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblStockLevelMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -425,6 +437,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Requisition"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblRequisitionMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -470,6 +485,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Purchase Order"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblRequisition3MouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -484,12 +502,23 @@
           <SubComponents>
             <Component class="javax.swing.JTable" name="tbSalesReport">
               <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
+                    <CompoundBorder/>
+                  </Border>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="4" rowCount="4">
-                    <Column editable="true" title="Title 1" type="java.lang.Object"/>
-                    <Column editable="true" title="Title 2" type="java.lang.Object"/>
-                    <Column editable="true" title="Title 3" type="java.lang.Object"/>
-                    <Column editable="true" title="Title 4" type="java.lang.Object"/>
+                  <Table columnCount="7" rowCount="4">
+                    <Column editable="true" title="Item Code" type="java.lang.Object"/>
+                    <Column editable="true" title="Item Name" type="java.lang.Object"/>
+                    <Column editable="true" title="Quantity Sold" type="java.lang.Object"/>
+                    <Column editable="true" title="Date Sold" type="java.lang.Object"/>
+                    <Column editable="false" title="Notes" type="java.lang.Object"/>
+                    <Column editable="true" title="Unit Price" type="java.lang.Object"/>
+                    <Column editable="true" title="Total Amount" type="java.lang.Object"/>
                   </Table>
                 </Property>
               </Properties>
