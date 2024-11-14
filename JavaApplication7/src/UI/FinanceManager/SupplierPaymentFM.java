@@ -26,6 +26,11 @@ public class SupplierPaymentFM extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        SupplierDetailedPaymentFM_Dlg = new javax.swing.JDialog();
+        SupplierDetailedPaymentFM_ttl = new javax.swing.JLabel();
+        SupplierDetailedPaymentFM_sp = new javax.swing.JScrollPane();
+        SupplierDetailedPaymentFM_tbl = new javax.swing.JTable();
+        SupplierDetailedPaymentFM_close = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         SupplierPaymentFM_ttl = new javax.swing.JLabel();
         SupplierPaymentFM_searchttl = new javax.swing.JLabel();
@@ -36,6 +41,86 @@ public class SupplierPaymentFM extends javax.swing.JFrame {
         SupplierPaymentFM_posp = new javax.swing.JScrollPane();
         SupplierPaymentFM_potb = new javax.swing.JTable();
         SupplierPaymentFM_refreshbtn = new javax.swing.JButton();
+        SupplierPaymentFM_detailbtn = new javax.swing.JButton();
+        SupplierPaymentFM_close = new javax.swing.JButton();
+
+        SupplierDetailedPaymentFM_Dlg.setResizable(false);
+
+        SupplierDetailedPaymentFM_ttl.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        SupplierDetailedPaymentFM_ttl.setText("Payment History");
+        SupplierDetailedPaymentFM_ttl.setToolTipText("");
+
+        SupplierDetailedPaymentFM_tbl.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Transaction ID", "Payment Date", "Amount Paid", "Payment Method", "Transaction Reference"
+            }
+        ));
+        SupplierDetailedPaymentFM_sp.setViewportView(SupplierDetailedPaymentFM_tbl);
+
+        SupplierDetailedPaymentFM_close.setBackground(new java.awt.Color(255, 75, 62));
+        SupplierDetailedPaymentFM_close.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        SupplierDetailedPaymentFM_close.setForeground(new java.awt.Color(255, 229, 72));
+        SupplierDetailedPaymentFM_close.setText("Close");
+
+        javax.swing.GroupLayout SupplierDetailedPaymentFM_DlgLayout = new javax.swing.GroupLayout(SupplierDetailedPaymentFM_Dlg.getContentPane());
+        SupplierDetailedPaymentFM_Dlg.getContentPane().setLayout(SupplierDetailedPaymentFM_DlgLayout);
+        SupplierDetailedPaymentFM_DlgLayout.setHorizontalGroup(
+            SupplierDetailedPaymentFM_DlgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SupplierDetailedPaymentFM_DlgLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(SupplierDetailedPaymentFM_DlgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(SupplierDetailedPaymentFM_sp, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
+                    .addGroup(SupplierDetailedPaymentFM_DlgLayout.createSequentialGroup()
+                        .addComponent(SupplierDetailedPaymentFM_ttl)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SupplierDetailedPaymentFM_DlgLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(SupplierDetailedPaymentFM_close)))
+                .addContainerGap())
+        );
+        SupplierDetailedPaymentFM_DlgLayout.setVerticalGroup(
+            SupplierDetailedPaymentFM_DlgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SupplierDetailedPaymentFM_DlgLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(SupplierDetailedPaymentFM_ttl)
+                .addGap(18, 18, 18)
+                .addComponent(SupplierDetailedPaymentFM_sp, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addComponent(SupplierDetailedPaymentFM_close)
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -86,41 +171,42 @@ public class SupplierPaymentFM extends javax.swing.JFrame {
 
         SupplierPaymentFM_potb.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "PO ID", "Supplier Name", "Item Code", "Quantity", "Order Date", "Approval Status"
+                "Supplier Name", "Total Amount Due", "Last Payment Date", "Payment Status", "Outstanding Balance"
             }
         ));
+        SupplierPaymentFM_potb.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         SupplierPaymentFM_posp.setViewportView(SupplierPaymentFM_potb);
 
         SupplierPaymentFM_refreshbtn.setBackground(new java.awt.Color(94, 101, 114));
@@ -133,6 +219,21 @@ public class SupplierPaymentFM extends javax.swing.JFrame {
             }
         });
 
+        SupplierPaymentFM_detailbtn.setBackground(new java.awt.Color(209, 202, 161));
+        SupplierPaymentFM_detailbtn.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        SupplierPaymentFM_detailbtn.setForeground(new java.awt.Color(65, 76, 65));
+        SupplierPaymentFM_detailbtn.setText("Show Detailed Payment History");
+
+        SupplierPaymentFM_close.setBackground(new java.awt.Color(255, 75, 62));
+        SupplierPaymentFM_close.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        SupplierPaymentFM_close.setForeground(new java.awt.Color(255, 229, 72));
+        SupplierPaymentFM_close.setText("Close");
+        SupplierPaymentFM_close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SupplierPaymentFM_closeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -140,24 +241,31 @@ public class SupplierPaymentFM extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SupplierPaymentFM_ttl, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(SupplierPaymentFM_searchttl, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(SupplierPaymentFM_searchfld, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(SupplierPaymentFM_searchbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(SupplierPaymentFM_detailbtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(SupplierPaymentFM_close))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(SupplierPaymentFM_posp, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(SupplierPaymentFM_filterttl)
+                            .addComponent(SupplierPaymentFM_ttl, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(SupplierPaymentFM_filtercbx, 0, 100, Short.MAX_VALUE)
-                                    .addComponent(SupplierPaymentFM_refreshbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                .addContainerGap(24, Short.MAX_VALUE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(SupplierPaymentFM_searchttl, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(SupplierPaymentFM_searchfld, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(SupplierPaymentFM_searchbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(SupplierPaymentFM_posp, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(SupplierPaymentFM_filterttl)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(SupplierPaymentFM_filtercbx, 0, 100, Short.MAX_VALUE)
+                                            .addComponent(SupplierPaymentFM_refreshbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                        .addGap(0, 18, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,7 +289,13 @@ public class SupplierPaymentFM extends javax.swing.JFrame {
                         .addComponent(SupplierPaymentFM_filtercbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(SupplierPaymentFM_refreshbtn)))
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SupplierPaymentFM_detailbtn)
+                .addContainerGap(33, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(SupplierPaymentFM_close, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -213,6 +327,10 @@ public class SupplierPaymentFM extends javax.swing.JFrame {
     private void SupplierPaymentFM_refreshbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SupplierPaymentFM_refreshbtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_SupplierPaymentFM_refreshbtnActionPerformed
+
+    private void SupplierPaymentFM_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SupplierPaymentFM_closeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SupplierPaymentFM_closeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -250,6 +368,13 @@ public class SupplierPaymentFM extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog SupplierDetailedPaymentFM_Dlg;
+    private javax.swing.JButton SupplierDetailedPaymentFM_close;
+    private javax.swing.JScrollPane SupplierDetailedPaymentFM_sp;
+    private javax.swing.JTable SupplierDetailedPaymentFM_tbl;
+    private javax.swing.JLabel SupplierDetailedPaymentFM_ttl;
+    private javax.swing.JButton SupplierPaymentFM_close;
+    private javax.swing.JButton SupplierPaymentFM_detailbtn;
     private javax.swing.JComboBox<String> SupplierPaymentFM_filtercbx;
     private javax.swing.JLabel SupplierPaymentFM_filterttl;
     private javax.swing.JScrollPane SupplierPaymentFM_posp;
