@@ -39,6 +39,10 @@ public class MainMenuFM extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 204, 255));
+        setPreferredSize(new java.awt.Dimension(800, 600));
+        setResizable(false);
+
+        panel1.setPreferredSize(new java.awt.Dimension(800, 600));
 
         MainMenuFM_CSS.setBackground(new java.awt.Color(163, 176, 204));
         MainMenuFM_CSS.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
@@ -57,6 +61,7 @@ public class MainMenuFM extends javax.swing.JFrame {
         MainMenuFM_PO.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         MainMenuFM_PO.setForeground(new java.awt.Color(55, 63, 81));
         MainMenuFM_PO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/po-removebg.png"))); // NOI18N
+        MainMenuFM_PO.setText("Purchase Order");
         MainMenuFM_PO.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         MainMenuFM_PO.setIconTextGap(10);
         MainMenuFM_PO.addActionListener(new java.awt.event.ActionListener() {
@@ -138,7 +143,7 @@ public class MainMenuFM extends javax.swing.JFrame {
                         .addComponent(MainMenuFM_CSS)
                         .addGap(18, 18, 18)
                         .addComponent(MainMenuFM_SPS)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,11 +171,11 @@ public class MainMenuFM extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
