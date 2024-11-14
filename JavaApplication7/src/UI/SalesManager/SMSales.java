@@ -559,11 +559,11 @@ public class SMSales extends javax.swing.JFrame {
             double totalAmount = Double.parseDouble(tbSalesReport.getValueAt(selectedRow, 6).toString());
 
             // Create a Sales object with the extracted data, including the notes instead of itemName
-            Sales salesEntry = new Sales(itemCode, quantitySold, dateSold, notes, unitPrice);
+//            Sales salesEntry = new Sales(itemCode, quantitySold, dateSold, notes, unitPrice);
 
             // Open SMSalesEntry with the Sales object and selected row index
-            SMSalesEntry editEntry = new SMSalesEntry(salesEntry, selectedRow);
-            editEntry.setVisible(true);
+//            SMSalesEntry editEntry = new SMSalesEntry(salesEntry, selectedRow);
+//            editEntry.setVisible(true);
 
             // Close the current SMSales window
             SMSales.this.dispose();

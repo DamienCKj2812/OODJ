@@ -29,14 +29,14 @@ public SMSalesEntry(Sales salesEntry, int rowIndex) {
     setupQuantitySpinner();
 
     // Set item code and quantity sold based on Sales object
-    cmbItemCode.setSelectedItem(salesEntry.getItemCode());  // Set item code
+//    cmbItemCode.setSelectedItem(salesEntry.getItemCode());  // Set item code
     spnQuantitySold.setValue(salesEntry.getQuantitySold());  // Set quantity sold
-    txtUnitPrice.setText(String.valueOf(salesEntry.getUnitPrice()));  // Set unit price
+//    txtUnitPrice.setText(String.valueOf(salesEntry.getUnitPrice()));  // Set unit price
     txtaNotes.setText(String.valueOf(salesEntry.getNotes()));  
     // Retrieve totalAmount from the Sales object or file
-    double totalAmount = salesEntry.getTotalAmount();  // Use the Sales object or extract from the file if needed
-    txtTotalAmount.setText(String.format("%.2f", totalAmount));  // Set total amount
-
+//    double totalAmount = salesEntry.getTotalAmount();  // Use the Sales object or extract from the file if needed
+//    txtTotalAmount.setText(String.format("%.2f", totalAmount));  // Set total amount
+//
     // Store the editing row index
     editingRowIndex = rowIndex;
     btnEdit.setEnabled(true);

@@ -6,6 +6,7 @@ import UI.Authentication.LoginUI;
 import UI.InventoryManager.InventoryManagerHomeUI;
 import java.io.IOException;
 import models.Admin;
+import models.FinanceManager;
 import models.User;
 import utils.Authenticator;
 import models.InventoryManager;
@@ -52,10 +53,9 @@ public class JavaApplication7 {
 //                }
 //            }
 
-
 //       - Testing purpose
         try {
-            User user = au.login("salesManagerUser", "salesManager123");
+            User user = au.login("financeManagerUser", "financeManager123");
             LogHandler lh = new LogHandler(user);
 
             if (user instanceof Admin) {
@@ -78,6 +78,10 @@ public class JavaApplication7 {
             } else if (user instanceof SalesManager) {
                 SalesManager salesManager = (SalesManager) user;
                 System.out.println(salesManager.removeSalesEntry("se1731550956308"));
+
+            } else if (user instanceof FinanceManager) {
+                FinanceManager financeManager = (FinanceManager) user;
+                System.out.println(financeManager.removePayment("py1731594458549"));
 
             } else {
                 user.displayUserInfo();
