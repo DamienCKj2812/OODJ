@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import utils.FileManager;
-import utils.LogHandler;
 
 /**
  *
@@ -20,11 +19,13 @@ public class Admin extends User {
 
     private FileManager fileManager = new FileManager(Constants.USER_DATA_PATH);
     private InventoryManager inventoryManager;
-
+    private FinanceManager financeManager;
 
     public Admin(String userID, String username, String password) {
         super(userID, username, password, "admin");
         this.inventoryManager = new InventoryManager(userID, username, password);
+        this.financeManager = new FinanceManager(userID, username, password);
+
     }
 
     public List<User> getAllUsers() throws IOException {
@@ -196,6 +197,10 @@ public class Admin extends User {
 
     public Item deleteItem(String itemId) throws IOException {
         return inventoryManager.deleteItem(itemId);
+    }
+
+    public FinanceManager getFinanceManager() {
+        return financeManager;
     }
 
 }

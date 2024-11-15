@@ -23,6 +23,7 @@ import models.Item;
 import models.PurchaseOrder;
 import utils.InputValidator;
 import utils.LogHandler;
+import utils.StringFormatter;
 
 /**
  *
@@ -32,6 +33,7 @@ public class ManageStockUI extends javax.swing.JFrame {
 
     private InventoryManager inventoryManager;
     private LogHandler logHandler;
+    private StringFormatter stringFormatter = new StringFormatter();
 
     public ManageStockUI(InventoryManager inventoryManager) {
         this.inventoryManager = inventoryManager;
@@ -496,8 +498,9 @@ public class ManageStockUI extends javax.swing.JFrame {
                     purchaseOrder.getRequisitionID(),
                     purchaseOrder.getItemId(),
                     purchaseOrder.getOrderQuantity(),
-                    purchaseOrder.getOrderDate(),
-                    purchaseOrder.getExpectedDeliveryDate(), purchaseOrder.getPurchaseManagerID()
+                    stringFormatter.formatUnixTimestamp(purchaseOrder.getOrderDate()),
+                    stringFormatter.formatUnixTimestamp(purchaseOrder.getExpectedDeliveryDate()),
+                    purchaseOrder.getPurchaseManagerID()
                 });
             }
 

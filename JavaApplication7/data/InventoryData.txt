@@ -7,4 +7,4 @@ item1730020612894|Toaster|Four-slice toaster with browning control|24.99|200|30|
 item1730020612895|Coffee Maker|Single-serve coffee maker|49.99|150|25|sp1729950430266
 item1730020612896|Oven|Electric oven with convection setting|399.00|20|5|sp1729950430267
 item1730020612897|Freezer|Chest freezer with large capacity|299.99|25|6|sp1729950430268
-item1731426832217|Microwave|best small wave|120.00|0|0|sp1729950430255
+item1731426832217|Microwave|best small wave|120.00|0|10|sp1729950430255

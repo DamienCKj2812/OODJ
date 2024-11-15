@@ -10,9 +10,6 @@
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="cc" red="99" type="rgb"/>
     </Property>
-    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[800, 600]"/>
-    </Property>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
@@ -79,17 +76,17 @@
                   <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="MainMenuFM_PO" min="-2" pref="345" max="-2" attributes="0"/>
+                          <Component id="purchaseOrderButton" min="-2" pref="345" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="MainMenuFM_MP" max="32767" attributes="0"/>
+                          <Component id="makePaymentButton" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="MainMenuFM_CSS" min="-2" max="-2" attributes="0"/>
+                          <Component id="stockStatusButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="MainMenuFM_SPS" min="-2" max="-2" attributes="0"/>
+                          <Component id="supplierPaymentButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="54" max="32767" attributes="0"/>
+                  <EmptySpace pref="20" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -105,13 +102,13 @@
                   <Component id="MainMenuFM_greet2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="MainMenuFM_PO" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="MainMenuFM_MP" alignment="3" max="32767" attributes="0"/>
+                      <Component id="purchaseOrderButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="makePaymentButton" alignment="3" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="MainMenuFM_CSS" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="MainMenuFM_SPS" alignment="3" max="32767" attributes="0"/>
+                      <Component id="stockStatusButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="supplierPaymentButton" alignment="3" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                   <Component id="MainMenuFM_LO" min="-2" pref="45" max="-2" attributes="0"/>
@@ -121,7 +118,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="MainMenuFM_CSS">
+        <Component class="javax.swing.JButton" name="stockStatusButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="b0" red="a3" type="rgb"/>
@@ -140,10 +137,10 @@
             <Property name="iconTextGap" type="int" value="10"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MainMenuFM_CSSActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stockStatusButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="MainMenuFM_PO">
+        <Component class="javax.swing.JButton" name="purchaseOrderButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="e2" green="db" red="d8" type="rgb"/>
@@ -162,10 +159,10 @@
             <Property name="iconTextGap" type="int" value="10"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MainMenuFM_POActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="purchaseOrderButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="MainMenuFM_MP">
+        <Component class="javax.swing.JButton" name="makePaymentButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="9d" red="99" type="rgb"/>
@@ -184,10 +181,10 @@
             <Property name="iconTextGap" type="int" value="10"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MainMenuFM_MPActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="makePaymentButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="MainMenuFM_SPS">
+        <Component class="javax.swing.JButton" name="supplierPaymentButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="cb" red="ad" type="rgb"/>
@@ -206,7 +203,7 @@
             <Property name="iconTextGap" type="int" value="10"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MainMenuFM_SPSActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="supplierPaymentButtonActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="MainMenuFM_LO">

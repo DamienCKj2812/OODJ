@@ -26,6 +26,10 @@ public class FinanceManager extends User {
         return purchaseOrderAction.getAllPurchaseOrders();
     }
 
+    public PurchaseOrder getPurchaseOrder(String purchaseOrderId) throws IOException {
+        return purchaseOrderAction.getPurchaseOrder(purchaseOrderId);
+    }
+
     public PurchaseOrder updatePurchaseOrder(String purchaseOrderId, String newRequisitionID, String newItemId, String newOrderQuantity, String newOrderDate, String newExpectedDeliveryDate, String newStatus, String newPurchaseManagerID) throws IOException {
         return purchaseOrderAction.updatePurchaseOrder(purchaseOrderId, newRequisitionID, newItemId, newOrderQuantity, newOrderDate, newExpectedDeliveryDate, newStatus, newPurchaseManagerID);
     }
