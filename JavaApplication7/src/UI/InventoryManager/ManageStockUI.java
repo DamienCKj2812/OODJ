@@ -490,7 +490,7 @@ public class ManageStockUI extends javax.swing.JFrame {
             String[] columnNames = {"Purchase Order ID", "Requisition ID", "Item Id", "Order Quantity", "Order Date", "Expected Delivery Date", "Purchase Manager ID"};
             DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
-            List<PurchaseOrder> allPurchaseOrders = inventoryManager.getAllApprovedPurchaseOrders();
+            List<PurchaseOrder> allPurchaseOrders = inventoryManager.getAllDonePaymentPurchaseOrders();
 
             for (PurchaseOrder purchaseOrder : allPurchaseOrders) {
                 model.addRow(new Object[]{
@@ -549,7 +549,7 @@ public class ManageStockUI extends javax.swing.JFrame {
         model.setRowCount(0);
 
         try {
-            List<PurchaseOrder> purchaseOrders = inventoryManager.getAllApprovedPurchaseOrders();
+            List<PurchaseOrder> purchaseOrders = inventoryManager.getAllDonePaymentPurchaseOrders();
             purchaseOrders.stream()
                     .filter(item -> item.getPurchaseOrderId().toLowerCase().contains(filterText)
                     || item.getRequisitionID().toLowerCase().contains(filterText)

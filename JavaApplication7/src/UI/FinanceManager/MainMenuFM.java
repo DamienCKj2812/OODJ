@@ -212,11 +212,25 @@ public class MainMenuFM extends javax.swing.JFrame {
     }//GEN-LAST:event_stockStatusButtonActionPerformed
 
     private void makePaymentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makePaymentButtonActionPerformed
-        // TODO add your handling code here:
+        if (user instanceof Admin) {
+            Admin admin = (Admin) user;
+            new MakePaymentFM(admin.getFinanceManager()).setVisible(true);
+        } else {
+            FinanceManager financeManager = (FinanceManager) user;
+            new MakePaymentFM(financeManager).setVisible(true);
+        }
+        this.dispose();
     }//GEN-LAST:event_makePaymentButtonActionPerformed
 
     private void supplierPaymentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierPaymentButtonActionPerformed
-        // TODO add your handling code here:
+        if (user instanceof Admin) {
+            Admin admin = (Admin) user;
+            new SupplierPaymentFM(admin.getFinanceManager()).setVisible(true);
+        } else {
+            FinanceManager financeManager = (FinanceManager) user;
+            new SupplierPaymentFM(financeManager).setVisible(true);
+        }
+        this.dispose();
     }//GEN-LAST:event_supplierPaymentButtonActionPerformed
 
     /**

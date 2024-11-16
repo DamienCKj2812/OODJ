@@ -17,16 +17,14 @@ public class Payment {
     private String supplierId;     // Reference to the Supplier ID
     private String paymentDate;      // Date the payment was made
     private String paymentAmount;  // Amount paid
-    private String paymentStatus;  // Status of the payment (e.g., pending, completed, rejected)
 
     // Constructor
-    public Payment(String paymentId, String poId, String supplierId, String paymentDate, String paymentAmount, String paymentStatus) {
+    public Payment(String paymentId, String poId, String supplierId, String paymentDate, String paymentAmount) {
         this.paymentId = paymentId;
         this.poId = poId;
         this.supplierId = supplierId;
         this.paymentDate = paymentDate;
         this.paymentAmount = paymentAmount;
-        this.paymentStatus = paymentStatus;
     }
 
     // Getters and Setters
@@ -70,14 +68,6 @@ public class Payment {
         this.paymentAmount = paymentAmount;
     }
 
-    public String getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-
     // Optional: toString method for easy display
     @Override
     public String toString() {
@@ -85,8 +75,7 @@ public class Payment {
                 + poId + '|'
                 + supplierId + '|'
                 + paymentDate + '|'
-                + paymentAmount + '|'
-                + paymentStatus;
+                + paymentAmount;
 
     }
 }

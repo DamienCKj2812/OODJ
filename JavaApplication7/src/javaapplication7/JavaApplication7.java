@@ -1,8 +1,11 @@
 package javaapplication7;
 
 import UI.FinanceManager.MainMenuFM;
+import UI.InventoryManager.InventoryManagerHomeUI;
 import java.io.IOException;
+import models.Admin;
 import models.FinanceManager;
+import models.InventoryManager;
 import models.User;
 import utils.Authenticator;
 import models.SupplierAction;
@@ -30,11 +33,13 @@ public class JavaApplication7 {
 
         try {
 
-            User user = au.login("financeManagerUser", "financeManager123");
-            FinanceManager financeManager = (FinanceManager) user;
+            User user = au.login("adminUser", "admin123");
+//            FinanceManager financeManager = (FinanceManager) user;
+            Admin admin = (Admin) user;
+
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
-                    new MainMenuFM(financeManager).setVisible(true);
+                    new MainMenuFM(admin).setVisible(true);
                 }
             });
 

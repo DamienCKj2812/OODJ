@@ -26,8 +26,8 @@ public class PaymentAction {
 
         for (String line : paymentLines) {
             String[] paymentDetails = line.split("\\|");
-            if (paymentDetails.length >= 6) { // Check for the required number of details
-                Payment payment = new Payment(paymentDetails[0], paymentDetails[1], paymentDetails[2], paymentDetails[3], paymentDetails[4], paymentDetails[5]);
+            if (paymentDetails.length >= 5) { // Check for the required number of details
+                Payment payment = new Payment(paymentDetails[0], paymentDetails[1], paymentDetails[2], paymentDetails[3], paymentDetails[4]);
                 payments.add(payment);
             } else {
                 System.err.println("Skipping line due to incorrect format: " + line);
@@ -60,13 +60,12 @@ public class PaymentAction {
                 continue; // Skip adding this payment to the updated list
             }
             updatedPayments.append(String.format(
-                    "%s|%s|%s|%s|%s|%s%n",
+                    "%s|%s|%s|%s|%s%n",
                     payment.getPaymentId(),
                     payment.getPoId(),
                     payment.getSupplierId(),
                     payment.getPaymentDate(),
-                    payment.getPaymentAmount(),
-                    payment.getPaymentStatus()
+                    payment.getPaymentAmount()
             ));  // Add each payment except the one being removed
         }
 
@@ -76,7 +75,7 @@ public class PaymentAction {
         return selectedPayment;
     }
 
-    public Payment addPayment(String poId, String supplierId, String paymentDate, String paymentAmount, String paymentStatus) throws IOException {
+    public Payment addPayment(String poId, String supplierId, String paymentDate, String paymentAmount) throws IOException {
         List<Payment> payments = getAllPayment();
         StringBuilder updatedPayments = new StringBuilder();
 
@@ -84,20 +83,19 @@ public class PaymentAction {
         String paymentID = "py" + System.currentTimeMillis();
 
         // Create new Payment object
-        Payment newPayment = new Payment(paymentID, poId, supplierId, paymentDate, paymentAmount, paymentStatus);
+        Payment newPayment = new Payment(paymentID, poId, supplierId, paymentDate, paymentAmount);
 
         // Add new payment to the list
         payments.add(newPayment);
 
         // Append each payment’s details to `updatedPayments`
         payments.forEach(payment -> updatedPayments.append(String.format(
-                "%s|%s|%s|%s|%s|%s%n",
+                "%s|%s|%s|%s|%s%n",
                 payment.getPaymentId(),
                 payment.getPoId(),
                 payment.getSupplierId(),
                 payment.getPaymentDate(),
-                payment.getPaymentAmount(),
-                payment.getPaymentStatus()
+                payment.getPaymentAmount()
         )));
 
         // Save the updated payment data back to the file
@@ -106,7 +104,7 @@ public class PaymentAction {
         return newPayment;
     }
 
-    public Payment updatePayment(String paymentId, String poId, String supplierId, String paymentDate, String paymentAmount, String paymentStatus) throws IOException {
+    public Payment updatePayment(String paymentId, String poId, String supplierId, String paymentDate, String paymentAmount) throws IOException {
         List<Payment> payments = getAllPayment();
 
         Payment paymentToUpdate = payments.stream()
@@ -119,18 +117,16 @@ public class PaymentAction {
         paymentToUpdate.setSupplierId(supplierId);
         paymentToUpdate.setPaymentDate(paymentDate);
         paymentToUpdate.setPaymentAmount(paymentAmount);
-        paymentToUpdate.setPaymentStatus(paymentStatus);
 
         // Rebuild the file content with updated payment data
         StringBuilder updatedPayments = new StringBuilder();
         payments.forEach(payment -> updatedPayments.append(String.format(
-                "%s|%s|%s|%s|%s|%s%n",
+                "%s|%s|%s|%s|%s%n",
                 payment.getPaymentId(),
                 payment.getPoId(),
                 payment.getSupplierId(),
                 payment.getPaymentDate(),
-                payment.getPaymentAmount(),
-                payment.getPaymentStatus()
+                payment.getPaymentAmount()
         )));
 
         // Write the updated payment list back to the file

@@ -6,6 +6,8 @@ package UI.FinanceManager;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -60,9 +62,18 @@ public class ViewPurchaseOrderFM extends javax.swing.JFrame {
                         Object cellValue = purchaseOrderTable.getValueAt(row, column);
                         String columnName = purchaseOrderTable.getColumnName(column);
 
-                        // Show the content in a dialog
-                        JOptionPane.showMessageDialog(null, cellValue.toString(),
-                                columnName, JOptionPane.INFORMATION_MESSAGE);
+                        if (cellValue != null) {
+                            // Copy the cell value to the clipboard
+                            String value = cellValue.toString();
+                            Toolkit.getDefaultToolkit().getSystemClipboard()
+                                    .setContents(new StringSelection(value), null);
+
+                            // Optionally, show a confirmation dialog
+                            JOptionPane.showMessageDialog(null,
+                                    value,
+                                    columnName,
+                                    JOptionPane.INFORMATION_MESSAGE);
+                        }
                     }
                 }
             }

@@ -6,6 +6,7 @@ package models;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -16,6 +17,7 @@ public class FinanceManager extends User {
     private PurchaseOrderAction purchaseOrderAction = new PurchaseOrderAction();
     private Inventory inventory = new Inventory();
     private PaymentAction paymentAction = new PaymentAction();
+    private SupplierAction supplierAction = new SupplierAction();
 
     public FinanceManager(String userID, String username, String password) {
         super(userID, username, password, "purchaseManager");
@@ -34,8 +36,19 @@ public class FinanceManager extends User {
         return purchaseOrderAction.updatePurchaseOrder(purchaseOrderId, newRequisitionID, newItemId, newOrderQuantity, newOrderDate, newExpectedDeliveryDate, newStatus, newPurchaseManagerID);
     }
 
+    public List<PurchaseOrder> getAllApprovedPurchaseOrders() throws IOException {
+        List<PurchaseOrder> allPurchaseOrders = purchaseOrderAction.getAllPurchaseOrders();
+        return allPurchaseOrders.stream()
+                .filter(o -> o.getStatus().toLowerCase().equals("approved"))
+                .collect(Collectors.toList()); // Collect the stream to a list
+    }
+
     public List<Item> getInventoryItems() throws IOException {
         return inventory.getInventoryItems();
+    }
+
+    public Item getItems(String itemId) throws IOException {
+        return inventory.getItem(itemId);
     }
 
     public List<Payment> getAllPayment() throws IOException {
@@ -50,12 +63,15 @@ public class FinanceManager extends User {
         return paymentAction.removePayment(paymentID);
     }
 
-    public Payment addPayment(String poId, String supplierId, String paymentDate, String paymentAmount, String paymentStatus) throws IOException {
-        return paymentAction.addPayment(poId, supplierId, paymentDate, paymentAmount, paymentStatus
-        );
+    public Payment addPayment(String poId, String supplierId, String paymentDate, String paymentAmount) throws IOException {
+        return paymentAction.addPayment(poId, supplierId, paymentDate, paymentAmount);
     }
 
-    public Payment updatePayment(String paymentId, String poId, String supplierId, String paymentDate, String paymentAmount, String paymentStatus) throws IOException {
-        return paymentAction.updatePayment(paymentId, poId, supplierId, paymentDate, paymentAmount, paymentStatus);
+    public Payment updatePayment(String paymentId, String poId, String supplierId, String paymentDate, String paymentAmount) throws IOException {
+        return paymentAction.updatePayment(paymentId, poId, supplierId, paymentDate, paymentAmount);
+    }
+
+    public List<Supplier> getAllSupplier() throws IOException {
+        return supplierAction.getAllSupplier();
     }
 }

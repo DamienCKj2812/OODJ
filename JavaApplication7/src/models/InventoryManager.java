@@ -55,10 +55,10 @@ public class InventoryManager extends User {
         return supplierAction.updateSupplier(supplierID, newName, newContactPerson, newAddress, newPhoneNumber, newProductsSupplied);
     }
 
-    public List<PurchaseOrder> getAllApprovedPurchaseOrders() throws IOException {
+    public List<PurchaseOrder> getAllDonePaymentPurchaseOrders() throws IOException {
         List<PurchaseOrder> allPurchaseOrders = purchaseOrderAction.getAllPurchaseOrders();
         return allPurchaseOrders.stream()
-                .filter(o -> o.getStatus().equals("Approved"))
+                .filter(o -> o.getStatus().toLowerCase().equals("done payment"))
                 .collect(Collectors.toList()); // Collect the stream to a list
     }
 
