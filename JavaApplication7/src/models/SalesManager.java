@@ -53,5 +53,4 @@ public class SalesManager extends User {
     public List<PurchaseOrder> getAllPurchaseOrders() throws IOException {
         return purchaseOrderAction.getAllPurchaseOrders();
     }
-
 }

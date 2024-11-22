@@ -12,12 +12,9 @@ import java.io.IOException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import models.Admin;
 import models.FinanceManager;
 import models.Item;
 import models.PurchaseOrder;
-import models.User;
-import state.UserSession;
 import utils.LogHandler;
 import utils.StringFormatter;
 
