@@ -364,17 +364,17 @@ public class SMSalesReport extends javax.swing.JFrame {
         tbSalesReport.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tbSalesReport.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Item Code", "Item Name", "Quantity Sold", "Date Sold", "Notes", "Unit Price", "Total Amount"
+                "Sales ID", "Item Code", "Item Name", "Quantity Sold", "Date Sold", "Notes", "Unit Price", "Total Amount"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, true, true, true, false, true, true
+                true, true, true, true, true, false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
