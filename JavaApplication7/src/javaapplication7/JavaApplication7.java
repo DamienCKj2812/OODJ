@@ -1,11 +1,8 @@
 package javaapplication7;
 
-import UI.FinanceManager.MainMenuFM;
-import UI.InventoryManager.InventoryManagerHomeUI;
+import UI.Authentication.LoginUI;
 import java.io.IOException;
 import models.Admin;
-import models.FinanceManager;
-import models.InventoryManager;
 import models.User;
 import utils.Authenticator;
 import models.SupplierAction;
@@ -39,7 +36,7 @@ public class JavaApplication7 {
 
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
-                    new MainMenuFM(admin).setVisible(true);
+                    new LoginUI().setVisible(true);
                 }
             });
 
