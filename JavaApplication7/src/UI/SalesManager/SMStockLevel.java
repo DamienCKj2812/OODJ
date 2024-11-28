@@ -13,8 +13,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import models.Item;
 import models.SalesManager;
+import UI.Authentication.LoginUI;
+import state.UserSession;
 public class SMStockLevel extends javax.swing.JFrame {
-
+UserSession userState = UserSession.getInstance();
     private List<Item> inventoryItems;
     public SMStockLevel() {
         initComponents();
@@ -57,33 +59,33 @@ public class SMStockLevel extends javax.swing.JFrame {
     }
 
     private void filterTable() {
-        String input = txtStockLevel.getText();
-        if (input.isEmpty()) {
-            // If input is empty, display all items
-            updateTable(inventoryItems);
-            return;
-        }
+         String input = txtStockLevel.getText();
+    if (input.isEmpty()) {
+        // If input is empty, display all items
+        updateTable(inventoryItems);
+        return;
+    }
 
-        try {
-            int stockLevelThreshold = Integer.parseInt(input);
+    try {
+        int stockLevelThreshold = Integer.parseInt(input);
 
-            // Filter items with stock levels below the threshold
-            List<Item> filteredItems = inventoryItems.stream()
-                    .filter(item -> {
-        try {
-            return Integer.parseInt(item.getQuantity()) < stockLevelThreshold;
-        } catch (NumberFormatException e) {
-            return false; // Exclude items with invalid quantity
-        }
-    })
-                    .collect(Collectors.toList());
+        // Filter items with stock levels below the threshold
+        List<Item> filteredItems = inventoryItems.stream()
+                .filter(item -> {
+                    try {
+                        return Integer.parseInt(item.getQuantity()) < stockLevelThreshold;
+                    } catch (NumberFormatException e) {
+                        return false; // Exclude items with invalid quantity
+                    }
+                })
+                .collect(Collectors.toList());
 
-            updateTable(filteredItems);
+        updateTable(filteredItems);
 
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid number.");
-            txtStockLevel.setText("");
-        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Please enter a valid number.");
+        SwingUtilities.invokeLater(() -> txtStockLevel.setText("")); // Defer clearing the text field
+    }
     }
 
     private void updateTable(List<Item> items) {
@@ -113,23 +115,25 @@ public class SMStockLevel extends javax.swing.JFrame {
         lblListOfItem = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbStockLevel = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel11 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        lblSalesEntry = new javax.swing.JLabel();
-        jPanel12 = new javax.swing.JPanel();
-        lblStockLevel = new javax.swing.JLabel();
-        jPanel13 = new javax.swing.JPanel();
-        lblRequisition = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        lblRequisition1 = new javax.swing.JLabel();
-        jPanel15 = new javax.swing.JPanel();
-        lblRequisition2 = new javax.swing.JLabel();
-        jPanel14 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        lblListOfItems = new javax.swing.JLabel();
         txtStockLevel = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        lblSalesEntry4 = new javax.swing.JLabel();
+        jPanel14 = new javax.swing.JPanel();
+        lblStockLevel = new javax.swing.JLabel();
+        jPanel15 = new javax.swing.JPanel();
+        lblRequisition = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        lblRequisition1 = new javax.swing.JLabel();
+        jPanel21 = new javax.swing.JPanel();
+        lblLogOut = new javax.swing.JLabel();
+        jPanel22 = new javax.swing.JPanel();
+        lblAdmin = new javax.swing.JLabel();
+        jPanel23 = new javax.swing.JPanel();
+        jPanel24 = new javax.swing.JPanel();
+        lblListOfItems = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -170,54 +174,65 @@ public class SMStockLevel extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tbStockLevel);
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
-
-        jPanel11.setBackground(new java.awt.Color(204, 204, 204));
-
-        jPanel7.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel7.setAutoscrolls(true);
-        jPanel7.setInheritsPopupMenu(true);
-        jPanel7.setPreferredSize(new java.awt.Dimension(139, 45));
-        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel7MouseClicked(evt);
+        txtStockLevel.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        txtStockLevel.setText("3");
+        txtStockLevel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtStockLevelActionPerformed(evt);
             }
         });
 
-        lblSalesEntry.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblSalesEntry.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/bar-chart-5567326.png"))); // NOI18N
-        lblSalesEntry.setText("Sales");
-        lblSalesEntry.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel1.setText("Stock Level Lower than:");
+
+        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
+
+        jPanel12.setBackground(new java.awt.Color(204, 204, 204));
+
+        jPanel13.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel13.setAutoscrolls(true);
+        jPanel13.setInheritsPopupMenu(true);
+        jPanel13.setPreferredSize(new java.awt.Dimension(139, 45));
+        jPanel13.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblSalesEntryMouseClicked(evt);
+                jPanel13MouseClicked(evt);
+            }
+        });
+
+        lblSalesEntry4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblSalesEntry4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/bar-chart-5567326.png"))); // NOI18N
+        lblSalesEntry4.setText("Sales");
+        lblSalesEntry4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSalesEntry4MouseClicked(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                lblSalesEntryMousePressed(evt);
+                lblSalesEntry4MousePressed(evt);
             }
         });
-        lblSalesEntry.addKeyListener(new java.awt.event.KeyAdapter() {
+        lblSalesEntry4.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                lblSalesEntryKeyPressed(evt);
+                lblSalesEntry4KeyPressed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(lblSalesEntry, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblSalesEntry4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(21, 21, 21))
         );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblSalesEntry, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblSalesEntry4, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
         );
 
-        jPanel12.setAutoscrolls(true);
-        jPanel12.setInheritsPopupMenu(true);
-        jPanel12.setPreferredSize(new java.awt.Dimension(142, 45));
+        jPanel14.setAutoscrolls(true);
+        jPanel14.setInheritsPopupMenu(true);
+        jPanel14.setPreferredSize(new java.awt.Dimension(142, 45));
 
         lblStockLevel.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblStockLevel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/in-stock (1).png"))); // NOI18N
@@ -228,24 +243,24 @@ public class SMStockLevel extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(lblStockLevel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(23, 23, 23))
         );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblStockLevel, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
         );
 
-        jPanel13.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel13.setAutoscrolls(true);
-        jPanel13.setInheritsPopupMenu(true);
-        jPanel13.setPreferredSize(new java.awt.Dimension(180, 45));
+        jPanel15.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel15.setAutoscrolls(true);
+        jPanel15.setInheritsPopupMenu(true);
+        jPanel15.setPreferredSize(new java.awt.Dimension(180, 45));
 
         lblRequisition.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblRequisition.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/management (1).png"))); // NOI18N
@@ -256,22 +271,22 @@ public class SMStockLevel extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
-        jPanel13.setLayout(jPanel13Layout);
-        jPanel13Layout.setHorizontalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel13Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(lblRequisition, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(25, 25, 25))
         );
-        jPanel13Layout.setVerticalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblRequisition, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel4.setPreferredSize(new java.awt.Dimension(133, 45));
+        jPanel5.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel5.setPreferredSize(new java.awt.Dimension(133, 45));
 
         lblRequisition1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblRequisition1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/shopping-list (1).png"))); // NOI18N
@@ -282,93 +297,123 @@ public class SMStockLevel extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblRequisition1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(lblRequisition1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanel15.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel15.setAutoscrolls(true);
-        jPanel15.setInheritsPopupMenu(true);
-        jPanel15.setPreferredSize(new java.awt.Dimension(180, 45));
+        jPanel21.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel21.setAutoscrolls(true);
+        jPanel21.setInheritsPopupMenu(true);
+        jPanel21.setPreferredSize(new java.awt.Dimension(180, 45));
 
-        lblRequisition2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblRequisition2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/management (1).png"))); // NOI18N
-        lblRequisition2.setText("Log Out");
-        lblRequisition2.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblLogOut.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblLogOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/logout (1).png"))); // NOI18N
+        lblLogOut.setText("Log Out");
+        lblLogOut.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblRequisition2MouseClicked(evt);
+                lblLogOutMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
-        jPanel15.setLayout(jPanel15Layout);
-        jPanel15Layout.setHorizontalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel15Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
+        jPanel21.setLayout(jPanel21Layout);
+        jPanel21Layout.setHorizontalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel21Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(lblRequisition2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblLogOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(25, 25, 25))
         );
-        jPanel15Layout.setVerticalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblRequisition2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jPanel21Layout.setVerticalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblLogOut, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
-            .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
-            .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
-            .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+        jPanel22.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel22.setAutoscrolls(true);
+        jPanel22.setInheritsPopupMenu(true);
+        jPanel22.setPreferredSize(new java.awt.Dimension(180, 45));
+
+        lblAdmin.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/user (1).png"))); // NOI18N
+        lblAdmin.setText("Admin");
+        lblAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAdminMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
+        jPanel22.setLayout(jPanel22Layout);
+        jPanel22Layout.setHorizontalGroup(
+            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel22Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(lblAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(25, 25, 25))
         );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+        jPanel22Layout.setVerticalGroup(
+            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblAdmin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+            .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+            .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+            .addComponent(jPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+            .addComponent(jPanel22, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel14.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel14.setAutoscrolls(true);
-        jPanel14.setInheritsPopupMenu(true);
+        jPanel23.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel23.setAutoscrolls(true);
+        jPanel23.setInheritsPopupMenu(true);
 
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
+        jPanel23.setLayout(jPanel23Layout);
+        jPanel23Layout.setHorizontalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanel23Layout.setVerticalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 45, Short.MAX_VALUE)
         );
 
-        jPanel5.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel5.setPreferredSize(new java.awt.Dimension(147, 45));
+        jPanel24.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel24.setPreferredSize(new java.awt.Dimension(147, 45));
 
         lblListOfItems.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblListOfItems.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/to-do-list (1).png"))); // NOI18N
@@ -386,87 +431,74 @@ public class SMStockLevel extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
+        jPanel24.setLayout(jPanel24Layout);
+        jPanel24Layout.setHorizontalGroup(
+            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel24Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(lblListOfItems, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(23, 23, 23))
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanel24Layout.setVerticalGroup(
+            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblListOfItems, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(211, 211, 211)
-                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel24, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(167, 167, 167)
-                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(141, 141, 141)
+                .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        txtStockLevel.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        txtStockLevel.setText("3");
-        txtStockLevel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStockLevelActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel1.setText("Stock Level Lower than:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
+                        .addGap(178, 178, 178)
                         .addComponent(jLabel1)
                         .addGap(26, 26, 26)
                         .addComponent(txtStockLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(210, Short.MAX_VALUE))
+                        .addContainerGap(186, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1))))
-            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtStockLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 7, Short.MAX_VALUE))
         );
 
@@ -484,37 +516,41 @@ public class SMStockLevel extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lblSalesEntryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesEntryMouseClicked
+    private void txtStockLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockLevelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtStockLevelActionPerformed
+
+    private void lblSalesEntry4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesEntry4MouseClicked
         SMSales newPage = new SMSales();   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
         SMStockLevel.this.dispose();
-    }//GEN-LAST:event_lblSalesEntryMouseClicked
+    }//GEN-LAST:event_lblSalesEntry4MouseClicked
 
-    private void lblSalesEntryMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesEntryMousePressed
+    private void lblSalesEntry4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesEntry4MousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_lblSalesEntryMousePressed
+    }//GEN-LAST:event_lblSalesEntry4MousePressed
 
-    private void lblSalesEntryKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblSalesEntryKeyPressed
+    private void lblSalesEntry4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblSalesEntry4KeyPressed
         // Check if the pressed key is Enter (or any other key you want)
-    }//GEN-LAST:event_lblSalesEntryKeyPressed
+    }//GEN-LAST:event_lblSalesEntry4KeyPressed
 
-    private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
+    private void jPanel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel13MouseClicked
         // TODO add your handling code here:
         SMSalesEntry newPage = new SMSalesEntry();   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
        SMStockLevel.this.dispose();
-    }//GEN-LAST:event_jPanel7MouseClicked
+    }//GEN-LAST:event_jPanel13MouseClicked
 
     private void lblStockLevelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockLevelMouseClicked
         SMStockLevel newPage = new SMStockLevel();   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
-      SMStockLevel.this.dispose();
+       SMStockLevel.this.dispose();
     }//GEN-LAST:event_lblStockLevelMouseClicked
 
     private void lblRequisitionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisitionMouseClicked
@@ -522,7 +558,7 @@ public class SMStockLevel extends javax.swing.JFrame {
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
-       SMStockLevel.this.dispose();
+        SMStockLevel.this.dispose();
     }//GEN-LAST:event_lblRequisitionMouseClicked
 
     private void lblRequisition1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisition1MouseClicked
@@ -533,9 +569,15 @@ public class SMStockLevel extends javax.swing.JFrame {
         SMStockLevel.this.dispose();
     }//GEN-LAST:event_lblRequisition1MouseClicked
 
-    private void lblRequisition2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisition2MouseClicked
+    private void lblLogOutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogOutMouseClicked
+        new LoginUI().setVisible(true);
+        userState.setLoggedInAdmin(null);
+        this.dispose();
+    }//GEN-LAST:event_lblLogOutMouseClicked
+
+    private void lblAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAdminMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_lblRequisition2MouseClicked
+    }//GEN-LAST:event_lblAdminMouseClicked
 
     private void lblListOfItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblListOfItemsMouseClicked
         // TODO add your handling code here:
@@ -543,20 +585,15 @@ public class SMStockLevel extends javax.swing.JFrame {
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
-       SMStockLevel.this.dispose();
+        SMStockLevel.this.dispose();
     }//GEN-LAST:event_lblListOfItemsMouseClicked
 
     private void lblListOfItemsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblListOfItemsKeyPressed
         SMListOfItem newPage = new SMListOfItem();   // Replace with the name of your target frame
         newPage.setVisible(true);
-
         // Optional: Hide or dispose of the current frame if you want
         SMStockLevel.this.dispose();
     }//GEN-LAST:event_lblListOfItemsKeyPressed
-
-    private void txtStockLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockLevelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStockLevelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -596,23 +633,41 @@ public class SMStockLevel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblAdmin;
     private javax.swing.JLabel lblListOfItem;
     private javax.swing.JLabel lblListOfItems;
+    private javax.swing.JLabel lblLogOut;
     private javax.swing.JLabel lblRequisition;
     private javax.swing.JLabel lblRequisition1;
-    private javax.swing.JLabel lblRequisition2;
     private javax.swing.JLabel lblSalesEntry;
+    private javax.swing.JLabel lblSalesEntry1;
+    private javax.swing.JLabel lblSalesEntry2;
+    private javax.swing.JLabel lblSalesEntry3;
+    private javax.swing.JLabel lblSalesEntry4;
     private javax.swing.JLabel lblStockLevel;
     private javax.swing.JTable tbStockLevel;
     private javax.swing.JTextField txtStockLevel;

@@ -4,6 +4,8 @@
  */
 package UI.SalesManager;
 
+import UI.Admin.AdminHomeUI;
+import UI.Authentication.LoginUI;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,13 +13,13 @@ import javax.swing.table.DefaultTableModel;
 
 import javax.swing.*;
 import javax.swing.table.TableRowSorter;
+import models.Admin;
+import state.UserSession;
 
 
 public class SMListOfItem extends javax.swing.JFrame {
 
-    /**
-     * Creates new form SMListOfItem
-     */
+    UserSession userState = UserSession.getInstance();
     
   
     public SMListOfItem() {
@@ -78,6 +80,8 @@ public class SMListOfItem extends javax.swing.JFrame {
         lblRequisition1 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         lblRequisition2 = new javax.swing.JLabel();
+        jPanel16 = new javax.swing.JPanel();
+        lblRequisition3 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         lblListOfItems = new javax.swing.JLabel();
@@ -262,7 +266,7 @@ public class SMListOfItem extends javax.swing.JFrame {
         jPanel15.setPreferredSize(new java.awt.Dimension(180, 45));
 
         lblRequisition2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblRequisition2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/management (1).png"))); // NOI18N
+        lblRequisition2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/logout (1).png"))); // NOI18N
         lblRequisition2.setText("Log Out");
         lblRequisition2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -284,6 +288,34 @@ public class SMListOfItem extends javax.swing.JFrame {
             .addComponent(lblRequisition2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
+        jPanel16.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel16.setAutoscrolls(true);
+        jPanel16.setInheritsPopupMenu(true);
+        jPanel16.setPreferredSize(new java.awt.Dimension(180, 45));
+
+        lblRequisition3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblRequisition3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/user (1).png"))); // NOI18N
+        lblRequisition3.setText("Admin");
+        lblRequisition3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblRequisition3MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(lblRequisition3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(25, 25, 25))
+        );
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblRequisition3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
@@ -293,20 +325,22 @@ public class SMListOfItem extends javax.swing.JFrame {
             .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
             .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+            .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -370,11 +404,11 @@ public class SMListOfItem extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(15, 15, 15)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(167, 167, 167)
+                .addGap(141, 141, 141)
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -434,7 +468,9 @@ public class SMListOfItem extends javax.swing.JFrame {
     }//GEN-LAST:event_lblRequisition1MouseClicked
 
     private void lblRequisition2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisition2MouseClicked
-        // TODO add your handling code here:
+                new LoginUI().setVisible(true);
+                userState.setLoggedInAdmin(null);
+                this.dispose();
     }//GEN-LAST:event_lblRequisition2MouseClicked
 
     private void lblListOfItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblListOfItemsMouseClicked
@@ -449,10 +485,13 @@ public class SMListOfItem extends javax.swing.JFrame {
     private void lblListOfItemsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblListOfItemsKeyPressed
         SMListOfItem newPage = new SMListOfItem();   // Replace with the name of your target frame
         newPage.setVisible(true);
-
         // Optional: Hide or dispose of the current frame if you want
         SMListOfItem.this.dispose();
     }//GEN-LAST:event_lblListOfItemsKeyPressed
+
+    private void lblRequisition3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisition3MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblRequisition3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -496,6 +535,7 @@ public class SMListOfItem extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -506,6 +546,7 @@ public class SMListOfItem extends javax.swing.JFrame {
     private javax.swing.JLabel lblRequisition;
     private javax.swing.JLabel lblRequisition1;
     private javax.swing.JLabel lblRequisition2;
+    private javax.swing.JLabel lblRequisition3;
     private javax.swing.JLabel lblSalesEntry;
     private javax.swing.JLabel lblStockLevel;
     private javax.swing.JTable tbItem;

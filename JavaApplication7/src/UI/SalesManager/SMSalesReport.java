@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.table.TableRowSorter;
+import UI.Authentication.LoginUI;
 public class SMSalesReport extends javax.swing.JFrame {
 
     /**
@@ -423,21 +424,29 @@ public class SMSalesReport extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lblDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDashboardMouseClicked
-        SMDashboard newPage = new SMDashboard();   // Replace with the name of your target frame
+    private void lblRequisition3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisition3MouseClicked
+        SMPurchaseOrder newPage = new SMPurchaseOrder();   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
         SMSalesReport.this.dispose();
-    }//GEN-LAST:event_lblDashboardMouseClicked
+    }//GEN-LAST:event_lblRequisition3MouseClicked
 
-    private void lblListOfItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblListOfItemsMouseClicked
-       SMListOfItem newPage = new SMListOfItem();   // Replace with the name of your target frame
+    private void lblRequisitionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisitionMouseClicked
+        SMRequisition newPage = new SMRequisition();   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
         SMSalesReport.this.dispose();
-    }//GEN-LAST:event_lblListOfItemsMouseClicked
+    }//GEN-LAST:event_lblRequisitionMouseClicked
+
+    private void lblStockLevelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockLevelMouseClicked
+        SMStockLevel newPage = new SMStockLevel();   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMSalesReport.this.dispose();
+    }//GEN-LAST:event_lblStockLevelMouseClicked
 
     private void lblSalesEntryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesEntryMouseClicked
         SMSales newPage = new SMSales();   // Replace with the name of your target frame
@@ -447,29 +456,21 @@ public class SMSalesReport extends javax.swing.JFrame {
         SMSalesReport.this.dispose();
     }//GEN-LAST:event_lblSalesEntryMouseClicked
 
-    private void lblStockLevelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockLevelMouseClicked
-       SMStockLevel newPage = new SMStockLevel();   // Replace with the name of your target frame
+    private void lblListOfItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblListOfItemsMouseClicked
+        SMListOfItem newPage = new SMListOfItem();   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
         SMSalesReport.this.dispose();
-    }//GEN-LAST:event_lblStockLevelMouseClicked
+    }//GEN-LAST:event_lblListOfItemsMouseClicked
 
-    private void lblRequisitionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisitionMouseClicked
-       SMRequisition newPage = new SMRequisition();   // Replace with the name of your target frame
+    private void lblDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDashboardMouseClicked
+        SMDashboard newPage = new SMDashboard();   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
         SMSalesReport.this.dispose();
-    }//GEN-LAST:event_lblRequisitionMouseClicked
-
-    private void lblRequisition3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisition3MouseClicked
-      SMPurchaseOrder newPage = new SMPurchaseOrder();   // Replace with the name of your target frame
-        newPage.setVisible(true);
-
-        // Optional: Hide or dispose of the current frame if you want
-        SMSalesReport.this.dispose();
-    }//GEN-LAST:event_lblRequisition3MouseClicked
+    }//GEN-LAST:event_lblDashboardMouseClicked
 
     /**
      * @param args the command line arguments
