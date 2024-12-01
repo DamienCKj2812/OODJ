@@ -5,6 +5,7 @@
 package UI.SalesManager;
 
 import UI.Admin.AdminHomeUI;
+import UI.Authentication.LoginUI;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.BufferedReader;
@@ -711,7 +712,9 @@ public class SMSales extends javax.swing.JFrame {
     }//GEN-LAST:event_lblRequisition1MouseClicked
 
     private void lblRequisition2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisition2MouseClicked
-        // TODO add your handling code here:
+      new LoginUI().setVisible(true);
+        userState.setLoggedInAdmin(null);
+        this.dispose();
     }//GEN-LAST:event_lblRequisition2MouseClicked
 
     private void lblListOfItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblListOfItemsMouseClicked
