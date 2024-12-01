@@ -4,6 +4,7 @@
  */
 package UI.SalesManager;
 
+import UI.Admin.AdminHomeUI;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
@@ -18,6 +19,8 @@ import models.SalesManager;
 import models.Item;
 import models.SalesManager;
 import java.util.Date;
+import models.Admin;
+import state.UserSession;
 
 /**
  *
@@ -26,15 +29,22 @@ import java.util.Date;
 public class SMRequisition extends javax.swing.JFrame {
 
     private List<ItemData> inventoryItems = new ArrayList<>();
-    
-    
+    UserSession userState = UserSession.getInstance();
+    Admin admin = userState.getLoggedInAdmin();
+
     public SMRequisition() {
         initComponents();
         loadInventoryData(); // Load inventory data from file
-    populateItemCodeComboBox();
-    setupQuantitySpinner() ;
+        populateItemCodeComboBox();
+        setupQuantitySpinner();
+
+        if (admin != null) {
+            lblAdmin.setVisible(true); // Make the button visible
+        } else {
+            lblAdmin.setVisible(false); // Hide the button for non-admin users
+        }
     }
-    
+
     private void loadInventoryData() {
         try (BufferedReader reader = new BufferedReader(new FileReader("data/InventoryData.txt"))) {
             String line;
@@ -54,6 +64,7 @@ public class SMRequisition extends javax.swing.JFrame {
     }
 
     private class ItemData {
+
         private String itemCode;
         private String itemName;
         private double unitPrice;
@@ -66,12 +77,23 @@ public class SMRequisition extends javax.swing.JFrame {
             this.quantityInStock = quantityInStock;
         }
 
-        public String getItemCode() { return itemCode; }
-        public String getItemName() { return itemName; }
-        public double getUnitPrice() { return unitPrice; }
-        public int getQuantityInStock() { return quantityInStock; }
+        public String getItemCode() {
+            return itemCode;
+        }
+
+        public String getItemName() {
+            return itemName;
+        }
+
+        public double getUnitPrice() {
+            return unitPrice;
+        }
+
+        public int getQuantityInStock() {
+            return quantityInStock;
+        }
     }
-    
+
     private void populateItemCodeComboBox() {
         cmbItemCode.addItem("Please choose an item");
         for (ItemData item : inventoryItems) {
@@ -85,24 +107,23 @@ public class SMRequisition extends javax.swing.JFrame {
             }
         });
     }
+
     private void setupQuantitySpinner() {
         spnQuantityReq.setModel(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-        
-        
+
     }
-    
+
     private void displaySelectedItemDetails(String itemCode) {
         for (ItemData item : inventoryItems) {
-        if (item.getItemCode().equals(itemCode)) {
-            // Set the item details in the text fields
-            txtItemName.setText(item.getItemName());
-           
-            break;
+            if (item.getItemCode().equals(itemCode)) {
+                // Set the item details in the text fields
+                txtItemName.setText(item.getItemName());
+
+                break;
+            }
         }
     }
-    }
-    
-     
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -141,6 +162,7 @@ public class SMRequisition extends javax.swing.JFrame {
         jPanel14 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         lblListOfItems = new javax.swing.JLabel();
+        lblAdmin = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -487,6 +509,15 @@ public class SMRequisition extends javax.swing.JFrame {
             .addComponent(lblListOfItems, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
         );
 
+        lblAdmin.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/user (1).png"))); // NOI18N
+        lblAdmin.setText("Admin");
+        lblAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAdminMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -496,6 +527,9 @@ public class SMRequisition extends javax.swing.JFrame {
                 .addGap(211, 211, 211)
                 .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -504,7 +538,9 @@ public class SMRequisition extends javax.swing.JFrame {
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(167, 167, 167)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(114, 114, 114)
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -533,9 +569,9 @@ public class SMRequisition extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 5, Short.MAX_VALUE)
+                        .addGap(0, 53, Short.MAX_VALUE)
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 420, Short.MAX_VALUE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 467, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -553,64 +589,62 @@ public class SMRequisition extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-         try {
-        // Get data from UI components
-        String selectedItemId = (String) cmbItemCode.getSelectedItem();
-        String quantity = spnQuantityReq.getValue().toString();
-        
-        String salesManagerId = "SM001"; // Replace with actual logged-in Sales Manager ID
-        String requisitionDate = ""; // Today's date
-        String requiredDate = "";
-        
-        Date selectedDate = DCReqDate.getDate();
+        try {
+            // Get data from UI components
+            String selectedItemId = (String) cmbItemCode.getSelectedItem();
+            String quantity = spnQuantityReq.getValue().toString();
+
+            String salesManagerId = "SM001"; // Replace with actual logged-in Sales Manager ID
+            String requisitionDate = ""; // Today's date
+            String requiredDate = "";
+
+            Date selectedDate = DCReqDate.getDate();
             if (selectedDate != null) {
-            long unixTimestamp = selectedDate.getTime() / 1000; // Convert milliseconds to seconds
-            requiredDate = String.valueOf(unixTimestamp); // Convert to String if needed
-            System.out.println("Unix Timestamp: " + requiredDate);
+                long unixTimestamp = selectedDate.getTime() / 1000; // Convert milliseconds to seconds
+                requiredDate = String.valueOf(unixTimestamp); // Convert to String if needed
+                System.out.println("Unix Timestamp: " + requiredDate);
             } else {
                 JOptionPane.showMessageDialog(this, "Please select a required date.");
                 return; // Exit early if no date is selected
-                }
+            }
             Date currentDate = new Date();
-    long unixTimestampRequisitionDate = currentDate.getTime() / 1000; // Convert current date to Unix timestamp
-    requisitionDate = String.valueOf(unixTimestampRequisitionDate); // Convert to String if needed
-    System.out.println("Unix Timestamp (Requisition Date): " + requisitionDate);
-            
-        // Validate inputs
-        if (selectedItemId == null || selectedItemId.equals("Please choose an item")) {
-            JOptionPane.showMessageDialog(this, "Please select an item.");
-            return;
+            long unixTimestampRequisitionDate = currentDate.getTime() / 1000; // Convert current date to Unix timestamp
+            requisitionDate = String.valueOf(unixTimestampRequisitionDate); // Convert to String if needed
+            System.out.println("Unix Timestamp (Requisition Date): " + requisitionDate);
+
+            // Validate inputs
+            if (selectedItemId == null || selectedItemId.equals("Please choose an item")) {
+                JOptionPane.showMessageDialog(this, "Please select an item.");
+                return;
+            }
+
+            if (quantity.isEmpty() || Integer.parseInt(quantity) <= 0) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid quantity.");
+                return;
+            }
+
+            if (requiredDate.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please select a required date.");
+                return;
+            }
+
+            // Add the requisition using SalesManager
+            SalesManager salesManager = new SalesManager("SM001", "salesManager", "password");
+            salesManager.addRequisition(selectedItemId, quantity, requiredDate, salesManagerId, requisitionDate);
+
+            // Notify the user
+            JOptionPane.showMessageDialog(this, "Requisition created successfully!");
+
+            // Optionally clear inputs
+            cmbItemCode.setSelectedIndex(0);
+            spnQuantityReq.setValue(0);
+            DCReqDate.setDate(null);
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error creating requisition: " + ex.getMessage());
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Invalid quantity format.");
         }
-
-        if (quantity.isEmpty() || Integer.parseInt(quantity) <= 0) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid quantity.");
-            return;
-        }
-
-        if (requiredDate.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please select a required date.");
-            return;
-        }
-
-      
-        
-        // Add the requisition using SalesManager
-        SalesManager salesManager = new SalesManager("SM001", "salesManager", "password");
-        salesManager.addRequisition(selectedItemId, quantity, requiredDate, salesManagerId, requisitionDate);
-
-        // Notify the user
-        JOptionPane.showMessageDialog(this, "Requisition created successfully!");
-
-        // Optionally clear inputs
-        cmbItemCode.setSelectedIndex(0);
-        spnQuantityReq.setValue(0);
-        DCReqDate.setDate(null);
-
-    } catch (IOException ex) {
-        JOptionPane.showMessageDialog(this, "Error creating requisition: " + ex.getMessage());
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(this, "Invalid quantity format.");
-    }
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void lblSalesEntryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesEntryMouseClicked
@@ -683,6 +717,11 @@ public class SMRequisition extends javax.swing.JFrame {
         SMRequisition.this.dispose();
     }//GEN-LAST:event_lblListOfItemsKeyPressed
 
+    private void lblAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAdminMouseClicked
+        new AdminHomeUI(admin).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblAdminMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -735,6 +774,7 @@ public class SMRequisition extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel lblAdmin;
     private javax.swing.JLabel lblItemCode;
     private javax.swing.JLabel lblItemCode2;
     private javax.swing.JLabel lblItemCode4;

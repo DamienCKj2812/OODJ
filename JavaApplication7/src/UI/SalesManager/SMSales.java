@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package UI.SalesManager;
+
+import UI.Admin.AdminHomeUI;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.BufferedReader;
@@ -25,8 +27,8 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import javax.swing.table.TableColumnModel;
-
-
+import models.Admin;
+import state.UserSession;
 
 /**
  *
@@ -34,114 +36,115 @@ import javax.swing.table.TableColumnModel;
  */
 public class SMSales extends javax.swing.JFrame {
 
-    /**
-     * Creates new form SMSales
-     */
+    UserSession userState = UserSession.getInstance();
+    Admin admin = userState.getLoggedInAdmin();
+
     public SMSales() {
         initComponents();
         loadSalesReport();
+        if (admin != null) {
+            lblAdmin.setVisible(true); // Make the button visible
+        } else {
+            lblAdmin.setVisible(false); // Hide the button for non-admin users
+        }
     }
 
-    
-   private void loadSalesReport() {
-    DefaultTableModel model = (DefaultTableModel) tbSalesReport.getModel();
-    model.setRowCount(0); // Clear existing rows
+    private void loadSalesReport() {
+        DefaultTableModel model = (DefaultTableModel) tbSalesReport.getModel();
+        model.setRowCount(0); // Clear existing rows
 
-    // Enable sorting
-    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
-    tbSalesReport.setRowSorter(sorter);
+        // Enable sorting
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+        tbSalesReport.setRowSorter(sorter);
 
-    try {
-        // Provide valid arguments for SalesManager constructor
-        SalesManager salesManager = new SalesManager("SM001", "salesManager1", "password123");
+        try {
+            // Provide valid arguments for SalesManager constructor
+            SalesManager salesManager = new SalesManager("SM001", "salesManager1", "password123");
 
-        // Fetch all sales entries
-        List<Sales> salesEntries = salesManager.getAllSalesEntries();
+            // Fetch all sales entries
+            List<Sales> salesEntries = salesManager.getAllSalesEntries();
 
-        // Fetch inventory items once for efficiency
-        List<Item> inventoryItems = salesManager.getInventoryItems();
+            // Fetch inventory items once for efficiency
+            List<Item> inventoryItems = salesManager.getInventoryItems();
 
-        for (Sales sales : salesEntries) {
-            String salesID = sales.getSalesID();       // Sales ID
-            String itemCode = sales.getItemID();       // Item Code
-            int quantitySold = sales.getQuantitySold(); // Quantity Sold
-            String dateSold = sales.getDateSold();     // Date Sold
-            String notes = sales.getNotes();           // Notes
+            for (Sales sales : salesEntries) {
+                String salesID = sales.getSalesID();       // Sales ID
+                String itemCode = sales.getItemID();       // Item Code
+                int quantitySold = sales.getQuantitySold(); // Quantity Sold
+                String dateSold = sales.getDateSold();     // Date Sold
+                String notes = sales.getNotes();           // Notes
 
-            String formattedDate = StringFormatter.formatUnixTimestamp(dateSold);
-            // Find item details in inventory
-            String itemName = "Unknown Item";
-            double unitPrice = 0.0;
+                String formattedDate = StringFormatter.formatUnixTimestamp(dateSold);
+                // Find item details in inventory
+                String itemName = "Unknown Item";
+                double unitPrice = 0.0;
 
-            
-    for (Item item : inventoryItems) {
-        if (item.getItemID().equals(itemCode)) {
-            itemName = item.getName();        // Item Name
+                for (Item item : inventoryItems) {
+                    if (item.getItemID().equals(itemCode)) {
+                        itemName = item.getName();        // Item Name
 
-            // Convert unit price from String to double
-            try {
-                unitPrice = Double.parseDouble(item.getPrice());
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Invalid price format for item: " + item.getName());
-                unitPrice = 0.0; // Default value in case of error
+                        // Convert unit price from String to double
+                        try {
+                            unitPrice = Double.parseDouble(item.getPrice());
+                        } catch (NumberFormatException e) {
+                            JOptionPane.showMessageDialog(null, "Invalid price format for item: " + item.getName());
+                            unitPrice = 0.0; // Default value in case of error
+                        }
+                        break;
+                    }
+                }
+
+                // Calculate total amount
+                double totalAmount = quantitySold * unitPrice;
+
+                // Add row to the table model
+                model.addRow(new Object[]{salesID, itemCode, itemName, quantitySold, formattedDate, notes, unitPrice, totalAmount});
             }
-            break;
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error loading sales data: " + e.getMessage());
+            e.printStackTrace();
         }
+
+        TableColumnModel columnModel = tbSalesReport.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(180); // Sales ID
+        columnModel.getColumn(1).setPreferredWidth(180);  // Item Code
+        columnModel.getColumn(2).setPreferredWidth(150); // Item Name
+        columnModel.getColumn(3).setPreferredWidth(40);  // Quantity Sold
+        columnModel.getColumn(4).setPreferredWidth(120); // Date Sold
+        columnModel.getColumn(5).setPreferredWidth(100); // Notes
+        columnModel.getColumn(6).setPreferredWidth(80);  // Unit Price
+        columnModel.getColumn(7).setPreferredWidth(100); // Total Amount
     }
 
-            // Calculate total amount
-            double totalAmount = quantitySold * unitPrice;
+    private void deleteSalesEntryFromFile(String itemCode) {
+        List<String> updatedLines = new ArrayList<>();
 
-            // Add row to the table model
-            model.addRow(new Object[]{salesID, itemCode, itemName, quantitySold, formattedDate, notes, unitPrice, totalAmount});
-        }
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error loading sales data: " + e.getMessage());
-        e.printStackTrace();
-    }
-    
-    TableColumnModel columnModel = tbSalesReport.getColumnModel();
-    columnModel.getColumn(0).setPreferredWidth(180); // Sales ID
-    columnModel.getColumn(1).setPreferredWidth(180);  // Item Code
-    columnModel.getColumn(2).setPreferredWidth(150); // Item Name
-    columnModel.getColumn(3).setPreferredWidth(40);  // Quantity Sold
-    columnModel.getColumn(4).setPreferredWidth(120); // Date Sold
-    columnModel.getColumn(5).setPreferredWidth(100); // Notes
-    columnModel.getColumn(6).setPreferredWidth(80);  // Unit Price
-    columnModel.getColumn(7).setPreferredWidth(100); // Total Amount
-}
+        try (BufferedReader reader = new BufferedReader(new FileReader("data/SalesEntryData.txt"))) {
+            String line;
 
-   private void deleteSalesEntryFromFile(String itemCode) {
-    List<String> updatedLines = new ArrayList<>();
-    
-    try (BufferedReader reader = new BufferedReader(new FileReader("data/SalesEntryData.txt"))) {
-        String line;
-        
-        // Read all lines and skip the line that matches the itemCode
-        while ((line = reader.readLine()) != null) {
-            String[] salesDetail = line.split("\\|");
-            if (salesDetail.length > 0 && !salesDetail[0].equals(itemCode)) {
-                updatedLines.add(line);
+            // Read all lines and skip the line that matches the itemCode
+            while ((line = reader.readLine()) != null) {
+                String[] salesDetail = line.split("\\|");
+                if (salesDetail.length > 0 && !salesDetail[0].equals(itemCode)) {
+                    updatedLines.add(line);
+                }
             }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error reading sales entry file: " + e.getMessage());
+            return;
         }
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error reading sales entry file: " + e.getMessage());
-        return;
-    }
-    
-    // Write the updated list back to the file
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/SalesEntryData.txt"))) {
-        for (String updatedLine : updatedLines) {
-            writer.write(updatedLine);
-            writer.newLine();
-        }
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error updating sales entry file: " + e.getMessage());
-    }
-}
 
-   
-   
+        // Write the updated list back to the file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/SalesEntryData.txt"))) {
+            for (String updatedLine : updatedLines) {
+                writer.write(updatedLine);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error updating sales entry file: " + e.getMessage());
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -169,6 +172,7 @@ public class SMSales extends javax.swing.JFrame {
         jPanel14 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         lblListOfItems = new javax.swing.JLabel();
+        lblAdmin = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -480,6 +484,15 @@ public class SMSales extends javax.swing.JFrame {
             .addComponent(lblListOfItems, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
         );
 
+        lblAdmin.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/user (1).png"))); // NOI18N
+        lblAdmin.setText("Admin");
+        lblAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAdminMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -489,6 +502,9 @@ public class SMSales extends javax.swing.JFrame {
                 .addGap(211, 211, 211)
                 .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -497,7 +513,9 @@ public class SMSales extends javax.swing.JFrame {
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(167, 167, 167)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(114, 114, 114)
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -512,10 +530,9 @@ public class SMSales extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 785, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 785, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(90, 90, 90)
                                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -534,17 +551,15 @@ public class SMSales extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(16, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(47, 47, 47))))
+                        .addGap(47, 47, 47))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
         );
 
         pack();
@@ -560,90 +575,90 @@ public class SMSales extends javax.swing.JFrame {
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         try {
-        // Initialize SalesManager instance
-        SalesManager salesManager = new SalesManager("SM001", "salesManager", "password"); // Replace with actual credentials if necessary
+            // Initialize SalesManager instance
+            SalesManager salesManager = new SalesManager("SM001", "salesManager", "password"); // Replace with actual credentials if necessary
 
-        int selectedRow = tbSalesReport.getSelectedRow();
-        if (selectedRow != -1) {
-            // Get the sales ID from the selected row
-            String salesID = tbSalesReport.getValueAt(selectedRow, 0).toString();
+            int selectedRow = tbSalesReport.getSelectedRow();
+            if (selectedRow != -1) {
+                // Get the sales ID from the selected row
+                String salesID = tbSalesReport.getValueAt(selectedRow, 0).toString();
 
-            // Retrieve the sales entry using SalesManager
-            Sales salesEntry = salesManager.getSalesEntry(salesID);
+                // Retrieve the sales entry using SalesManager
+                Sales salesEntry = salesManager.getSalesEntry(salesID);
 
-            // Ensure the sales entry exists
-            if (salesEntry != null) {
-                // Open SMSalesEntry for editing, passing the retrieved Sales object and the selected row index
-                SMSalesEntry editEntry = new SMSalesEntry(salesEntry, selectedRow);
-                editEntry.setVisible(true);
+                // Ensure the sales entry exists
+                if (salesEntry != null) {
+                    // Open SMSalesEntry for editing, passing the retrieved Sales object and the selected row index
+                    SMSalesEntry editEntry = new SMSalesEntry(salesEntry, selectedRow);
+                    editEntry.setVisible(true);
 
-                // Close the current SMSales window
-                SMSales.this.dispose();
+                    // Close the current SMSales window
+                    SMSales.this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "The selected sales entry could not be found.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "The selected sales entry could not be found.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please select a row to edit.");
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Please select a row to edit.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An error occurred while retrieving the sales entry. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    } catch (IOException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "An error occurred while retrieving the sales entry. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
     }//GEN-LAST:event_btnEditActionPerformed
 
-    
+
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-       try {
-        // Initialize SalesManager instance
-        SalesManager salesManager = new SalesManager("SM001", "salesManager", "password"); // Replace with actual credentials if necessary
+        try {
+            // Initialize SalesManager instance
+            SalesManager salesManager = new SalesManager("SM001", "salesManager", "password"); // Replace with actual credentials if necessary
 
-        int selectedRow = tbSalesReport.getSelectedRow();
-        if (selectedRow != -1) {
-            // Get the sales ID from the selected row
-            String salesID = tbSalesReport.getValueAt(selectedRow, 0).toString();
+            int selectedRow = tbSalesReport.getSelectedRow();
+            if (selectedRow != -1) {
+                // Get the sales ID from the selected row
+                String salesID = tbSalesReport.getValueAt(selectedRow, 0).toString();
 
-            // Confirm deletion with the user
-            int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this entry?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
-            if (confirmation == JOptionPane.YES_OPTION) {
-                // Call the SalesManager function to delete the entry
-                Sales deletedSales = salesManager.removeSalesEntry(salesID);
+                // Confirm deletion with the user
+                int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this entry?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+                if (confirmation == JOptionPane.YES_OPTION) {
+                    // Call the SalesManager function to delete the entry
+                    Sales deletedSales = salesManager.removeSalesEntry(salesID);
 
-                // Check if the sales entry was successfully deleted
-                if (deletedSales != null) {
-                    // Remove the row from the table
-                    ((DefaultTableModel) tbSalesReport.getModel()).removeRow(selectedRow);
+                    // Check if the sales entry was successfully deleted
+                    if (deletedSales != null) {
+                        // Remove the row from the table
+                        ((DefaultTableModel) tbSalesReport.getModel()).removeRow(selectedRow);
 
-                    JOptionPane.showMessageDialog(this, "Sales entry deleted successfully.");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Failed to delete the sales entry. Entry not found.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Sales entry deleted successfully.");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Failed to delete the sales entry. Entry not found.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a row to delete.");
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Please select a row to delete.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An error occurred while deleting the sales entry. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    } catch (IOException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "An error occurred while deleting the sales entry. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
-         // Create the header format
-    MessageFormat header = new MessageFormat("Sales Report");
+        // Create the header format
+        MessageFormat header = new MessageFormat("Sales Report");
 
-    // Set the page format to ensure columns fit
-    PrinterJob printerJob = PrinterJob.getPrinterJob();
-    PageFormat pageFormat = printerJob.defaultPage();
-    pageFormat.setOrientation(PageFormat.LANDSCAPE);  // Optional: Landscape orientation
+        // Set the page format to ensure columns fit
+        PrinterJob printerJob = PrinterJob.getPrinterJob();
+        PageFormat pageFormat = printerJob.defaultPage();
+        pageFormat.setOrientation(PageFormat.LANDSCAPE);  // Optional: Landscape orientation
 
-    printerJob.setPrintable(tbSalesReport.getPrintable(JTable.PrintMode.FIT_WIDTH, header, null), pageFormat);
+        printerJob.setPrintable(tbSalesReport.getPrintable(JTable.PrintMode.FIT_WIDTH, header, null), pageFormat);
 
-    // Try to print the table
-    try {
-        printerJob.print();
-    } catch (PrinterException e) {
-        JOptionPane.showMessageDialog(rootPane, e);
-    }
+        // Try to print the table
+        try {
+            printerJob.print();
+        } catch (PrinterException e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
     }//GEN-LAST:event_btnPrintActionPerformed
 
     private void lblSalesEntryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesEntryMouseClicked
@@ -668,7 +683,7 @@ public class SMSales extends javax.swing.JFrame {
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
-       SMSales.this.dispose();
+        SMSales.this.dispose();
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void lblStockLevelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockLevelMouseClicked
@@ -676,7 +691,7 @@ public class SMSales extends javax.swing.JFrame {
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
-       SMSales.this.dispose();
+        SMSales.this.dispose();
     }//GEN-LAST:event_lblStockLevelMouseClicked
 
     private void lblRequisitionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisitionMouseClicked
@@ -684,7 +699,7 @@ public class SMSales extends javax.swing.JFrame {
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
-      SMSales.this.dispose();
+        SMSales.this.dispose();
     }//GEN-LAST:event_lblRequisitionMouseClicked
 
     private void lblRequisition1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisition1MouseClicked
@@ -716,6 +731,11 @@ public class SMSales extends javax.swing.JFrame {
         // Optional: Hide or dispose of the current frame if you want
         SMSales.this.dispose();
     }//GEN-LAST:event_lblListOfItemsKeyPressed
+
+    private void lblAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAdminMouseClicked
+        new AdminHomeUI(admin).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblAdminMouseClicked
 
     /**
      * @param args the command line arguments
@@ -768,6 +788,7 @@ public class SMSales extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblAdmin;
     private javax.swing.JLabel lblListOfItem;
     private javax.swing.JLabel lblListOfItems;
     private javax.swing.JLabel lblRequisition;
