@@ -65,7 +65,7 @@
                           <EmptySpace min="0" pref="53" max="32767" attributes="0"/>
                           <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jPanel2" pref="468" max="32767" attributes="0"/>
+                      <Component id="jPanel2" pref="467" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -127,8 +127,7 @@
                           <Component id="spnQuantityReq" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="40" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="DCReqDate" alignment="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lblItemCode4" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="lblItemCode2" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="txtItemName" alignment="0" min="-2" pref="204" max="-2" attributes="0"/>
@@ -162,8 +161,7 @@
                           </Group>
                           <Group type="102" attributes="0">
                               <Component id="lblItemCode4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="DCReqDate" min="-2" pref="32" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="163" max="32767" attributes="0"/>
@@ -225,13 +223,6 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtItemName">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="18" style="1"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="DCReqDate">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="18" style="1"/>
@@ -569,7 +560,7 @@
                           <Font name="Arial" size="18" style="1"/>
                         </Property>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/imgSM/logout (1).png"/>
+                          <Image iconType="3" name="/imgSM/management (1).png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Log Out"/>
                       </Properties>

@@ -5,6 +5,8 @@
 package UI.SalesManager;
 
 import UI.Admin.AdminHomeUI;
+
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
@@ -21,6 +23,7 @@ import models.SalesManager;
 import java.util.Date;
 import models.Admin;
 import state.UserSession;
+import org.joda.time.DateTime;
 
 /**
  *
@@ -144,7 +147,6 @@ public class SMRequisition extends javax.swing.JFrame {
         spnQuantityReq = new javax.swing.JSpinner();
         lblItemCode2 = new javax.swing.JLabel();
         txtItemName = new javax.swing.JTextField();
-        DCReqDate = new com.toedter.calendar.JDateChooser();
         jPanel10 = new javax.swing.JPanel();
         btnCreate = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -207,8 +209,6 @@ public class SMRequisition extends javax.swing.JFrame {
 
         txtItemName.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
-        DCReqDate.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -221,8 +221,7 @@ public class SMRequisition extends javax.swing.JFrame {
                     .addComponent(cmbItemCode, 0, 267, Short.MAX_VALUE)
                     .addComponent(spnQuantityReq))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(DCReqDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblItemCode4)
                     .addComponent(lblItemCode2)
                     .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -249,8 +248,7 @@ public class SMRequisition extends javax.swing.JFrame {
                         .addComponent(spnQuantityReq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(lblItemCode4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(DCReqDate, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(38, 38, 38)))
                 .addContainerGap(163, Short.MAX_VALUE))
         );
 
@@ -413,7 +411,7 @@ public class SMRequisition extends javax.swing.JFrame {
         jPanel15.setPreferredSize(new java.awt.Dimension(180, 45));
 
         lblRequisition2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblRequisition2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/logout (1).png"))); // NOI18N
+        lblRequisition2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/management (1).png"))); // NOI18N
         lblRequisition2.setText("Log Out");
         lblRequisition2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -571,7 +569,7 @@ public class SMRequisition extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 53, Short.MAX_VALUE)
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 468, Short.MAX_VALUE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 467, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -598,17 +596,17 @@ public class SMRequisition extends javax.swing.JFrame {
             String requisitionDate = ""; // Today's date
             String requiredDate = "";
 
-            Date selectedDate = DCReqDate.getDate();
+            DateTime selectedDate = DateTime.now();
             if (selectedDate != null) {
-                long unixTimestamp = selectedDate.getTime() / 1000; // Convert milliseconds to seconds
+                long unixTimestamp = DateTime.now().getMillis(); // Convert milliseconds to seconds
                 requiredDate = String.valueOf(unixTimestamp); // Convert to String if needed
                 System.out.println("Unix Timestamp: " + requiredDate);
             } else {
                 JOptionPane.showMessageDialog(this, "Please select a required date.");
                 return; // Exit early if no date is selected
             }
-            Date currentDate = new Date();
-            long unixTimestampRequisitionDate = currentDate.getTime() / 1000; // Convert current date to Unix timestamp
+            DateTime currentDate = new DateTime();
+            long unixTimestampRequisitionDate = currentDate.getMillis();
             requisitionDate = String.valueOf(unixTimestampRequisitionDate); // Convert to String if needed
             System.out.println("Unix Timestamp (Requisition Date): " + requisitionDate);
 
@@ -638,7 +636,7 @@ public class SMRequisition extends javax.swing.JFrame {
             // Optionally clear inputs
             cmbItemCode.setSelectedIndex(0);
             spnQuantityReq.setValue(0);
-            DCReqDate.setDate(null);
+            
 
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "Error creating requisition: " + ex.getMessage());
@@ -758,7 +756,6 @@ public class SMRequisition extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser DCReqDate;
     private javax.swing.JButton btnCreate;
     private javax.swing.JComboBox<String> cmbItemCode;
     private javax.swing.JPanel jPanel1;
