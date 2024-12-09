@@ -20,7 +20,10 @@ import models.Item;
 import models.SalesManager;
 import java.util.Date;
 import models.Admin;
+import models.User;
 import state.UserSession;
+import utils.LogHandler;
+import models.Requisition;
 
 /**
  *
@@ -28,11 +31,16 @@ import state.UserSession;
  */
 public class SMRequisition extends javax.swing.JFrame {
 
+    private User user;
     private List<ItemData> inventoryItems = new ArrayList<>();
     UserSession userState = UserSession.getInstance();
     Admin admin = userState.getLoggedInAdmin();
+    SalesManager salesManager;
+    private LogHandler logHandler;
 
-    public SMRequisition() {
+    public SMRequisition(SalesManager salesManager) {
+        this.salesManager = salesManager;
+        this.logHandler = new LogHandler(salesManager);
         initComponents();
         loadInventoryData(); // Load inventory data from file
         populateItemCodeComboBox();
@@ -594,7 +602,7 @@ public class SMRequisition extends javax.swing.JFrame {
             String selectedItemId = (String) cmbItemCode.getSelectedItem();
             String quantity = spnQuantityReq.getValue().toString();
 
-            String salesManagerId = "SM001"; // Replace with actual logged-in Sales Manager ID
+           
             String requisitionDate = ""; // Today's date
             String requiredDate = "";
 
@@ -628,12 +636,16 @@ public class SMRequisition extends javax.swing.JFrame {
                 return;
             }
 
-            // Add the requisition using SalesManager
-            SalesManager salesManager = new SalesManager("SM001", "salesManager", "password");
-            salesManager.addRequisition(selectedItemId, quantity, requiredDate, salesManagerId, requisitionDate);
+            Requisition newRequisition = salesManager.addRequisition(selectedItemId, quantity, requiredDate, salesManager.getUserID(), requisitionDate);
+
+            // Retrieve the new requisition ID
+            String newRequisitionId = newRequisition.getRequisitionId();
 
             // Notify the user
-            JOptionPane.showMessageDialog(this, "Requisition created successfully!");
+            JOptionPane.showMessageDialog(this, "Requisition created successfully! (ID: " + newRequisitionId + ")");
+
+            // Log the action
+            logHandler.addLogActionToFile(String.format("Requisition created successfully! (Requisition ID: %s)", newRequisitionId));
 
             // Optionally clear inputs
             cmbItemCode.setSelectedIndex(0);
@@ -648,7 +660,7 @@ public class SMRequisition extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void lblSalesEntryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesEntryMouseClicked
-        SMSales newPage = new SMSales();   // Replace with the name of your target frame
+        SMSales newPage = new SMSales(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -665,7 +677,7 @@ public class SMRequisition extends javax.swing.JFrame {
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
-        SMSalesEntry newPage = new SMSalesEntry();   // Replace with the name of your target frame
+        SMSalesEntry newPage = new SMSalesEntry(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -673,7 +685,7 @@ public class SMRequisition extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void lblStockLevelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockLevelMouseClicked
-        SMStockLevel newPage = new SMStockLevel();   // Replace with the name of your target frame
+        SMStockLevel newPage = new SMStockLevel(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -681,7 +693,7 @@ public class SMRequisition extends javax.swing.JFrame {
     }//GEN-LAST:event_lblStockLevelMouseClicked
 
     private void lblRequisitionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisitionMouseClicked
-        SMRequisition newPage = new SMRequisition();   // Replace with the name of your target frame
+        SMRequisition newPage = new SMRequisition(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -689,7 +701,7 @@ public class SMRequisition extends javax.swing.JFrame {
     }//GEN-LAST:event_lblRequisitionMouseClicked
 
     private void lblRequisition1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisition1MouseClicked
-        SMPurchaseOrder newPage = new SMPurchaseOrder();   // Replace with the name of your target frame
+        SMPurchaseOrder newPage = new SMPurchaseOrder(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -702,7 +714,7 @@ public class SMRequisition extends javax.swing.JFrame {
 
     private void lblListOfItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblListOfItemsMouseClicked
         // TODO add your handling code here:
-        SMListOfItem newPage = new SMListOfItem();   // Replace with the name of your target frame
+        SMListOfItem newPage = new SMListOfItem(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -710,7 +722,7 @@ public class SMRequisition extends javax.swing.JFrame {
     }//GEN-LAST:event_lblListOfItemsMouseClicked
 
     private void lblListOfItemsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblListOfItemsKeyPressed
-        SMListOfItem newPage = new SMListOfItem();   // Replace with the name of your target frame
+        SMListOfItem newPage = new SMListOfItem(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -726,35 +738,35 @@ public class SMRequisition extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SMRequisition.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SMRequisition.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SMRequisition.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SMRequisition.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SMRequisition().setVisible(true);
-            }
-        });
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(SMRequisition.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(SMRequisition.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(SMRequisition.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(SMRequisition.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new SMRequisition().setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

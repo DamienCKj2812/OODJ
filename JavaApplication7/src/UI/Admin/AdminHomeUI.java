@@ -258,7 +258,7 @@ public class AdminHomeUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void manageSalesManagerFunctionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageSalesManagerFunctionsButtonActionPerformed
-        new SMListOfItem().setVisible(true);
+        new SMListOfItem(admin.getSalesManager()).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_manageSalesManagerFunctionsButtonActionPerformed
 

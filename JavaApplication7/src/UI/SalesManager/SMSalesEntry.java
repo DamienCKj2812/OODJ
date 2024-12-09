@@ -21,6 +21,7 @@ import UI.Authentication.LoginUI;
 import models.Admin;
 import models.InventoryManager;
 import state.UserSession;
+import utils.LogHandler;
 
 public class SMSalesEntry extends javax.swing.JFrame {
 
@@ -30,12 +31,14 @@ public class SMSalesEntry extends javax.swing.JFrame {
     private int editingRowIndex = -1;
     private Sales salesEntry;
     private SalesManager salesManager;
+    private LogHandler logHandler;
 
-    public SMSalesEntry(Sales salesEntry, int rowIndex) {
+    public SMSalesEntry(Sales salesEntry, int rowIndex, SalesManager salesManager) {
         initComponents();
-        this.salesManager = salesManager;
         this.salesEntry = salesEntry;  // Store the salesEntry object here
         loadInventoryData();
+        this.salesManager = salesManager;
+        this.logHandler = new LogHandler(salesManager);
         populateItemCodeComboBox();
         setupQuantitySpinner();
         cmbItemCode.setSelectedItem(salesEntry.getItemID());
@@ -52,8 +55,13 @@ public class SMSalesEntry extends javax.swing.JFrame {
         }
     }
 
-    public SMSalesEntry() {
+    public SMSalesEntry(SalesManager salesManager) {
         initComponents();
+        this.salesManager = salesManager;
+        this.logHandler = new LogHandler(salesManager);
+        System.out.println("Here is SM sales entry page");
+        System.out.println(salesManager.getUserID());
+        System.out.println(salesManager.getUsername());
         loadInventoryData();
         populateItemCodeComboBox();
         setupQuantitySpinner();
@@ -797,52 +805,51 @@ public class SMSalesEntry extends javax.swing.JFrame {
 
     private void btnAddSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSalesActionPerformed
         try {
-        // Get the selected item code
-        String itemCode = (String) cmbItemCode.getSelectedItem();
+            // Get the selected item code
+            String itemCode = (String) cmbItemCode.getSelectedItem();
 
-        // Validate that the item code is not "Please choose an item"
-        if ("Please choose an item".equals(itemCode)) {
-            JOptionPane.showMessageDialog(this, "Please select a valid item code.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            return;
+            // Validate that the item code is not "Please choose an item"
+            if ("Please choose an item".equals(itemCode)) {
+                JOptionPane.showMessageDialog(this, "Please select a valid item code.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Validate that quantity sold is greater than 0
+            int quantitySold = (Integer) spnQuantitySold.getValue();
+            if (quantitySold <= 0) {
+                JOptionPane.showMessageDialog(this, "Quantity sold must be greater than 0.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Get notes
+            String notes = txtaNotes.getText().trim();
+            if (notes.isEmpty()) {
+                notes = "-";
+            }
+
+            // Get the current date (or use a custom date)
+            String dateSold = String.valueOf(System.currentTimeMillis() / 1000); // Unix timestamp in seconds
+
+            Sales newSalesEntry = salesManager.addSalesEntry(itemCode, quantitySold, dateSold, notes);
+
+            // Show success message
+            JOptionPane.showMessageDialog(this, "Sale added successfully! Sales ID: " + newSalesEntry.getSalesID(), "Success", JOptionPane.INFORMATION_MESSAGE);
+
+            logHandler.addLogActionToFile(String.format("Sales added successfully! (Sales ID:%S)", newSalesEntry.getSalesID()));
+            // Clear fields
+            cmbItemCode.setSelectedIndex(0);
+            spnQuantitySold.setValue(0);
+            txtaNotes.setText("");
+
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "An error occurred while saving the sales entry: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "An unexpected error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
-
-        // Validate that quantity sold is greater than 0
-        int quantitySold = (Integer) spnQuantitySold.getValue();
-        if (quantitySold <= 0) {
-            JOptionPane.showMessageDialog(this, "Quantity sold must be greater than 0.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Get notes
-        String notes = txtaNotes.getText().trim();
-        if (notes.isEmpty()) {
-            notes = "-";
-        }
-
-        // Get the current date (or use a custom date)
-        String dateSold = String.valueOf(System.currentTimeMillis() / 1000); // Unix timestamp in seconds
-
-        // Use SalesManager to add the sales entry
-        SalesManager salesManager = new SalesManager("SM001", "salesManager", "password"); // Ensure SalesManager has a no-argument constructor
-        Sales newSalesEntry = salesManager.addSalesEntry(itemCode, quantitySold, dateSold, notes);
-
-        // Show success message
-        JOptionPane.showMessageDialog(this, "Sale added successfully! Sales ID: " + newSalesEntry.getSalesID(), "Success", JOptionPane.INFORMATION_MESSAGE);
-
-        // Clear fields
-        cmbItemCode.setSelectedIndex(0);
-        spnQuantitySold.setValue(0);
-        txtaNotes.setText("");
-
-    } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "An error occurred while saving the sales entry: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "An unexpected error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
-    }
     }//GEN-LAST:event_btnAddSalesActionPerformed
 
     private void cmbItemCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbItemCodeActionPerformed
@@ -866,6 +873,7 @@ public class SMSalesEntry extends javax.swing.JFrame {
             if (notes.isEmpty()) {
                 notes = "-";  // Set to "-" if notes are empty
             }
+            Item item = salesManager.getInventoryItem(itemID);
 
             // Handle unit price properly
             String unitPriceText = txtUnitPrice.getText().trim();
@@ -892,14 +900,15 @@ public class SMSalesEntry extends javax.swing.JFrame {
             }
 
             // Update the sales entry
-            SalesManager salesManager = new SalesManager("SM001", "salesManager", "password");  // Provide actual credentials if needed
+          
             Sales updatedSales = salesManager.updateSalesEntry(salesEntry.getSalesID(), itemID, quantitySold, String.valueOf(unixTimestamp), notes);
 
             if (updatedSales != null) {
                 JOptionPane.showMessageDialog(this, "Sale updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
+                logHandler.addLogActionToFile(String.format("Sales EDITED (Sales ID:%S)", item.getItemID()));
                 // Close this editing window and return to SMSales
-                SMSales newPage = new SMSales();  // Replace with the name of your target frame
+                SMSales newPage = new SMSales(salesManager);  // Replace with the name of your target frame
                 newPage.setVisible(true);
                 this.dispose();
             } else {
@@ -912,14 +921,14 @@ public class SMSalesEntry extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        SMSales newPage = new SMSales();
+        SMSales newPage = new SMSales(salesManager);
         newPage.setVisible(true);
 
         SMSalesEntry.this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void lblSalesEntryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesEntryMouseClicked
-        SMSales newPage = new SMSales();   // Replace with the name of your target frame
+        SMSales newPage = new SMSales(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -936,7 +945,7 @@ public class SMSalesEntry extends javax.swing.JFrame {
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
-        SMSalesEntry newPage = new SMSalesEntry();   // Replace with the name of your target frame
+        SMSalesEntry newPage = new SMSalesEntry(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -944,7 +953,7 @@ public class SMSalesEntry extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void lblStockLevelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockLevelMouseClicked
-        SMStockLevel newPage = new SMStockLevel();   // Replace with the name of your target frame
+        SMStockLevel newPage = new SMStockLevel(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -952,7 +961,7 @@ public class SMSalesEntry extends javax.swing.JFrame {
     }//GEN-LAST:event_lblStockLevelMouseClicked
 
     private void lblRequisitionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisitionMouseClicked
-        SMRequisition newPage = new SMRequisition();   // Replace with the name of your target frame
+        SMRequisition newPage = new SMRequisition(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -960,7 +969,7 @@ public class SMSalesEntry extends javax.swing.JFrame {
     }//GEN-LAST:event_lblRequisitionMouseClicked
 
     private void lblRequisition1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisition1MouseClicked
-        SMPurchaseOrder newPage = new SMPurchaseOrder();   // Replace with the name of your target frame
+        SMPurchaseOrder newPage = new SMPurchaseOrder(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -968,7 +977,7 @@ public class SMSalesEntry extends javax.swing.JFrame {
     }//GEN-LAST:event_lblRequisition1MouseClicked
 
     private void lblLogOutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogOutMouseClicked
-new LoginUI().setVisible(true);
+        new LoginUI().setVisible(true);
         userState.setLoggedInAdmin(null);
         this.dispose();
     }//GEN-LAST:event_lblLogOutMouseClicked
@@ -980,7 +989,7 @@ new LoginUI().setVisible(true);
 
     private void lblListOfItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblListOfItemsMouseClicked
         // TODO add your handling code here:
-        SMListOfItem newPage = new SMListOfItem();   // Replace with the name of your target frame
+        SMListOfItem newPage = new SMListOfItem(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -988,7 +997,7 @@ new LoginUI().setVisible(true);
     }//GEN-LAST:event_lblListOfItemsMouseClicked
 
     private void lblListOfItemsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblListOfItemsKeyPressed
-        SMListOfItem newPage = new SMListOfItem();   // Replace with the name of your target frame
+        SMListOfItem newPage = new SMListOfItem(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
         // Optional: Hide or dispose of the current frame if you want
         SMSalesEntry.this.dispose();
@@ -998,35 +1007,35 @@ new LoginUI().setVisible(true);
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SMSalesEntry.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SMSalesEntry.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SMSalesEntry.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SMSalesEntry.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SMSalesEntry().setVisible(true);
-            }
-        });
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(SMSalesEntry.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(SMSalesEntry.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(SMSalesEntry.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(SMSalesEntry.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new SMSalesEntry().setVisible(true);
+//            }
+//        });
     }
 
 

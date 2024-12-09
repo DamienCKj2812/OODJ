@@ -20,11 +20,13 @@ public class Admin extends User {
     private FileManager fileManager = new FileManager(Constants.USER_DATA_PATH);
     private InventoryManager inventoryManager;
     private FinanceManager financeManager;
+    private SalesManager salesManager;
 
     public Admin(String userID, String username, String password) {
         super(userID, username, password, "admin");
         this.inventoryManager = new InventoryManager(userID, username, password);
         this.financeManager = new FinanceManager(userID, username, password);
+        this.salesManager = new SalesManager(userID, username, password);
 
     }
 
@@ -201,6 +203,10 @@ public class Admin extends User {
 
     public FinanceManager getFinanceManager() {
         return financeManager;
+    }
+
+    public SalesManager getSalesManager() {
+        return salesManager;
     }
 
 }
