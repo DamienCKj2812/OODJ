@@ -19,6 +19,10 @@ public class SalesManager extends User {
         return inventory.getInventoryItems();
     }
 
+    public Item getInventoryItem(String itemId) throws IOException {
+        return inventory.getItem(itemId);
+    }
+
     // Sales part
     public double getSalesRevenue(Sales salesEntry) throws IOException {
         return salesAction.getSalesRevenue(salesEntry);

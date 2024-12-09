@@ -21,12 +21,14 @@ public class Admin extends User {
     private InventoryManager inventoryManager;
     private FinanceManager financeManager;
     private PurchaseManager purchaseManager;
+    private SalesManager salesManager;
 
     public Admin(String userID, String username, String password) {
         super(userID, username, password, "admin");
         this.inventoryManager = new InventoryManager(userID, username, password);
         this.financeManager = new FinanceManager(userID, username, password);
         this.purchaseManager = new PurchaseManager(userID, username, password);
+        this.salesManager = new SalesManager(userID, username, password);
 
     }
 
@@ -204,9 +206,13 @@ public class Admin extends User {
     public FinanceManager getFinanceManager() {
         return financeManager;
     }
-    
+
     public PurchaseManager getPurchaseManager() {
         return purchaseManager;
+    }
+
+    public SalesManager getSalesManager() {
+        return salesManager;
     }
 
 }

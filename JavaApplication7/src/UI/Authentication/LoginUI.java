@@ -187,7 +187,7 @@ public class LoginUI extends javax.swing.JFrame {
                 this.dispose();
             } else if (user instanceof SalesManager) {
                 SalesManager salesManager = (SalesManager) user;
-                new SMListOfItem().setVisible(true);
+                new SMListOfItem(salesManager).setVisible(true);
                 this.dispose();
             } else if (user instanceof InventoryManager) {
                 InventoryManager inventoryManager = (InventoryManager) user;

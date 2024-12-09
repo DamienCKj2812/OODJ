@@ -6,10 +6,8 @@ package UI.FinanceManager;
 
 import UI.Admin.AdminHomeUI;
 import UI.Authentication.LoginUI;
-import UI.InventoryManager.SupplierEntryUI;
 import models.Admin;
 import models.FinanceManager;
-import models.InventoryManager;
 import models.User;
 import state.UserSession;
 

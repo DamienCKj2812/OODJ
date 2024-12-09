@@ -39,9 +39,11 @@ public class SMSales extends javax.swing.JFrame {
 
     UserSession userState = UserSession.getInstance();
     Admin admin = userState.getLoggedInAdmin();
+    SalesManager salesManager;
 
-    public SMSales() {
+    public SMSales(SalesManager salesManager) {
         initComponents();
+        this.salesManager = salesManager;
         loadSalesReport();
         if (admin != null) {
             lblAdmin.setVisible(true); // Make the button visible
@@ -567,7 +569,7 @@ public class SMSales extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        SMSalesEntry newPage = new SMSalesEntry();   // Replace with the name of your target frame
+        SMSalesEntry newPage = new SMSalesEntry(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -590,7 +592,7 @@ public class SMSales extends javax.swing.JFrame {
                 // Ensure the sales entry exists
                 if (salesEntry != null) {
                     // Open SMSalesEntry for editing, passing the retrieved Sales object and the selected row index
-                    SMSalesEntry editEntry = new SMSalesEntry(salesEntry, selectedRow);
+                    SMSalesEntry editEntry = new SMSalesEntry(salesEntry, selectedRow, salesManager);
                     editEntry.setVisible(true);
 
                     // Close the current SMSales window
@@ -663,7 +665,7 @@ public class SMSales extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPrintActionPerformed
 
     private void lblSalesEntryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesEntryMouseClicked
-        SMSales newPage = new SMSales();   // Replace with the name of your target frame
+        SMSales newPage = new SMSales(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -680,7 +682,7 @@ public class SMSales extends javax.swing.JFrame {
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
-        SMSalesEntry newPage = new SMSalesEntry();   // Replace with the name of your target frame
+        SMSalesEntry newPage = new SMSalesEntry(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -688,7 +690,7 @@ public class SMSales extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void lblStockLevelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockLevelMouseClicked
-        SMStockLevel newPage = new SMStockLevel();   // Replace with the name of your target frame
+        SMStockLevel newPage = new SMStockLevel(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -696,7 +698,7 @@ public class SMSales extends javax.swing.JFrame {
     }//GEN-LAST:event_lblStockLevelMouseClicked
 
     private void lblRequisitionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisitionMouseClicked
-        SMRequisition newPage = new SMRequisition();   // Replace with the name of your target frame
+        SMRequisition newPage = new SMRequisition(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -704,7 +706,7 @@ public class SMSales extends javax.swing.JFrame {
     }//GEN-LAST:event_lblRequisitionMouseClicked
 
     private void lblRequisition1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisition1MouseClicked
-        SMPurchaseOrder newPage = new SMPurchaseOrder();   // Replace with the name of your target frame
+        SMPurchaseOrder newPage = new SMPurchaseOrder(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -712,14 +714,14 @@ public class SMSales extends javax.swing.JFrame {
     }//GEN-LAST:event_lblRequisition1MouseClicked
 
     private void lblRequisition2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisition2MouseClicked
-      new LoginUI().setVisible(true);
+        new LoginUI().setVisible(true);
         userState.setLoggedInAdmin(null);
         this.dispose();
     }//GEN-LAST:event_lblRequisition2MouseClicked
 
     private void lblListOfItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblListOfItemsMouseClicked
         // TODO add your handling code here:
-        SMListOfItem newPage = new SMListOfItem();   // Replace with the name of your target frame
+        SMListOfItem newPage = new SMListOfItem(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -728,7 +730,7 @@ public class SMSales extends javax.swing.JFrame {
     }//GEN-LAST:event_lblListOfItemsMouseClicked
 
     private void lblListOfItemsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblListOfItemsKeyPressed
-        SMListOfItem newPage = new SMListOfItem();   // Replace with the name of your target frame
+        SMListOfItem newPage = new SMListOfItem(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -744,35 +746,35 @@ public class SMSales extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SMSales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SMSales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SMSales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SMSales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SMSales().setVisible(true);
-            }
-        });
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(SMSales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(SMSales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(SMSales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(SMSales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new SMSales().setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

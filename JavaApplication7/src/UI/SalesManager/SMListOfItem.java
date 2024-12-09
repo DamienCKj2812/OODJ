@@ -14,16 +14,23 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
 import javax.swing.table.TableRowSorter;
 import models.Admin;
+import models.SalesManager;
 import state.UserSession;
 
 public class SMListOfItem extends javax.swing.JFrame {
 
     UserSession userState = UserSession.getInstance();
     Admin admin = userState.getLoggedInAdmin();
+    SalesManager salesManager;
 
-    public SMListOfItem() {
+    public SMListOfItem(SalesManager salesManager) {
         initComponents();
         loadInventoryData();
+        this.salesManager = salesManager;
+        
+    
+        
+  
 
         if (admin != null) {
             lblAdmin.setVisible(true); // Make the button visible
@@ -422,7 +429,7 @@ public class SMListOfItem extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblSalesEntryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesEntryMouseClicked
-        SMSales newPage = new SMSales();   // Replace with the name of your target frame
+        SMSales newPage = new SMSales(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -439,7 +446,7 @@ public class SMListOfItem extends javax.swing.JFrame {
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
-        SMSalesEntry newPage = new SMSalesEntry();   // Replace with the name of your target frame
+        SMSalesEntry newPage = new SMSalesEntry(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -447,7 +454,7 @@ public class SMListOfItem extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void lblStockLevelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockLevelMouseClicked
-        SMStockLevel newPage = new SMStockLevel();   // Replace with the name of your target frame
+        SMStockLevel newPage = new SMStockLevel(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -455,7 +462,7 @@ public class SMListOfItem extends javax.swing.JFrame {
     }//GEN-LAST:event_lblStockLevelMouseClicked
 
     private void lblRequisitionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisitionMouseClicked
-        SMRequisition newPage = new SMRequisition();   // Replace with the name of your target frame
+        SMRequisition newPage = new SMRequisition(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -463,7 +470,7 @@ public class SMListOfItem extends javax.swing.JFrame {
     }//GEN-LAST:event_lblRequisitionMouseClicked
 
     private void lblRequisition1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisition1MouseClicked
-        SMPurchaseOrder newPage = new SMPurchaseOrder();   // Replace with the name of your target frame
+        SMPurchaseOrder newPage = new SMPurchaseOrder(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -478,7 +485,7 @@ public class SMListOfItem extends javax.swing.JFrame {
 
     private void lblListOfItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblListOfItemsMouseClicked
         // TODO add your handling code here:
-        SMListOfItem newPage = new SMListOfItem();   // Replace with the name of your target frame
+        SMListOfItem newPage = new SMListOfItem(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
 
         // Optional: Hide or dispose of the current frame if you want
@@ -486,7 +493,7 @@ public class SMListOfItem extends javax.swing.JFrame {
     }//GEN-LAST:event_lblListOfItemsMouseClicked
 
     private void lblListOfItemsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblListOfItemsKeyPressed
-        SMListOfItem newPage = new SMListOfItem();   // Replace with the name of your target frame
+        SMListOfItem newPage = new SMListOfItem(salesManager);   // Replace with the name of your target frame
         newPage.setVisible(true);
         // Optional: Hide or dispose of the current frame if you want
         SMListOfItem.this.dispose();
@@ -501,35 +508,35 @@ public class SMListOfItem extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SMListOfItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SMListOfItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SMListOfItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SMListOfItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SMListOfItem().setVisible(true);
-            }
-        });
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(SMListOfItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(SMListOfItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(SMListOfItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(SMListOfItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new SMListOfItem().setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
