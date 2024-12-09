@@ -65,7 +65,7 @@
                           <EmptySpace min="0" pref="53" max="32767" attributes="0"/>
                           <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jPanel2" pref="467" max="32767" attributes="0"/>
+                      <Component id="jPanel2" pref="468" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -569,7 +569,7 @@
                           <Font name="Arial" size="18" style="1"/>
                         </Property>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/imgSM/management (1).png"/>
+                          <Image iconType="3" name="/imgSM/logout (1).png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Log Out"/>
                       </Properties>

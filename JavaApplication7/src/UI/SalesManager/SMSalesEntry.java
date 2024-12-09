@@ -19,6 +19,7 @@ import models.SalesManager;
 import models.Item;
 import UI.Authentication.LoginUI;
 import models.Admin;
+import models.InventoryManager;
 import state.UserSession;
 
 public class SMSalesEntry extends javax.swing.JFrame {
@@ -28,9 +29,11 @@ public class SMSalesEntry extends javax.swing.JFrame {
     private List<ItemData> inventoryItems = new ArrayList<>();
     private int editingRowIndex = -1;
     private Sales salesEntry;
+    private SalesManager salesManager;
 
     public SMSalesEntry(Sales salesEntry, int rowIndex) {
         initComponents();
+        this.salesManager = salesManager;
         this.salesEntry = salesEntry;  // Store the salesEntry object here
         loadInventoryData();
         populateItemCodeComboBox();
@@ -794,67 +797,52 @@ public class SMSalesEntry extends javax.swing.JFrame {
 
     private void btnAddSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSalesActionPerformed
         try {
-            // Get the selected item code
-            String itemCode = (String) cmbItemCode.getSelectedItem();
+        // Get the selected item code
+        String itemCode = (String) cmbItemCode.getSelectedItem();
 
-            // Validate that the item code is not "Please choose an item"
-            if ("Please choose an item".equals(itemCode)) {
-                JOptionPane.showMessageDialog(this, "Please select a valid item code.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Validate that quantity sold is greater than 0
-            int quantitySold = (Integer) spnQuantitySold.getValue();
-            if (quantitySold <= 0) {
-                JOptionPane.showMessageDialog(this, "Quantity sold must be greater than 0.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Find the selected item in the inventory list
-            ItemData selectedItem = null;
-            for (ItemData item : inventoryItems) {
-                if (item.getItemCode().equals(itemCode)) {
-                    selectedItem = item;
-                    break;
-                }
-            }
-
-            if (selectedItem == null) {
-                JOptionPane.showMessageDialog(this, "Selected item not found in inventory.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Check if there is sufficient stock
-            if (selectedItem.getQuantityInStock() < quantitySold) {
-                JOptionPane.showMessageDialog(this, "Insufficient stock for the selected item.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Update inventory quantity
-            selectedItem.quantityInStock -= quantitySold;
-
-            // Update the inventory file
-            updateInventoryFile();
-
-            // Calculate the total amount
-            double totalAmount = selectedItem.getUnitPrice() * quantitySold;
-
-            // Optionally, process additional logic such as saving sales entries
-            String notes = txtaNotes.getText().trim();
-            if (notes.isEmpty()) {
-                notes = "-";
-            }
-            JOptionPane.showMessageDialog(this, "Sale added successfully! Total Amount: " + totalAmount, "Success", JOptionPane.INFORMATION_MESSAGE);
-
-            // Clear fields
-            cmbItemCode.setSelectedIndex(0);
-            spnQuantitySold.setValue(0);
-            txtaNotes.setText("");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "An error occurred while adding the sale: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        // Validate that the item code is not "Please choose an item"
+        if ("Please choose an item".equals(itemCode)) {
+            JOptionPane.showMessageDialog(this, "Please select a valid item code.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+
+        // Validate that quantity sold is greater than 0
+        int quantitySold = (Integer) spnQuantitySold.getValue();
+        if (quantitySold <= 0) {
+            JOptionPane.showMessageDialog(this, "Quantity sold must be greater than 0.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Get notes
+        String notes = txtaNotes.getText().trim();
+        if (notes.isEmpty()) {
+            notes = "-";
+        }
+
+        // Get the current date (or use a custom date)
+        String dateSold = String.valueOf(System.currentTimeMillis() / 1000); // Unix timestamp in seconds
+
+        // Use SalesManager to add the sales entry
+        SalesManager salesManager = new SalesManager("SM001", "salesManager", "password"); // Ensure SalesManager has a no-argument constructor
+        Sales newSalesEntry = salesManager.addSalesEntry(itemCode, quantitySold, dateSold, notes);
+
+        // Show success message
+        JOptionPane.showMessageDialog(this, "Sale added successfully! Sales ID: " + newSalesEntry.getSalesID(), "Success", JOptionPane.INFORMATION_MESSAGE);
+
+        // Clear fields
+        cmbItemCode.setSelectedIndex(0);
+        spnQuantitySold.setValue(0);
+        txtaNotes.setText("");
+
+    } catch (IllegalArgumentException e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "An error occurred while saving the sales entry: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "An unexpected error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
     }//GEN-LAST:event_btnAddSalesActionPerformed
 
     private void cmbItemCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbItemCodeActionPerformed
@@ -980,7 +968,9 @@ public class SMSalesEntry extends javax.swing.JFrame {
     }//GEN-LAST:event_lblRequisition1MouseClicked
 
     private void lblLogOutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogOutMouseClicked
-
+new LoginUI().setVisible(true);
+        userState.setLoggedInAdmin(null);
+        this.dispose();
     }//GEN-LAST:event_lblLogOutMouseClicked
 
     private void lblAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAdminMouseClicked
