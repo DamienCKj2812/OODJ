@@ -63,3 +63,7 @@ adminUser|Updated the Item's Quantity (item1730020612889): from 50 to 40|1731471
 salesManager|Sales EDITED (Sales ID:ITEM1730020612890)|1733753046
 salesManagerUser|Sales added successfully! (Sales ID:SE1733753812875)|1733753815
 salesManagerUser|Requisition created successfully! (Requisition ID: req1733755676704)|1733755681
+salesManagerUser|Sales EDITED (Sales ID:SE1732245377441|ITEM1730020612889|2|1732525222|-)|1733758179
+salesManagerUser|Sales added successfully! (Sales ID:SE1733758482247)|1733758483
+salesManagerUser|Sales added successfully! (Sales ID:SE1733758776705)|1733758777
+salesManagerUser|Sales deleted successfully! (Sales ID:SE1733758776705|ITEM1730020612895|1|1733758776|PLS)|1733758785

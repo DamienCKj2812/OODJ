@@ -30,6 +30,7 @@ import java.awt.print.PrinterException;
 import javax.swing.table.TableColumnModel;
 import models.Admin;
 import state.UserSession;
+import utils.LogHandler;
 
 /**
  *
@@ -40,10 +41,12 @@ public class SMSales extends javax.swing.JFrame {
     UserSession userState = UserSession.getInstance();
     Admin admin = userState.getLoggedInAdmin();
     SalesManager salesManager;
+    private LogHandler logHandler;
 
     public SMSales(SalesManager salesManager) {
         initComponents();
         this.salesManager = salesManager;
+        this.logHandler = new LogHandler(salesManager);
         loadSalesReport();
         if (admin != null) {
             lblAdmin.setVisible(true); // Make the button visible
@@ -59,10 +62,11 @@ public class SMSales extends javax.swing.JFrame {
         // Enable sorting
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
         tbSalesReport.setRowSorter(sorter);
+        
 
         try {
             // Provide valid arguments for SalesManager constructor
-            SalesManager salesManager = new SalesManager("SM001", "salesManager1", "password123");
+           
 
             // Fetch all sales entries
             List<Sales> salesEntries = salesManager.getAllSalesEntries();
@@ -613,7 +617,7 @@ public class SMSales extends javax.swing.JFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         try {
             // Initialize SalesManager instance
-            SalesManager salesManager = new SalesManager("SM001", "salesManager", "password"); // Replace with actual credentials if necessary
+          
 
             int selectedRow = tbSalesReport.getSelectedRow();
             if (selectedRow != -1) {
@@ -632,6 +636,8 @@ public class SMSales extends javax.swing.JFrame {
                         ((DefaultTableModel) tbSalesReport.getModel()).removeRow(selectedRow);
 
                         JOptionPane.showMessageDialog(this, "Sales entry deleted successfully.");
+                        
+                         logHandler.addLogActionToFile(String.format("Sales deleted successfully! (Sales Details:%S)", deletedSales));
                     } else {
                         JOptionPane.showMessageDialog(this, "Failed to delete the sales entry. Entry not found.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
