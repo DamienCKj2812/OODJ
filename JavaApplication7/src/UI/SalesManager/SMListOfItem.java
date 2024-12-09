@@ -114,7 +114,7 @@ public class SMListOfItem extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tbItem);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 60, 760, 420));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, 760, 420));
 
         jPanel1.setBackground(new java.awt.Color(255, 153, 0));
 
