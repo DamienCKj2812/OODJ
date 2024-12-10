@@ -23,6 +23,10 @@ public class PurchaseManager extends User {
         return inventory.getInventoryItems();
     }
 
+    public Item getItem(String itemId) throws IOException {
+        return inventory.getItem(itemId);
+    }
+
     // List of Suppliers (View)
     public List<Supplier> getAllSupplier() throws IOException {
         return supplierAction.getAllSupplier();
