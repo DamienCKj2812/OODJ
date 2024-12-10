@@ -62,11 +62,9 @@ public class SMSales extends javax.swing.JFrame {
         // Enable sorting
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
         tbSalesReport.setRowSorter(sorter);
-        
 
         try {
             // Provide valid arguments for SalesManager constructor
-           
 
             // Fetch all sales entries
             List<Sales> salesEntries = salesManager.getAllSalesEntries();
@@ -617,7 +615,6 @@ public class SMSales extends javax.swing.JFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         try {
             // Initialize SalesManager instance
-          
 
             int selectedRow = tbSalesReport.getSelectedRow();
             if (selectedRow != -1) {
@@ -636,8 +633,8 @@ public class SMSales extends javax.swing.JFrame {
                         ((DefaultTableModel) tbSalesReport.getModel()).removeRow(selectedRow);
 
                         JOptionPane.showMessageDialog(this, "Sales entry deleted successfully.");
-                        
-                         logHandler.addLogActionToFile(String.format("Sales deleted successfully! (Sales Details:%S)", deletedSales));
+
+                        logHandler.addLogActionToFile(String.format("Sales deleted successfully! (Sales Details:%S)", deletedSales.toString().replace('|', ',')));
                     } else {
                         JOptionPane.showMessageDialog(this, "Failed to delete the sales entry. Entry not found.", "Error", JOptionPane.ERROR_MESSAGE);
                     }

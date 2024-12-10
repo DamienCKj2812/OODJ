@@ -27,11 +27,6 @@ public class SMListOfItem extends javax.swing.JFrame {
         initComponents();
         loadInventoryData();
         this.salesManager = salesManager;
-        
-    
-        
-  
-
         if (admin != null) {
             lblAdmin.setVisible(true); // Make the button visible
         } else {

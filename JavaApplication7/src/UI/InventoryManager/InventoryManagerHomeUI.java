@@ -1,6 +1,7 @@
 package UI.InventoryManager;
 
 import UI.Admin.AdminHomeUI;
+import UI.Authentication.LoginUI;
 import models.Admin;
 import models.InventoryManager;
 import models.User;
@@ -48,6 +49,7 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
         userIDLabel2 = new javax.swing.JLabel();
         newStockCountValue = new javax.swing.JLabel();
         AdminPageButton = new javax.swing.JButton();
+        logOutButton = new javax.swing.JButton();
         itemEntryButton = new javax.swing.JButton();
         itemEntryLabel = new javax.swing.JLabel();
         supplierEntryButton = new javax.swing.JButton();
@@ -103,6 +105,13 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
             }
         });
 
+        logOutButton.setText("Log out");
+        logOutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOutButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -117,12 +126,13 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
                         .addComponent(newStockCountValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(userIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(96, 96, 96)
-                        .addComponent(userIDLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(AdminPageButton)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(96, 96, 96)
+                                .addComponent(userIDLabel2))
+                            .addComponent(AdminPageButton, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                            .addComponent(logOutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -138,9 +148,11 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
                     .addComponent(newStockCountValue, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userIDLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
+                .addGap(48, 48, 48)
                 .addComponent(AdminPageButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(logOutButton)
+                .addContainerGap())
         );
 
         itemEntryButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/inventory.png"))); // NOI18N
@@ -184,13 +196,10 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
-                                .addComponent(itemEntryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
-                                .addComponent(itemEntryLabel)))
+                            .addComponent(itemEntryButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(itemEntryLabel, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(91, 91, 91)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(supplierEntryButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -271,6 +280,12 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_AdminPageButtonActionPerformed
 
+    private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutButtonActionPerformed
+        new LoginUI().setVisible(true);
+        this.dispose();
+        userState.setLoggedInAdmin(null);
+    }//GEN-LAST:event_logOutButtonActionPerformed
+
     public static void main(String args[]) {
 
 //        testing - purpose
@@ -287,6 +302,7 @@ public class InventoryManagerHomeUI extends javax.swing.JFrame {
     private javax.swing.JButton itemEntryButton1;
     private javax.swing.JLabel itemEntryLabel;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton logOutButton;
     private javax.swing.JButton manageStockButton;
     private javax.swing.JLabel manageStockLabel;
     private java.awt.Menu menu1;

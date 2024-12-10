@@ -131,14 +131,10 @@ salesManagerUser|Requisition created successfully! (Requisition ID: req173375567
 salesManagerUser|Sales EDITED (Sales ID:SE1732245377441|ITEM1730020612889|2|1732525222|-)|1733758179
 salesManagerUser|Sales added successfully! (Sales ID:SE1733758482247)|1733758483
 salesManagerUser|Sales added successfully! (Sales ID:SE1733758776705)|1733758777
-salesManagerUser|Sales deleted successfully! (Sales ID:SE1733758776705|ITEM1730020612895|1|1733758776|PLS)|1733758785
 salesManagerUser|Requisition created successfully! (Requisition ID: req1733755676704)|1733755681
-salesManagerUser|Sales EDITED (Sales ID:SE1732245377441|ITEM1730020612889|2|1732525222|-)|1733758179
 salesManagerUser|Sales added successfully! (Sales ID:SE1733758482247)|1733758483
 salesManagerUser|Sales added successfully! (Sales ID:SE1733758776705)|1733758777
-salesManagerUser|Sales deleted successfully! (Sales ID:SE1733758776705|ITEM1730020612895|1|1733758776|PLS)|1733758785
-salesManager|Sales EDITED (Sales ID:ITEM1730020612890)|1733760774
-salesManager|Sales deleted successfully! (Sales Details:SE1731914648721|ITEM1730020612892|2|1731921004|PLSSHI)|1733760784
 purchaseManagerUser|Added the Purchase requisition (item id: item1730020612888, item name: Washing Machine, item quantity: 13, required date: 2024 12 10)|1733825148
 purchaseManagerUser|Added the Purchase order ( id: po1733826284528, item id: item1730020612888, quantity: 7, expected delivery time: 2024 12 25)|1733826285
 purchaseManagerUser|Added the Purchase order ( id: po1733826581516, item id: item1730020612893, quantity: 5, expected delivery time: 2024 12 03)|1733826583
+salesManagerUser|Requisition created successfully! (Requisition ID: req1733827702943)|1733827705
