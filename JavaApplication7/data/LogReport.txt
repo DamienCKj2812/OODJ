@@ -138,3 +138,10 @@ purchaseManagerUser|Added the Purchase requisition (item id: item1730020612888, 
 purchaseManagerUser|Added the Purchase order ( id: po1733826284528, item id: item1730020612888, quantity: 7, expected delivery time: 2024 12 25)|1733826285
 purchaseManagerUser|Added the Purchase order ( id: po1733826581516, item id: item1730020612893, quantity: 5, expected delivery time: 2024 12 03)|1733826583
 salesManagerUser|Requisition created successfully! (Requisition ID: req1733827702943)|1733827705
+salesManagerUser|Sales added successfully! (Sales ID:SE1733899853423)|1733899855
+salesManagerUser|Sales added successfully! (Sales ID:SE1733899925255)|1733899926
+salesManager|Sales EDITED (Sales ID:ITEM1730020612889)|1733900018
+salesManager|Sales deleted successfully! (Sales Details:SE1733899925255,ITEM1730020612889,3,1733900017,-)|1733900030
+salesManager|Requisition created successfully! (Requisition ID: req1733900049183)|1733900050
+salesManagerUser|Requisition created successfully! (Requisition ID: req1733900341394)|1733900343
+salesManagerUser|Sales added successfully! (Sales ID:SE1733901508875)|1733901510

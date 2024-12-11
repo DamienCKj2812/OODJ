@@ -153,6 +153,29 @@ public class SMSalesEntry extends javax.swing.JFrame {
             txtTotalAmount.setText("0.00");
         }
     }
+    
+    private void updateItemQuantity(String itemCode, int quantitySold) throws IOException {
+    boolean itemFound = false;
+    for (ItemData item : inventoryItems) {
+        if (item.getItemCode().equals(itemCode)) {
+            int currentStock = item.getQuantityInStock();
+            if (currentStock < quantitySold) {
+                throw new IllegalArgumentException("Insufficient stock for item: " + itemCode);
+            }
+            // Deduct the quantity sold
+            item.quantityInStock -= quantitySold;
+            itemFound = true;
+            break;
+        }
+    }
+
+    if (!itemFound) {
+        throw new IllegalArgumentException("Item with code " + itemCode + " not found in inventory.");
+    }
+
+    // Update the inventory file
+    updateInventoryFile();
+}
 
     private class ItemData {
 
@@ -804,52 +827,57 @@ public class SMSalesEntry extends javax.swing.JFrame {
     }
 
     private void btnAddSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSalesActionPerformed
-        try {
-            // Get the selected item code
-            String itemCode = (String) cmbItemCode.getSelectedItem();
+         try {
+        // Get the selected item code
+        String itemCode = (String) cmbItemCode.getSelectedItem();
 
-            // Validate that the item code is not "Please choose an item"
-            if ("Please choose an item".equals(itemCode)) {
-                JOptionPane.showMessageDialog(this, "Please select a valid item code.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Validate that quantity sold is greater than 0
-            int quantitySold = (Integer) spnQuantitySold.getValue();
-            if (quantitySold <= 0) {
-                JOptionPane.showMessageDialog(this, "Quantity sold must be greater than 0.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Get notes
-            String notes = txtaNotes.getText().trim();
-            if (notes.isEmpty()) {
-                notes = "-";
-            }
-
-            // Get the current date (or use a custom date)
-            String dateSold = String.valueOf(System.currentTimeMillis() / 1000); // Unix timestamp in seconds
-
-            Sales newSalesEntry = salesManager.addSalesEntry(itemCode, quantitySold, dateSold, notes);
-
-            // Show success message
-            JOptionPane.showMessageDialog(this, "Sale added successfully! Sales ID: " + newSalesEntry.getSalesID(), "Success", JOptionPane.INFORMATION_MESSAGE);
-
-            logHandler.addLogActionToFile(String.format("Sales added successfully! (Sales ID:%S)", newSalesEntry.getSalesID()));
-            // Clear fields
-            cmbItemCode.setSelectedIndex(0);
-            spnQuantitySold.setValue(0);
-            txtaNotes.setText("");
-
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "An error occurred while saving the sales entry: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "An unexpected error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+        // Validate that the item code is not "Please choose an item"
+        if ("Please choose an item".equals(itemCode)) {
+            JOptionPane.showMessageDialog(this, "Please select a valid item code.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+
+        // Validate that quantity sold is greater than 0
+        int quantitySold = (Integer) spnQuantitySold.getValue();
+        if (quantitySold <= 0) {
+            JOptionPane.showMessageDialog(this, "Quantity sold must be greater than 0.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Get notes
+        String notes = txtaNotes.getText().trim();
+        if (notes.isEmpty()) {
+            notes = "-";
+        }
+
+        // Get the current date (or use a custom date)
+        String dateSold = String.valueOf(System.currentTimeMillis() / 1000); // Unix timestamp in seconds
+
+        // Add the sales entry
+        Sales newSalesEntry = salesManager.addSalesEntry(itemCode, quantitySold, dateSold, notes);
+
+        // Deduct the quantity from the inventory
+        updateItemQuantity(itemCode, quantitySold);
+
+        // Show success message
+        JOptionPane.showMessageDialog(this, "Sale added successfully! Sales ID: " + newSalesEntry.getSalesID(), "Success", JOptionPane.INFORMATION_MESSAGE);
+
+        logHandler.addLogActionToFile(String.format("Sales added successfully! (Sales ID:%S)", newSalesEntry.getSalesID()));
+
+        // Clear fields
+        cmbItemCode.setSelectedIndex(0);
+        spnQuantitySold.setValue(0);
+        txtaNotes.setText("");
+
+    } catch (IllegalArgumentException e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "An error occurred while saving the sales entry: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "An unexpected error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
     }//GEN-LAST:event_btnAddSalesActionPerformed
 
     private void cmbItemCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbItemCodeActionPerformed
