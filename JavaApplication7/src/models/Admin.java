@@ -100,7 +100,7 @@ public class Admin extends User {
                     .append(user.getUsername()).append("|")
                     .append(user.getPassword()).append("|")
                     .append(user.getRole()).append("|")
-                    .append(user.getStatus()).append("\n");
+                    .append("Active").append("\n");
         }
         fileManager.writeFile(updatedUsers.toString().trim()); // Ensures no trailing newline
 
