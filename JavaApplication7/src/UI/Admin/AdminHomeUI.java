@@ -1,11 +1,17 @@
 package UI.Admin;
 
+import UI.Authentication.LoginUI;
+import UI.FinanceManager.MainMenuFM;
 import UI.InventoryManager.InventoryManagerHomeUI;
+import UI.PurchaseManager.PurchaseManagerDashBoard;
+import UI.SalesManager.SMListOfItem;
 import models.Admin;
+import state.UserSession;
 
 public class AdminHomeUI extends javax.swing.JFrame {
 
     private Admin admin;
+    UserSession userState = UserSession.getInstance();
 
     public AdminHomeUI(Admin admin) {
         this.admin = admin;
@@ -26,11 +32,10 @@ public class AdminHomeUI extends javax.swing.JFrame {
 
         jTextField1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        newStockCountLabel = new javax.swing.JLabel();
         usernameLabel = new javax.swing.JLabel();
         userIDLabel = new javax.swing.JLabel();
         userIDLabel2 = new javax.swing.JLabel();
-        newStockCountValue = new javax.swing.JLabel();
+        logOutButton = new javax.swing.JButton();
         manageSalesManagerFunctionsButton = new javax.swing.JButton();
         manageSalesManagerFunctionsLabel = new javax.swing.JLabel();
         managePurchaseManagerFunctionsButton = new javax.swing.JButton();
@@ -50,10 +55,6 @@ public class AdminHomeUI extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(50, 54, 57));
 
-        newStockCountLabel.setForeground(new java.awt.Color(225, 225, 225));
-        newStockCountLabel.setText("New stock :");
-        newStockCountLabel.setToolTipText("");
-
         usernameLabel.setBackground(new java.awt.Color(0, 0, 0));
         usernameLabel.setForeground(new java.awt.Color(225, 225, 225));
         usernameLabel.setText("username");
@@ -64,8 +65,12 @@ public class AdminHomeUI extends javax.swing.JFrame {
 
         userIDLabel2.setToolTipText("");
 
-        newStockCountValue.setText("value");
-        newStockCountValue.setToolTipText("");
+        logOutButton.setText("Log out");
+        logOutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOutButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -75,15 +80,16 @@ public class AdminHomeUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(usernameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(userIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(newStockCountLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(newStockCountValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(96, 96, 96)
-                        .addComponent(userIDLabel2)
-                        .addGap(0, 15, Short.MAX_VALUE))
-                    .addComponent(userIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(96, 96, 96)
+                                .addComponent(userIDLabel2))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(logOutButton)))
+                        .addGap(0, 15, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -93,13 +99,11 @@ public class AdminHomeUI extends javax.swing.JFrame {
                 .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(newStockCountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(newStockCountValue, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(38, 38, 38)
                 .addComponent(userIDLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(logOutButton)
+                .addGap(17, 17, 17))
         );
 
         manageSalesManagerFunctionsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/profit.png"))); // NOI18N
@@ -245,7 +249,7 @@ public class AdminHomeUI extends javax.swing.JFrame {
                         .addComponent(activityLogsManagementButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(actitvityLogsManagementButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         manageSalesManagerFunctionsLabel.getAccessibleContext().setAccessibleName("<html><div style='text-align: center;'>This is line 1.<br>This is line 2.<br>This is line 3.</div></html>");
@@ -254,11 +258,13 @@ public class AdminHomeUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void manageSalesManagerFunctionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageSalesManagerFunctionsButtonActionPerformed
-        // TODO add your handling code here:
+        new SMListOfItem(admin.getSalesManager()).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_manageSalesManagerFunctionsButtonActionPerformed
 
     private void managePurchaseManagerFunctionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_managePurchaseManagerFunctionsButtonActionPerformed
-        // TODO add your handling code here:
+        new PurchaseManagerDashBoard(admin.getPurchaseManager()).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_managePurchaseManagerFunctionsButtonActionPerformed
 
     private void manageInventoryManagerFunctionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageInventoryManagerFunctionsButtonActionPerformed
@@ -267,7 +273,8 @@ public class AdminHomeUI extends javax.swing.JFrame {
     }//GEN-LAST:event_manageInventoryManagerFunctionsButtonActionPerformed
 
     private void manageFinanceManagerFunctionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageFinanceManagerFunctionsButtonActionPerformed
-        // TODO add your handling code here:
+        new MainMenuFM(admin).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_manageFinanceManagerFunctionsButtonActionPerformed
 
     private void userManagementButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userManagementButtonActionPerformed
@@ -279,6 +286,12 @@ public class AdminHomeUI extends javax.swing.JFrame {
         new ActivityLogManagement(admin).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_activityLogsManagementButtonActionPerformed
+
+    private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutButtonActionPerformed
+        new LoginUI().setVisible(true);
+        this.dispose();
+        userState.setLoggedInAdmin(null);
+    }//GEN-LAST:event_logOutButtonActionPerformed
 
     public static void main(String args[]) {
 
@@ -295,6 +308,7 @@ public class AdminHomeUI extends javax.swing.JFrame {
     private javax.swing.JButton activityLogsManagementButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton logOutButton;
     private javax.swing.JButton manageFinanceManagerFunctionsButton;
     private javax.swing.JLabel manageFinanceManagerFunctionsLabel;
     private javax.swing.JButton manageInventoryManagerFunctionsButton;
@@ -303,8 +317,6 @@ public class AdminHomeUI extends javax.swing.JFrame {
     private javax.swing.JLabel managePurchaseManagerFunctionsLabel;
     private javax.swing.JButton manageSalesManagerFunctionsButton;
     private javax.swing.JLabel manageSalesManagerFunctionsLabel;
-    private javax.swing.JLabel newStockCountLabel;
-    private javax.swing.JLabel newStockCountValue;
     private javax.swing.JLabel userIDLabel;
     private javax.swing.JLabel userIDLabel2;
     private javax.swing.JButton userManagementButton;

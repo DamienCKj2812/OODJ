@@ -20,8 +20,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import models.InventoryManager;
 import models.Item;
+import models.PurchaseOrder;
 import utils.InputValidator;
 import utils.LogHandler;
+import utils.StringFormatter;
 
 /**
  *
@@ -31,14 +33,17 @@ public class ManageStockUI extends javax.swing.JFrame {
 
     private InventoryManager inventoryManager;
     private LogHandler logHandler;
+    private StringFormatter stringFormatter = new StringFormatter();
 
     public ManageStockUI(InventoryManager inventoryManager) {
         this.inventoryManager = inventoryManager;
         this.logHandler = new LogHandler(inventoryManager);
         initComponents();
         loadStockData();
+        loadPurchaseOrderData();
 
         stockTable.setRowHeight(30);
+        purchaseOrdersTable.setRowHeight(30);
 
         stockTable.addMouseListener(new MouseAdapter() {
             @Override
@@ -76,6 +81,33 @@ public class ManageStockUI extends javax.swing.JFrame {
             }
         });
 
+        // Add a MouseListener to the purchaseOrdersTable
+        purchaseOrdersTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Check if it was a left-click (optional)
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    int row = purchaseOrdersTable.rowAtPoint(e.getPoint());
+                    int column = purchaseOrdersTable.columnAtPoint(e.getPoint());
+
+                    // Check if a valid cell is clicked
+                    if (row != -1 && column != -1) {
+                        // Retrieve the cell value
+                        Object cellValue = purchaseOrdersTable.getValueAt(row, column);
+                        String content = (cellValue != null) ? cellValue.toString() : "No content";
+
+                        // Show the content in a dialog
+                        JOptionPane.showMessageDialog(
+                                purchaseOrdersTable,
+                                content,
+                                "Cell Content",
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+                    }
+                }
+            }
+        });
+
         filterItemTextField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             @Override
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
@@ -90,6 +122,23 @@ public class ManageStockUI extends javax.swing.JFrame {
             @Override
             public void changedUpdate(javax.swing.event.DocumentEvent e) {
                 filterStockTable();
+            }
+        });
+
+        filterPurchaseOrdersTextField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                filterPurhcaseOrdersTable();
+            }
+
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                filterPurhcaseOrdersTable();
+            }
+
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                filterPurhcaseOrdersTable();
             }
         });
     }
@@ -193,7 +242,7 @@ public class ManageStockUI extends javax.swing.JFrame {
         newStockCountValue = new javax.swing.JLabel();
         backToHomeButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        supplierStockInformationTable = new javax.swing.JTable();
+        purchaseOrdersTable = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         stockTable = new javax.swing.JTable();
         actionDescriptionLabel2 = new javax.swing.JLabel();
@@ -201,11 +250,11 @@ public class ManageStockUI extends javax.swing.JFrame {
         actionDescriptionLabel4 = new javax.swing.JLabel();
         actionDescriptionLabel5 = new javax.swing.JLabel();
         filterInformationLabel = new javax.swing.JLabel();
-        filterInformationTextField = new javax.swing.JTextField();
+        filterPurchaseOrdersTextField = new javax.swing.JTextField();
         filterItemLabel = new javax.swing.JLabel();
         filterItemTextField = new javax.swing.JTextField();
         stockTableLabel = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        purchaseOrdersLabel = new javax.swing.JLabel();
         filterItemLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -276,7 +325,7 @@ public class ManageStockUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        supplierStockInformationTable.setModel(new javax.swing.table.DefaultTableModel(
+        purchaseOrdersTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -287,7 +336,7 @@ public class ManageStockUI extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(supplierStockInformationTable);
+        jScrollPane1.setViewportView(purchaseOrdersTable);
 
         stockTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -314,9 +363,9 @@ public class ManageStockUI extends javax.swing.JFrame {
 
         filterInformationLabel.setText("Filter information: ");
 
-        filterInformationTextField.addActionListener(new java.awt.event.ActionListener() {
+        filterPurchaseOrdersTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                filterInformationTextFieldActionPerformed(evt);
+                filterPurchaseOrdersTextFieldActionPerformed(evt);
             }
         });
 
@@ -324,7 +373,7 @@ public class ManageStockUI extends javax.swing.JFrame {
 
         stockTableLabel.setText("Stock table");
 
-        jLabel2.setText("Supplier stock information table");
+        purchaseOrdersLabel.setText("Purchase Orders Table");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -350,10 +399,10 @@ public class ManageStockUI extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(filterInformationLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(filterInformationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(filterPurchaseOrdersTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(39, 39, 39)
+                                        .addComponent(purchaseOrdersLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel2)
-                                        .addGap(34, 34, 34)
                                         .addComponent(actionDescriptionLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(actionDescriptionLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -380,8 +429,8 @@ public class ManageStockUI extends javax.swing.JFrame {
                         .addComponent(actionDescriptionLabel3))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(filterInformationLabel)
-                        .addComponent(filterInformationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2)))
+                        .addComponent(filterPurchaseOrdersTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(purchaseOrdersLabel)))
                 .addGap(12, 12, 12)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
@@ -400,9 +449,9 @@ public class ManageStockUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void filterInformationTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterInformationTextFieldActionPerformed
+    private void filterPurchaseOrdersTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterPurchaseOrdersTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_filterInformationTextFieldActionPerformed
+    }//GEN-LAST:event_filterPurchaseOrdersTextFieldActionPerformed
 
     private void backToHomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToHomeButtonActionPerformed
         new InventoryManagerHomeUI(inventoryManager).setVisible(true);
@@ -436,6 +485,33 @@ public class ManageStockUI extends javax.swing.JFrame {
         }
     }
 
+    private void loadPurchaseOrderData() {
+        try {
+            String[] columnNames = {"Purchase Order ID", "Requisition ID", "Item Id", "Order Quantity", "Order Date", "Expected Delivery Date", "Purchase Manager ID"};
+            DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+            List<PurchaseOrder> allPurchaseOrders = inventoryManager.getAllDonePaymentPurchaseOrders();
+
+            for (PurchaseOrder purchaseOrder : allPurchaseOrders) {
+                model.addRow(new Object[]{
+                    purchaseOrder.getPurchaseOrderId(),
+                    purchaseOrder.getRequisitionID(),
+                    purchaseOrder.getItemId(),
+                    purchaseOrder.getOrderQuantity(),
+                    stringFormatter.formatUnixTimestamp(purchaseOrder.getOrderDate()),
+                    stringFormatter.formatUnixTimestamp(purchaseOrder.getExpectedDeliveryDate()),
+                    purchaseOrder.getPurchaseManagerID()
+                });
+            }
+
+            purchaseOrdersTable.setModel(model);
+            purchaseOrdersTable.getColumnModel().getColumn(6).setCellRenderer(new StockStatusRenderer());
+
+        } catch (IOException e) {
+            System.err.println("Error loading purchase order data: " + e.getMessage());
+        }
+    }
+
     private void filterStockTable() {
         String filterText = filterItemTextField.getText().toLowerCase();
         DefaultTableModel model = (DefaultTableModel) stockTable.getModel();
@@ -465,7 +541,39 @@ public class ManageStockUI extends javax.swing.JFrame {
         } catch (IOException e) {
             System.err.println("Error loading user data: " + e.getMessage());
         }
+    }
 
+    private void filterPurhcaseOrdersTable() {
+        String filterText = filterPurchaseOrdersTextField.getText().toLowerCase();
+        DefaultTableModel model = (DefaultTableModel) purchaseOrdersTable.getModel();
+        model.setRowCount(0);
+
+        try {
+            List<PurchaseOrder> purchaseOrders = inventoryManager.getAllDonePaymentPurchaseOrders();
+            purchaseOrders.stream()
+                    .filter(item -> item.getPurchaseOrderId().toLowerCase().contains(filterText)
+                    || item.getRequisitionID().toLowerCase().contains(filterText)
+                    || item.getItemId().toLowerCase().contains(filterText)
+                    || item.getOrderQuantity().toLowerCase().contains(filterText)
+                    || item.getOrderDate().toLowerCase().contains(filterText)
+                    || item.getExpectedDeliveryDate().toLowerCase().contains(filterText)
+                    || item.getPurchaseManagerID().toLowerCase().contains(filterText)
+                    )
+                    .forEach(item -> {
+                        model.addRow(new Object[]{
+                            item.getPurchaseOrderId(),
+                            item.getRequisitionID(),
+                            item.getItemId(),
+                            item.getOrderQuantity(),
+                            item.getOrderDate(),
+                            item.getExpectedDeliveryDate(),
+                            item.getPurchaseManagerID(),
+                            "Actions" // Placeholder for the Actions column
+                        });
+                    });
+        } catch (IOException e) {
+            System.err.println("Error loading user data: " + e.getMessage());
+        }
     }
 
     class StockStatusRenderer extends DefaultTableCellRenderer {
@@ -513,19 +621,19 @@ public class ManageStockUI extends javax.swing.JFrame {
     private javax.swing.JLabel actionDescriptionLabel5;
     private javax.swing.JButton backToHomeButton;
     private javax.swing.JLabel filterInformationLabel;
-    private javax.swing.JTextField filterInformationTextField;
     private javax.swing.JLabel filterItemLabel;
     private javax.swing.JLabel filterItemLabel1;
     private javax.swing.JTextField filterItemTextField;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JTextField filterPurchaseOrdersTextField;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel newStockCountLabel;
     private javax.swing.JLabel newStockCountValue;
+    private javax.swing.JLabel purchaseOrdersLabel;
+    private javax.swing.JTable purchaseOrdersTable;
     private javax.swing.JTable stockTable;
     private javax.swing.JLabel stockTableLabel;
-    private javax.swing.JTable supplierStockInformationTable;
     private javax.swing.JLabel userIDLabel;
     private javax.swing.JLabel userIDLabel2;
     private javax.swing.JLabel usernameLabel;

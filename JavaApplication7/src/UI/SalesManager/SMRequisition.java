@@ -4,17 +4,132 @@
  */
 package UI.SalesManager;
 
+import UI.Admin.AdminHomeUI;
+import javax.swing.*;
+import java.awt.event.*;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import models.Item;
+import models.Sales;
+import models.SalesManager;
+import models.Item;
+import models.SalesManager;
+import java.util.Date;
+import models.Admin;
+import models.User;
+import state.UserSession;
+import utils.LogHandler;
+import models.Requisition;
+
 /**
  *
  * @author USER
  */
 public class SMRequisition extends javax.swing.JFrame {
 
-    /**
-     * Creates new form SMRequisition
-     */
-    public SMRequisition() {
+    private User user;
+    private List<ItemData> inventoryItems = new ArrayList<>();
+    UserSession userState = UserSession.getInstance();
+    Admin admin = userState.getLoggedInAdmin();
+    SalesManager salesManager;
+    private LogHandler logHandler;
+
+    public SMRequisition(SalesManager salesManager) {
+        this.salesManager = salesManager;
+        this.logHandler = new LogHandler(salesManager);
         initComponents();
+        loadInventoryData(); // Load inventory data from file
+        populateItemCodeComboBox();
+        setupQuantitySpinner();
+
+        if (admin != null) {
+            lblAdmin.setVisible(true); // Make the button visible
+        } else {
+            lblAdmin.setVisible(false); // Hide the button for non-admin users
+        }
+    }
+
+    private void loadInventoryData() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("data/InventoryData.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] itemDetails = line.split("\\|");
+                if (itemDetails.length >= 5) {
+                    String itemCode = itemDetails[0];
+                    String itemName = itemDetails[1];
+                    double unitPrice = Double.parseDouble(itemDetails[3]);
+                    int quantityInStock = Integer.parseInt(itemDetails[4]);  // Inventory quantity
+                    inventoryItems.add(new ItemData(itemCode, itemName, unitPrice, quantityInStock));
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error loading inventory data: " + e.getMessage());
+        }
+    }
+
+    private class ItemData {
+
+        private String itemCode;
+        private String itemName;
+        private double unitPrice;
+        private int quantityInStock;
+
+        public ItemData(String itemCode, String itemName, double unitPrice, int quantityInStock) {
+            this.itemCode = itemCode;
+            this.itemName = itemName;
+            this.unitPrice = unitPrice;
+            this.quantityInStock = quantityInStock;
+        }
+
+        public String getItemCode() {
+            return itemCode;
+        }
+
+        public String getItemName() {
+            return itemName;
+        }
+
+        public double getUnitPrice() {
+            return unitPrice;
+        }
+
+        public int getQuantityInStock() {
+            return quantityInStock;
+        }
+    }
+
+    private void populateItemCodeComboBox() {
+        cmbItemCode.addItem("Please choose an item");
+        for (ItemData item : inventoryItems) {
+            cmbItemCode.addItem(item.getItemCode());
+        }
+
+        cmbItemCode.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String selectedCode = (String) cmbItemCode.getSelectedItem();
+                displaySelectedItemDetails(selectedCode);
+            }
+        });
+    }
+
+    private void setupQuantitySpinner() {
+        spnQuantityReq.setModel(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
+
+    }
+
+    private void displaySelectedItemDetails(String itemCode) {
+        for (ItemData item : inventoryItems) {
+            if (item.getItemCode().equals(itemCode)) {
+                // Set the item details in the text fields
+                txtItemName.setText(item.getItemName());
+
+                break;
+            }
+        }
     }
 
     /**
@@ -29,36 +144,33 @@ public class SMRequisition extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         lblListOfItem = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        lblItemCode = new javax.swing.JLabel();
+        lblQuantityReq = new javax.swing.JLabel();
+        lblItemCode4 = new javax.swing.JLabel();
+        cmbItemCode = new javax.swing.JComboBox<>();
+        spnQuantityReq = new javax.swing.JSpinner();
+        lblItemCode2 = new javax.swing.JLabel();
+        txtItemName = new javax.swing.JTextField();
+        DCReqDate = new com.toedter.calendar.JDateChooser();
+        jPanel10 = new javax.swing.JPanel();
+        btnCreate = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        lblDashboard = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        lblListOfItems = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         lblSalesEntry = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
-        lblSalesReport = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
         lblStockLevel = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         lblRequisition = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        lblRequisition1 = new javax.swing.JLabel();
+        jPanel15 = new javax.swing.JPanel();
+        lblRequisition2 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
-        lblRequisition3 = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
-        lblItemCode = new javax.swing.JLabel();
-        lblItemCode1 = new javax.swing.JLabel();
-        lblItemCode3 = new javax.swing.JLabel();
-        lblQuantityReq = new javax.swing.JLabel();
-        lblItemCode4 = new javax.swing.JLabel();
-        lblItemCode5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        txtItemName = new javax.swing.JTextField();
-        spnQuantityReq = new javax.swing.JSpinner();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtaNotes = new javax.swing.JTextArea();
-        jPanel10 = new javax.swing.JPanel();
-        btnAddSales = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        lblListOfItems = new javax.swing.JLabel();
+        lblAdmin = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,117 +197,139 @@ public class SMRequisition extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        lblItemCode.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblItemCode.setText("Item Code");
+
+        lblQuantityReq.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblQuantityReq.setText("Quantity Required");
+
+        lblItemCode4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblItemCode4.setText("Required Date");
+
+        cmbItemCode.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
+        spnQuantityReq.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
+        lblItemCode2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblItemCode2.setText("Item Name");
+
+        txtItemName.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
+        DCReqDate.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblQuantityReq, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblItemCode)
+                    .addComponent(cmbItemCode, 0, 267, Short.MAX_VALUE)
+                    .addComponent(spnQuantityReq))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(DCReqDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblItemCode4)
+                    .addComponent(lblItemCode2)
+                    .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(51, 51, 51))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(lblItemCode)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cmbItemCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(lblItemCode2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(84, 84, 84)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(lblQuantityReq)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(spnQuantityReq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(lblItemCode4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(DCReqDate, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(163, Short.MAX_VALUE))
+        );
+
+        btnCreate.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnCreate.setText("Create");
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(btnCreate)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
 
-        jPanel5.setBackground(new java.awt.Color(204, 204, 204));
-
-        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel4.setPreferredSize(new java.awt.Dimension(133, 45));
-
-        lblDashboard.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/layout-1.png"))); // NOI18N
-        lblDashboard.setText("Dashboard");
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(lblDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(23, 23, 23))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblDashboard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-        );
-
-        jPanel6.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel6.setPreferredSize(new java.awt.Dimension(147, 45));
-
-        lblListOfItems.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblListOfItems.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/to-do-list (1).png"))); // NOI18N
-        lblListOfItems.setText("List of Items");
-        lblListOfItems.setAutoscrolls(true);
-        lblListOfItems.setFocusCycleRoot(true);
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(lblListOfItems, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(23, 23, 23))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblListOfItems, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-        );
+        jPanel11.setBackground(new java.awt.Color(204, 204, 204));
 
         jPanel7.setBackground(new java.awt.Color(204, 204, 204));
         jPanel7.setAutoscrolls(true);
         jPanel7.setInheritsPopupMenu(true);
         jPanel7.setPreferredSize(new java.awt.Dimension(139, 45));
+        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel7MouseClicked(evt);
+            }
+        });
 
         lblSalesEntry.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblSalesEntry.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/bar-chart-5567326.png"))); // NOI18N
-        lblSalesEntry.setText("Sales Entry");
+        lblSalesEntry.setText("Sales");
+        lblSalesEntry.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSalesEntryMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                lblSalesEntryMousePressed(evt);
+            }
+        });
+        lblSalesEntry.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                lblSalesEntryKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(18, 18, 18)
                 .addComponent(lblSalesEntry, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(24, 24, 24))
+                .addGap(21, 21, 21))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblSalesEntry, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jPanel8.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel8.setAutoscrolls(true);
-        jPanel8.setInheritsPopupMenu(true);
-        jPanel8.setPreferredSize(new java.awt.Dimension(151, 45));
-
-        lblSalesReport.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblSalesReport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/report-1321938.png"))); // NOI18N
-        lblSalesReport.setText("Sales Report");
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(lblSalesReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(23, 23, 23))
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblSalesReport, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
         );
 
         jPanel12.setBackground(new java.awt.Color(204, 204, 204));
@@ -206,6 +340,11 @@ public class SMRequisition extends javax.swing.JFrame {
         lblStockLevel.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblStockLevel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/in-stock (1).png"))); // NOI18N
         lblStockLevel.setText("Stock Level");
+        lblStockLevel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblStockLevelMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -228,182 +367,189 @@ public class SMRequisition extends javax.swing.JFrame {
         lblRequisition.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblRequisition.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/management (1).png"))); // NOI18N
         lblRequisition.setText("Requisition");
+        lblRequisition.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblRequisitionMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addGap(14, 14, 14)
                 .addComponent(lblRequisition, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(22, 22, 22))
+                .addGap(25, 25, 25))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblRequisition, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
+        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel4.setPreferredSize(new java.awt.Dimension(133, 45));
+
+        lblRequisition1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblRequisition1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/shopping-list (1).png"))); // NOI18N
+        lblRequisition1.setText("Purchase Order");
+        lblRequisition1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblRequisition1MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblRequisition1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(lblRequisition1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jPanel15.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel15.setAutoscrolls(true);
+        jPanel15.setInheritsPopupMenu(true);
+        jPanel15.setPreferredSize(new java.awt.Dimension(180, 45));
+
+        lblRequisition2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblRequisition2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/logout (1).png"))); // NOI18N
+        lblRequisition2.setText("Log Out");
+        lblRequisition2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblRequisition2MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(lblRequisition2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(25, 25, 25))
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblRequisition2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+            .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+            .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+            .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         jPanel14.setBackground(new java.awt.Color(204, 204, 204));
         jPanel14.setAutoscrolls(true);
         jPanel14.setInheritsPopupMenu(true);
-        jPanel14.setPreferredSize(new java.awt.Dimension(191, 45));
-
-        lblRequisition3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblRequisition3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/shopping-list (1).png"))); // NOI18N
-        lblRequisition3.setText("Purchase Order");
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblRequisition3, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblRequisition3, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+            .addGap(0, 45, Short.MAX_VALUE)
         );
+
+        jPanel5.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel5.setPreferredSize(new java.awt.Dimension(147, 45));
+
+        lblListOfItems.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblListOfItems.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/to-do-list (1).png"))); // NOI18N
+        lblListOfItems.setText("List of Items");
+        lblListOfItems.setAutoscrolls(true);
+        lblListOfItems.setFocusCycleRoot(true);
+        lblListOfItems.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblListOfItemsMouseClicked(evt);
+            }
+        });
+        lblListOfItems.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                lblListOfItemsKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(lblListOfItems, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(23, 23, 23))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblListOfItems, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+        );
+
+        lblAdmin.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgSM/user (1).png"))); // NOI18N
+        lblAdmin.setText("Admin");
+        lblAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAdminMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                    .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGap(211, 211, 211)
+                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addGap(21, 21, 21)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(114, 114, 114)
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
-        );
-
-        lblItemCode.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblItemCode.setText("Item Code");
-
-        lblItemCode1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblItemCode1.setText("Item Name");
-
-        lblItemCode3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblItemCode3.setText("Requisition Date");
-
-        lblQuantityReq.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblQuantityReq.setText("Quantity Required");
-
-        lblItemCode4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblItemCode4.setText("Required by");
-
-        lblItemCode5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblItemCode5.setText("Notes");
-
-        jComboBox1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        txtItemName.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        txtItemName.setText("jTextField1");
-
-        spnQuantityReq.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-
-        txtaNotes.setColumns(20);
-        txtaNotes.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        txtaNotes.setRows(5);
-        jScrollPane1.setViewportView(txtaNotes);
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(lblItemCode5)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel9Layout.createSequentialGroup()
-                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblItemCode)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblItemCode3))
-                                .addGap(45, 45, 45)
-                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblItemCode1)
-                                    .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblItemCode4))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(spnQuantityReq, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblQuantityReq, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(19, 19, 19))))
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblItemCode)
-                            .addComponent(lblItemCode1)
-                            .addComponent(lblQuantityReq))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(spnQuantityReq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addGap(147, 147, 147)
-                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblItemCode3)
-                            .addComponent(lblItemCode4))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblItemCode5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
-        );
-
-        btnAddSales.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        btnAddSales.setText("Create");
-        btnAddSales.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddSalesActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnAddSales, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(btnAddSales)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -419,26 +565,21 @@ public class SMRequisition extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 27, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addGap(0, 53, Short.MAX_VALUE)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 468, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -455,78 +596,209 @@ public class SMRequisition extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAddSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSalesActionPerformed
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+        try {
+            // Get data from UI components
+            String selectedItemId = (String) cmbItemCode.getSelectedItem();
+            String quantity = spnQuantityReq.getValue().toString();
+
+           
+            String requisitionDate = ""; // Today's date
+            String requiredDate = "";
+
+            Date selectedDate = DCReqDate.getDate();
+            if (selectedDate != null) {
+                long unixTimestamp = selectedDate.getTime() / 1000; // Convert milliseconds to seconds
+                requiredDate = String.valueOf(unixTimestamp); // Convert to String if needed
+                System.out.println("Unix Timestamp: " + requiredDate);
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a required date.");
+                return; // Exit early if no date is selected
+            }
+            Date currentDate = new Date();
+            long unixTimestampRequisitionDate = currentDate.getTime() / 1000; // Convert current date to Unix timestamp
+            requisitionDate = String.valueOf(unixTimestampRequisitionDate); // Convert to String if needed
+            System.out.println("Unix Timestamp (Requisition Date): " + requisitionDate);
+
+            // Validate inputs
+            if (selectedItemId == null || selectedItemId.equals("Please choose an item")) {
+                JOptionPane.showMessageDialog(this, "Please select an item.");
+                return;
+            }
+
+            if (quantity.isEmpty() || Integer.parseInt(quantity) <= 0) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid quantity.");
+                return;
+            }
+
+            if (requiredDate.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please select a required date.");
+                return;
+            }
+
+            Requisition newRequisition = salesManager.addRequisition(selectedItemId, quantity, requiredDate, salesManager.getUserID(), requisitionDate);
+
+            // Retrieve the new requisition ID
+            String newRequisitionId = newRequisition.getRequisitionId();
+
+            // Notify the user
+            JOptionPane.showMessageDialog(this, "Requisition created successfully! (ID: " + newRequisitionId + ")");
+
+            // Log the action
+            logHandler.addLogActionToFile(String.format("Requisition created successfully! (Requisition ID: %s)", newRequisitionId));
+
+            // Optionally clear inputs
+            cmbItemCode.setSelectedIndex(0);
+            spnQuantityReq.setValue(0);
+            DCReqDate.setDate(null);
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error creating requisition: " + ex.getMessage());
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Invalid quantity format.");
+        }
+    }//GEN-LAST:event_btnCreateActionPerformed
+
+    private void lblSalesEntryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesEntryMouseClicked
+        SMSales newPage = new SMSales(salesManager);   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMRequisition.this.dispose();
+    }//GEN-LAST:event_lblSalesEntryMouseClicked
+
+    private void lblSalesEntryMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesEntryMousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnAddSalesActionPerformed
+    }//GEN-LAST:event_lblSalesEntryMousePressed
+
+    private void lblSalesEntryKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblSalesEntryKeyPressed
+        // Check if the pressed key is Enter (or any other key you want)
+    }//GEN-LAST:event_lblSalesEntryKeyPressed
+
+    private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
+        // TODO add your handling code here:
+        SMSalesEntry newPage = new SMSalesEntry(salesManager);   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMRequisition.this.dispose();
+    }//GEN-LAST:event_jPanel7MouseClicked
+
+    private void lblStockLevelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockLevelMouseClicked
+        SMStockLevel newPage = new SMStockLevel(salesManager);   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMRequisition.this.dispose();
+    }//GEN-LAST:event_lblStockLevelMouseClicked
+
+    private void lblRequisitionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisitionMouseClicked
+        SMRequisition newPage = new SMRequisition(salesManager);   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMRequisition.this.dispose();
+    }//GEN-LAST:event_lblRequisitionMouseClicked
+
+    private void lblRequisition1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisition1MouseClicked
+        SMPurchaseOrder newPage = new SMPurchaseOrder(salesManager);   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMRequisition.this.dispose();
+    }//GEN-LAST:event_lblRequisition1MouseClicked
+
+    private void lblRequisition2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRequisition2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblRequisition2MouseClicked
+
+    private void lblListOfItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblListOfItemsMouseClicked
+        // TODO add your handling code here:
+        SMListOfItem newPage = new SMListOfItem(salesManager);   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMRequisition.this.dispose();
+    }//GEN-LAST:event_lblListOfItemsMouseClicked
+
+    private void lblListOfItemsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblListOfItemsKeyPressed
+        SMListOfItem newPage = new SMListOfItem(salesManager);   // Replace with the name of your target frame
+        newPage.setVisible(true);
+
+        // Optional: Hide or dispose of the current frame if you want
+        SMRequisition.this.dispose();
+    }//GEN-LAST:event_lblListOfItemsKeyPressed
+
+    private void lblAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAdminMouseClicked
+        new AdminHomeUI(admin).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblAdminMouseClicked
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SMRequisition.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SMRequisition.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SMRequisition.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SMRequisition.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SMRequisition().setVisible(true);
-            }
-        });
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(SMRequisition.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(SMRequisition.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(SMRequisition.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(SMRequisition.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new SMRequisition().setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddSales;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private com.toedter.calendar.JDateChooser DCReqDate;
+    private javax.swing.JButton btnCreate;
+    private javax.swing.JComboBox<String> cmbItemCode;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblDashboard;
+    private javax.swing.JLabel lblAdmin;
     private javax.swing.JLabel lblItemCode;
-    private javax.swing.JLabel lblItemCode1;
-    private javax.swing.JLabel lblItemCode3;
+    private javax.swing.JLabel lblItemCode2;
     private javax.swing.JLabel lblItemCode4;
-    private javax.swing.JLabel lblItemCode5;
     private javax.swing.JLabel lblListOfItem;
     private javax.swing.JLabel lblListOfItems;
     private javax.swing.JLabel lblQuantityReq;
     private javax.swing.JLabel lblRequisition;
-    private javax.swing.JLabel lblRequisition3;
+    private javax.swing.JLabel lblRequisition1;
+    private javax.swing.JLabel lblRequisition2;
     private javax.swing.JLabel lblSalesEntry;
-    private javax.swing.JLabel lblSalesReport;
     private javax.swing.JLabel lblStockLevel;
     private javax.swing.JSpinner spnQuantityReq;
     private javax.swing.JTextField txtItemName;
-    private javax.swing.JTextArea txtaNotes;
     // End of variables declaration//GEN-END:variables
 }

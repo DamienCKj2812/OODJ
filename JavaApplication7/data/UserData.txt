@@ -1,6 +1,6 @@
-tp0000000000001|adminUser|admin123|admin|active 
-tp1264557260195|salesManagerUser|salesManager123|salesManager|suspended
-tp1728435334575|purchaseManagerUser|purchaseManager123|purchaseManager|active
-tp1728727888888|financeManagerUser|financeManager123|financeManager|active
-tp1728342344195|inventoryManagerUser|inventoryManager123|inventoryManager|active
-tp1728738654707|kj|kj123|admin|closed
+tp0000000000001|adminUser|admin123|admin|Active
+tp1264557260195|salesManagerUser|salesManager123|salesManager|Active
+tp1728435334575|purchaseManagerUser|purchaseManager123|purchaseManager|Active
+tp1728727888888|financeManagerUser|financeManager123|financeManager|Active
+tp1728342344195|inventoryManagerUser|inventoryManager123|inventoryManager|Active
+tp1728738654707|kj|kj123|admin|Active

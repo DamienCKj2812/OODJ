@@ -44,10 +44,10 @@
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="filterInformationLabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="filterInformationTextField" min="-2" pref="75" max="-2" attributes="0"/>
+                                      <Component id="filterPurchaseOrdersTextField" min="-2" pref="75" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                                      <Component id="purchaseOrdersLabel" min="-2" pref="150" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                                       <Component id="actionDescriptionLabel3" min="-2" pref="5" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="actionDescriptionLabel2" min="-2" pref="178" max="-2" attributes="0"/>
@@ -86,8 +86,8 @@
                   </Group>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="filterInformationLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="filterInformationTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="filterPurchaseOrdersTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="purchaseOrdersLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
@@ -222,7 +222,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="supplierStockInformationTable">
+        <Component class="javax.swing.JTable" name="purchaseOrdersTable">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="4" rowCount="4">
@@ -315,9 +315,9 @@
         <Property name="text" type="java.lang.String" value="Filter information: "/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="filterInformationTextField">
+    <Component class="javax.swing.JTextField" name="filterPurchaseOrdersTextField">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="filterInformationTextFieldActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="filterPurchaseOrdersTextFieldActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="filterItemLabel">
@@ -332,9 +332,9 @@
         <Property name="text" type="java.lang.String" value="Stock table"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
+    <Component class="javax.swing.JLabel" name="purchaseOrdersLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Supplier stock information table"/>
+        <Property name="text" type="java.lang.String" value="Purchase Orders Table"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="filterItemLabel1">

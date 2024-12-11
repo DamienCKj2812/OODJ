@@ -2,11 +2,13 @@ package models;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class InventoryManager extends User {
 
     Inventory inventory = new Inventory();
     SupplierAction supplierAction = new SupplierAction();
+    PurchaseOrderAction purchaseOrderAction = new PurchaseOrderAction();
 
     public InventoryManager(String userID, String username, String password) {
         super(userID, username, password, "inventoryManager");
@@ -52,4 +54,16 @@ public class InventoryManager extends User {
     public Supplier updateSupplier(String supplierID, String newName, String newContactPerson, String newAddress, String newPhoneNumber, String newProductsSupplied) throws IOException {
         return supplierAction.updateSupplier(supplierID, newName, newContactPerson, newAddress, newPhoneNumber, newProductsSupplied);
     }
+
+    public List<PurchaseOrder> getAllDonePaymentPurchaseOrders() throws IOException {
+        List<PurchaseOrder> allPurchaseOrders = purchaseOrderAction.getAllPurchaseOrders();
+        return allPurchaseOrders.stream()
+                .filter(o -> o.getStatus().toLowerCase().equals("done payment"))
+                .collect(Collectors.toList()); // Collect the stream to a list
+    }
+
+    public PurchaseOrder removePurchaseOrder(String purchaseOrderID) throws IOException {
+        return purchaseOrderAction.removePurchaseOrder(purchaseOrderID);
+    }
+
 }

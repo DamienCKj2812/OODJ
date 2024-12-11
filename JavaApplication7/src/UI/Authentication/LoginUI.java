@@ -5,11 +5,17 @@
 package UI.Authentication;
 
 import UI.Admin.AdminHomeUI;
+import UI.FinanceManager.MainMenuFM;
 import UI.InventoryManager.InventoryManagerHomeUI;
+import UI.PurchaseManager.PurchaseManagerDashBoard;
+import UI.SalesManager.SMListOfItem;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import models.Admin;
+import models.FinanceManager;
 import models.InventoryManager;
+import models.PurchaseManager;
+import models.SalesManager;
 import models.User;
 import state.UserSession;
 import utils.Authenticator;
@@ -176,9 +182,27 @@ public class LoginUI extends javax.swing.JFrame {
                 userState.setLoggedInInventoryManager(inventoryManager);
                 new InventoryManagerHomeUI(inventoryManager).setVisible(true);
                 this.dispose();
+            } else if (user instanceof FinanceManager) {
+                FinanceManager financeManager = (FinanceManager) user;
+                new MainMenuFM(financeManager).setVisible(true);
+                this.dispose();
+            } else if (user instanceof SalesManager) {
+                SalesManager salesManager = (SalesManager) user;
+                new SMListOfItem(salesManager).setVisible(true);
+                this.dispose();
+            } else if (user instanceof PurchaseManager) {
+                PurchaseManager purchaseManager = (PurchaseManager) user;
+                new PurchaseManagerDashBoard(purchaseManager).setVisible(true);
+                this.dispose();
             } else {
                 user.displayUserInfo();
             }
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(this,
+                    "User not found",
+                    "Login Error",
+                    JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         } catch (IllegalArgumentException e) {
             // Handle input validation error
             JOptionPane.showMessageDialog(this,

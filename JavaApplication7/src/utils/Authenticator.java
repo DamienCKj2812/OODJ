@@ -4,8 +4,10 @@ import java.io.IOException;
 import models.User;
 import constants.Constants; // Import the Constants class for the file path
 import models.Admin;
+import models.FinanceManager;
 import models.InventoryManager;
 import models.PurchaseManager;
+import models.SalesManager;
 
 public class Authenticator {
 
@@ -33,7 +35,11 @@ public class Authenticator {
                     } else if (role.equalsIgnoreCase("inventoryManager")) {
                         return new InventoryManager(userID, username, password); // Return InventoryManager object
                     } else if (role.equalsIgnoreCase("purchaseManager")) {
-                        return new PurchaseManager(userID, username, password); // Return InventoryManager object
+                        return new PurchaseManager(userID, username, password); // Return PurchaseManager object
+                    } else if (role.equalsIgnoreCase("salesManager")) {
+                        return new SalesManager(userID, username, password); // Return SalesManager object
+                    } else if (role.equalsIgnoreCase("financeManager")) {
+                        return new FinanceManager(userID, username, password); // Return SalesManager object
                     } else {
                         return new User(userID, username, password, role, status); // Return User object
                     }

@@ -7,6 +7,7 @@ package UI.Admin;
 import UI.InventoryManager.InventoryManagerHomeUI;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -18,8 +19,10 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -44,6 +47,8 @@ public class UserManagementUI extends javax.swing.JFrame {
         this.logHandler = new LogHandler(admin);
         initComponents();
         loadUserData();
+        usernameLabel.setText(admin.getUsername());
+        userIDLabel.setText(admin.getUserID());
         userTable.setRowHeight(30);
 
         userTable.addMouseListener(new MouseAdapter() {
@@ -94,11 +99,9 @@ public class UserManagementUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        newStockCountLabel = new javax.swing.JLabel();
         usernameLabel = new javax.swing.JLabel();
         userIDLabel = new javax.swing.JLabel();
         userIDLabel2 = new javax.swing.JLabel();
-        newStockCountValue = new javax.swing.JLabel();
         backToHomeButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         userTable = new javax.swing.JTable();
@@ -106,14 +109,11 @@ public class UserManagementUI extends javax.swing.JFrame {
         filterTextField = new javax.swing.JTextField();
         actionDescriptionLabel1 = new javax.swing.JLabel();
         actionDescriptionLabel = new javax.swing.JLabel();
+        addUserButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(50, 54, 57));
-
-        newStockCountLabel.setForeground(new java.awt.Color(225, 225, 225));
-        newStockCountLabel.setText("New stock :");
-        newStockCountLabel.setToolTipText("");
 
         usernameLabel.setBackground(new java.awt.Color(0, 0, 0));
         usernameLabel.setForeground(new java.awt.Color(225, 225, 225));
@@ -124,9 +124,6 @@ public class UserManagementUI extends javax.swing.JFrame {
         userIDLabel.setToolTipText("");
 
         userIDLabel2.setToolTipText("");
-
-        newStockCountValue.setText("value");
-        newStockCountValue.setToolTipText("");
 
         backToHomeButton.setText("Back to Home");
         backToHomeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -143,10 +140,6 @@ public class UserManagementUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(usernameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(newStockCountLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(newStockCountValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(userIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,11 +157,7 @@ public class UserManagementUI extends javax.swing.JFrame {
                 .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(newStockCountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(newStockCountValue, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(38, 38, 38)
                 .addComponent(userIDLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
                 .addComponent(backToHomeButton)
@@ -195,6 +184,13 @@ public class UserManagementUI extends javax.swing.JFrame {
         actionDescriptionLabel.setForeground(new java.awt.Color(254, 0, 0));
         actionDescriptionLabel.setText("*");
 
+        addUserButton.setText("Add User");
+        addUserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addUserButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -205,9 +201,11 @@ public class UserManagementUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(filterLabel)
+                        .addComponent(filterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(filterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(addUserButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(actionDescriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -223,7 +221,8 @@ public class UserManagementUI extends javax.swing.JFrame {
                     .addComponent(filterLabel)
                     .addComponent(filterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(actionDescriptionLabel1)
-                    .addComponent(actionDescriptionLabel))
+                    .addComponent(actionDescriptionLabel)
+                    .addComponent(addUserButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
@@ -236,6 +235,64 @@ public class UserManagementUI extends javax.swing.JFrame {
         new AdminHomeUI(admin).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backToHomeButtonActionPerformed
+
+    private void addUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserButtonActionPerformed
+        // Create a panel to hold the components
+    JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+
+    // Create components for the dialog
+    JLabel usernameLabel = new JLabel("Username:");
+    JTextField usernameField = new JTextField(15);
+    JLabel passwordLabel = new JLabel("Password:");
+    JPasswordField passwordField = new JPasswordField(15);
+    JLabel roleLabel = new JLabel("Role:");
+    JComboBox<String> roleComboBox = new JComboBox<>(new String[]{
+        "Sales Manager", "Purchase Manager", "Finance Manager", "Inventory Manager"
+    });
+
+    // Add components to the panel
+    panel.add(usernameLabel);
+    panel.add(usernameField);
+    panel.add(passwordLabel);
+    panel.add(passwordField);
+    panel.add(roleLabel);
+    panel.add(roleComboBox);
+
+    // Show dialog
+    int result = JOptionPane.showConfirmDialog(
+            this,
+            panel,
+            "Add New User",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.PLAIN_MESSAGE
+    );
+
+    try {
+        // Handle OK/Cancel
+        if (result == JOptionPane.OK_OPTION) {
+            String username = usernameField.getText();
+            String password = new String(passwordField.getPassword());
+            String role = (String) roleComboBox.getSelectedItem();
+
+            if (username.isEmpty() || password.isEmpty() || role == null) {
+                JOptionPane.showMessageDialog(this, "All fields must be filled!", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                // Convert role to PascalCase
+                role = role.replace(" ", "");
+
+                // Call method to register user
+                admin.registerNewUser(username, password, role);
+                JOptionPane.showMessageDialog(this, "User added successfully!");
+            }
+        }
+    } catch (IOException ex) {
+        // Show error dialog
+        JOptionPane.showMessageDialog(this,
+                "An error occurred while adding the user:\n" + ex.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_addUserButtonActionPerformed
 
     // Function to display cell content in a dialog
     private void showCellContentDialog(int row, int col) {
@@ -407,13 +464,12 @@ public class UserManagementUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel actionDescriptionLabel;
     private javax.swing.JLabel actionDescriptionLabel1;
+    private javax.swing.JButton addUserButton;
     private javax.swing.JButton backToHomeButton;
     private javax.swing.JLabel filterLabel;
     private javax.swing.JTextField filterTextField;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel newStockCountLabel;
-    private javax.swing.JLabel newStockCountValue;
     private javax.swing.JLabel userIDLabel;
     private javax.swing.JLabel userIDLabel2;
     private javax.swing.JTable userTable;

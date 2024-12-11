@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import utils.FileManager;
-import utils.LogHandler;
 
 /**
  *
@@ -20,11 +19,17 @@ public class Admin extends User {
 
     private FileManager fileManager = new FileManager(Constants.USER_DATA_PATH);
     private InventoryManager inventoryManager;
-
+    private FinanceManager financeManager;
+    private PurchaseManager purchaseManager;
+    private SalesManager salesManager;
 
     public Admin(String userID, String username, String password) {
         super(userID, username, password, "admin");
         this.inventoryManager = new InventoryManager(userID, username, password);
+        this.financeManager = new FinanceManager(userID, username, password);
+        this.purchaseManager = new PurchaseManager(userID, username, password);
+        this.salesManager = new SalesManager(userID, username, password);
+
     }
 
     public List<User> getAllUsers() throws IOException {
@@ -95,7 +100,7 @@ public class Admin extends User {
                     .append(user.getUsername()).append("|")
                     .append(user.getPassword()).append("|")
                     .append(user.getRole()).append("|")
-                    .append(user.getStatus()).append("\n");
+                    .append("Active").append("\n");
         }
         fileManager.writeFile(updatedUsers.toString().trim()); // Ensures no trailing newline
 
@@ -196,6 +201,18 @@ public class Admin extends User {
 
     public Item deleteItem(String itemId) throws IOException {
         return inventoryManager.deleteItem(itemId);
+    }
+
+    public FinanceManager getFinanceManager() {
+        return financeManager;
+    }
+
+    public PurchaseManager getPurchaseManager() {
+        return purchaseManager;
+    }
+
+    public SalesManager getSalesManager() {
+        return salesManager;
     }
 
 }
