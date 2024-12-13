@@ -373,9 +373,17 @@ public class ViewPurchaseOrderFM extends javax.swing.JFrame {
         }
 
         try {
-            // Assuming selectedPurchaseOrderId is valid
             PurchaseOrder purchaseOrder = financeManager.getPurchaseOrder(selectedPurchaseOrderId);
+            purchaseOrder.getStatus();
 
+            String status = purchaseOrder.getStatus();
+            if (status.equals("Approved") || status.equals("Rejected") || status.equals("Done Payment")) {
+                JOptionPane.showMessageDialog(this,
+                        "This purchase order has already been " + status + ". You cannot change it.",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
             // Update the purchase order status to "Approved"
             financeManager.updatePurchaseOrder(
                     selectedPurchaseOrderId,
@@ -417,6 +425,16 @@ public class ViewPurchaseOrderFM extends javax.swing.JFrame {
         try {
             // Assuming selectedPurchaseOrderId is valid
             PurchaseOrder purchaseOrder = financeManager.getPurchaseOrder(selectedPurchaseOrderId);
+            purchaseOrder.getStatus();
+
+            String status = purchaseOrder.getStatus();
+            if (status.equals("Approved") || status.equals("Rejected") || status.equals("Done Payment")) {
+                JOptionPane.showMessageDialog(this,
+                        "This purchase order has already been " + status + ". You cannot change it.",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
             // Update the purchase order status to "Approved"
             financeManager.updatePurchaseOrder(
