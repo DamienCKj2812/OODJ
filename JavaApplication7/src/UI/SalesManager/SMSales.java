@@ -42,6 +42,8 @@ public class SMSales extends javax.swing.JFrame {
     Admin admin = userState.getLoggedInAdmin();
     SalesManager salesManager;
     private LogHandler logHandler;
+    private double totalSalesAmount = 0.0; // Class-level variable to store the total sales amount
+    private int totalProductSales = 0;     // Total product sales count
 
     public SMSales(SalesManager salesManager) {
         initComponents();
@@ -56,69 +58,80 @@ public class SMSales extends javax.swing.JFrame {
     }
 
     private void loadSalesReport() {
-        DefaultTableModel model = (DefaultTableModel) tbSalesReport.getModel();
-        model.setRowCount(0); // Clear existing rows
+     DefaultTableModel model = (DefaultTableModel) tbSalesReport.getModel();
+    model.setRowCount(0); // Clear existing rows
 
-        // Enable sorting
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
-        tbSalesReport.setRowSorter(sorter);
+    // Reset totals
+    totalSalesAmount = 0.0;
+    totalProductSales = 0;
 
-        try {
-            // Provide valid arguments for SalesManager constructor
+    // Enable sorting
+    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+    tbSalesReport.setRowSorter(sorter);
 
-            // Fetch all sales entries
-            List<Sales> salesEntries = salesManager.getAllSalesEntries();
+    try {
+        // Fetch all sales entries
+        List<Sales> salesEntries = salesManager.getAllSalesEntries();
 
-            // Fetch inventory items once for efficiency
-            List<Item> inventoryItems = salesManager.getInventoryItems();
+        // Fetch inventory items once for efficiency
+        List<Item> inventoryItems = salesManager.getInventoryItems();
 
-            for (Sales sales : salesEntries) {
-                String salesID = sales.getSalesID();       // Sales ID
-                String itemCode = sales.getItemID();       // Item Code
-                int quantitySold = sales.getQuantitySold(); // Quantity Sold
-                String dateSold = sales.getDateSold();     // Date Sold
-                String notes = sales.getNotes();           // Notes
+        for (Sales sales : salesEntries) {
+            String salesID = sales.getSalesID();       // Sales ID
+            String itemCode = sales.getItemID();       // Item Code
+            int quantitySold = sales.getQuantitySold(); // Quantity Sold
+            String dateSold = sales.getDateSold();     // Date Sold
+            String notes = sales.getNotes();           // Notes
 
-                String formattedDate = StringFormatter.formatUnixTimestamp(dateSold);
-                // Find item details in inventory
-                String itemName = "Unknown Item";
-                double unitPrice = 0.0;
+            String formattedDate = StringFormatter.formatUnixTimestamp(dateSold);
+            // Find item details in inventory
+            String itemName = "Unknown Item";
+            double unitPrice = 0.0;
 
-                for (Item item : inventoryItems) {
-                    if (item.getItemID().equals(itemCode)) {
-                        itemName = item.getName();        // Item Name
+            for (Item item : inventoryItems) {
+                if (item.getItemID().equals(itemCode)) {
+                    itemName = item.getName();        // Item Name
 
-                        // Convert unit price from String to double
-                        try {
-                            unitPrice = Double.parseDouble(item.getPrice());
-                        } catch (NumberFormatException e) {
-                            JOptionPane.showMessageDialog(null, "Invalid price format for item: " + item.getName());
-                            unitPrice = 0.0; // Default value in case of error
-                        }
-                        break;
+                    // Convert unit price from String to double
+                    try {
+                        unitPrice = Double.parseDouble(item.getPrice());
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Invalid price format for item: " + item.getName());
+                        unitPrice = 0.0; // Default value in case of error
                     }
+                    break;
                 }
-
-                // Calculate total amount
-                double totalAmount = quantitySold * unitPrice;
-
-                // Add row to the table model
-                model.addRow(new Object[]{salesID, itemCode, itemName, quantitySold, formattedDate, notes, unitPrice, totalAmount});
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error loading sales data: " + e.getMessage());
-            e.printStackTrace();
-        }
 
-        TableColumnModel columnModel = tbSalesReport.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(180); // Sales ID
-        columnModel.getColumn(1).setPreferredWidth(180);  // Item Code
-        columnModel.getColumn(2).setPreferredWidth(150); // Item Name
-        columnModel.getColumn(3).setPreferredWidth(40);  // Quantity Sold
-        columnModel.getColumn(4).setPreferredWidth(120); // Date Sold
-        columnModel.getColumn(5).setPreferredWidth(100); // Notes
-        columnModel.getColumn(6).setPreferredWidth(80);  // Unit Price
-        columnModel.getColumn(7).setPreferredWidth(100); // Total Amount
+            // Calculate total amount
+            double totalAmount = quantitySold * unitPrice;
+
+            // Update totals
+            totalSalesAmount += totalAmount;
+            totalProductSales += quantitySold;
+
+            // Add row to the table model
+            model.addRow(new Object[]{salesID, itemCode, itemName, quantitySold, formattedDate, notes, unitPrice, totalAmount});
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error loading sales data: " + e.getMessage());
+        e.printStackTrace();
+    }
+
+    // Adjust column widths
+    TableColumnModel columnModel = tbSalesReport.getColumnModel();
+    columnModel.getColumn(0).setPreferredWidth(180); // Sales ID
+    columnModel.getColumn(1).setPreferredWidth(180); // Item Code
+    columnModel.getColumn(2).setPreferredWidth(150); // Item Name
+    columnModel.getColumn(3).setPreferredWidth(40);  // Quantity Sold
+    columnModel.getColumn(4).setPreferredWidth(120); // Date Sold
+    columnModel.getColumn(5).setPreferredWidth(100); // Notes
+    columnModel.getColumn(6).setPreferredWidth(80);  // Unit Price
+    columnModel.getColumn(7).setPreferredWidth(100); // Total Amount
+
+    // Print totals at the bottom
+    System.out.println("Total Product Sales: " + totalProductSales);
+    System.out.println("Total Sales Amount: RM " + String.format("%.2f", totalSalesAmount));
     }
 
     private void deleteSalesEntryFromFile(String itemCode) {
@@ -649,22 +662,25 @@ public class SMSales extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
-        // Create the header format
-        MessageFormat header = new MessageFormat("Sales Report");
+    // Create the header format
+    MessageFormat header = new MessageFormat("Sales Report");
 
-        // Set the page format to ensure columns fit
-        PrinterJob printerJob = PrinterJob.getPrinterJob();
-        PageFormat pageFormat = printerJob.defaultPage();
-        pageFormat.setOrientation(PageFormat.LANDSCAPE);  // Optional: Landscape orientation
+    // Footer with Total Sales Amount and Total Product Sales
+    String footerText = "Total Product Sales: " + totalProductSales+"  |  Total Sales Amount: RM " + String.format("%.2f", totalSalesAmount);
+    MessageFormat footer = new MessageFormat(footerText);
 
-        printerJob.setPrintable(tbSalesReport.getPrintable(JTable.PrintMode.FIT_WIDTH, header, null), pageFormat);
+    try {
+        // Print table with header and footer
+        boolean complete = tbSalesReport.print(JTable.PrintMode.FIT_WIDTH, header, footer);
 
-        // Try to print the table
-        try {
-            printerJob.print();
-        } catch (PrinterException e) {
-            JOptionPane.showMessageDialog(rootPane, e);
+        if (complete) {
+            JOptionPane.showMessageDialog(rootPane, "Printing Complete");
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Printing Cancelled");
         }
+    } catch (PrinterException e) {
+        JOptionPane.showMessageDialog(rootPane, "Error Printing: " + e.getMessage());
+    }
     }//GEN-LAST:event_btnPrintActionPerformed
 
     private void lblSalesEntryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesEntryMouseClicked
