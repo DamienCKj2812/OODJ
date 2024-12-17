@@ -400,7 +400,7 @@ public class ViewPurchaseOrderFM extends javax.swing.JFrame {
             loadPurchaseOrderData();
 
             // Show success dialog
-            JOptionPane.showMessageDialog(this, "Purchase Order approved successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Purchase Order has been successfully rejected!", "Success", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
             // Print the error message to the console for debugging
             System.err.println("Error updating purchase order: " + e.getMessage());
