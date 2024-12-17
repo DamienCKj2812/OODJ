@@ -59,30 +59,30 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="RequisitionidComboBox" min="-2" pref="130" max="-2" attributes="0"/>
-                                              <Component id="RequisitionIDlabel" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="quantitylabel" min="-2" pref="90" max="-2" attributes="0"/>
-                                              <Component id="quantitySpinner" alignment="0" min="-2" pref="168" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="TotalCostTextfield" min="-2" pref="130" max="-2" attributes="0"/>
-                                              <Component id="TotalCostlabel" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
                                       <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="expectedDeliveryDate" alignment="0" min="-2" pref="138" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="310" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="645" max="-2" attributes="0"/>
                                   <Component id="jLabel6" min="-2" pref="64" max="-2" attributes="0"/>
                               </Group>
                               <Component id="requisitionTableLabel" alignment="0" min="-2" pref="114" max="-2" attributes="0"/>
                               <Component id="jScrollPane2" alignment="0" min="-2" pref="844" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="RequisitionIDlabel" min="-2" max="-2" attributes="0"/>
+                                      <Component id="RequisitionidComboBox" min="-2" pref="274" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="quantitylabel" min="-2" pref="90" max="-2" attributes="0"/>
+                                      <Component id="quantitySpinner" alignment="0" min="-2" pref="168" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="TotalCostTextfield" min="-2" pref="130" max="-2" attributes="0"/>
+                                      <Component id="TotalCostlabel" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -150,22 +150,23 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel6" alignment="1" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="1" attributes="0">
                                               <Group type="102" attributes="0">
-                                                  <Group type="103" groupAlignment="3" attributes="0">
-                                                      <Component id="RequisitionIDlabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="TotalCostlabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="3" attributes="0">
-                                                      <Component id="RequisitionidComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="TotalCostTextfield" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
+                                                  <Component id="RequisitionIDlabel" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                  <Component id="RequisitionidComboBox" min="-2" max="-2" attributes="0"/>
                                               </Group>
-                                              <Group type="102" attributes="0">
-                                                  <Component id="quantitylabel" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="quantitySpinner" min="-2" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="TotalCostlabel" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="TotalCostTextfield" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="quantitylabel" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="quantitySpinner" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
                                               </Group>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>

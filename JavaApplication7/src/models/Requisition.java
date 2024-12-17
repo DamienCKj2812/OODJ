@@ -12,17 +12,15 @@ public class Requisition {
     private String requiredDate;
     private String salesManagerId;
     private String requisitionDate;
-    private String status;
 
     // Constructor
-    public Requisition(String requisitionId, String itemId, String quantity, String requiredDate, String salesManagerId, String requisitionDate, String status) {
+    public Requisition(String requisitionId, String itemId, String quantity, String requiredDate, String salesManagerId, String requisitionDate) {
         this.requisitionId = requisitionId;
         this.itemId = itemId;
         this.quantity = quantity;
         this.requiredDate = requiredDate;
         this.salesManagerId = salesManagerId;
         this.requisitionDate = requisitionDate;
-        this.status = status;
     }
 
     public String getRequisitionId() {
@@ -49,10 +47,6 @@ public class Requisition {
         return requisitionDate;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
     public void setRequisitionId(String requisitionId) {
         this.requisitionId = requisitionId;
     }
@@ -73,10 +67,6 @@ public class Requisition {
         this.requisitionDate = requisitionDate;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
@@ -84,6 +74,6 @@ public class Requisition {
     // Method to display requisition details
     @Override
     public String toString() {
-        return requisitionId + "|" + itemId + "|" + quantity + "|" + requiredDate + "|" + salesManagerId + "|" + requisitionDate + "|" + status;
+        return requisitionId + "|" + itemId + "|" + quantity + "|" + requiredDate + "|" + salesManagerId + "|" + requisitionDate ;
     }
 }

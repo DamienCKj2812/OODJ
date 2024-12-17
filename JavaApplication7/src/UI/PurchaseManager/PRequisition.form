@@ -119,9 +119,9 @@
                                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="CreateRequisitionButton" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                                   <Component id="backtodashboardbutton" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="67" pref="67" max="-2" attributes="0"/>
                                   <Component id="logoutbutton" min="-2" max="-2" attributes="0"/>

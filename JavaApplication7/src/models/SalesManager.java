@@ -50,7 +50,7 @@ public class SalesManager extends User {
 
     // Create Requisition 
     public Requisition addRequisition(String newItemId, String newQuantity, String newRequiredDate, String newSalesManagerId, String newRequisitionDate) throws IOException {
-        return requisitionAction.addRequisition(newItemId, newQuantity, newRequiredDate, newSalesManagerId, newRequisitionDate, "Pending");
+        return requisitionAction.addRequisition(newItemId, newQuantity, newRequiredDate, newSalesManagerId, newRequisitionDate);
     }
 
     // List of Purchaser Orders (View)

@@ -26,8 +26,8 @@ public class RequisitionAction {
 
         for (String line : lines) {
             String[] requisitionDetail = line.split("\\|");
-            if (requisitionDetail.length >= 7) { // Check for the required number of details
-                Requisition requisition = new Requisition(requisitionDetail[0], requisitionDetail[1], requisitionDetail[2], requisitionDetail[3], requisitionDetail[4], requisitionDetail[5], requisitionDetail[6]);
+            if (requisitionDetail.length >= 6) { // Check for the required number of details
+                Requisition requisition = new Requisition(requisitionDetail[0], requisitionDetail[1], requisitionDetail[2], requisitionDetail[3], requisitionDetail[4], requisitionDetail[5]);
                 requisitions.add(requisition);
             } else {
                 System.err.println("Skipping line due to incorrect format: " + line);
@@ -60,14 +60,13 @@ public class RequisitionAction {
                 continue; // Skip adding this requisition to the updated list
             }
             updatedRequisitions.append(String.format(
-                    "%s|%s|%s|%s|%s|%s|%s%n",
+                    "%s|%s|%s|%s|%s|%s%n",
                     requisition.getRequisitionId(),
                     requisition.getItemId(),
                     requisition.getQuantity(),
                     requisition.getRequiredDate(),
                     requisition.getSalesManagerId(),
-                    requisition.getRequisitionDate(),
-                    requisition.getStatus()
+                    requisition.getRequisitionDate()
             ));  // Add each requisition except the one being removed
         }
 
@@ -77,7 +76,7 @@ public class RequisitionAction {
         return selectedRequisition;
     }
 
-    public Requisition addRequisition(String newItemId, String newQuantity, String newRequiredDate, String newSalesManagerId, String newRequisitionDate, String newStatus) throws IOException {
+    public Requisition addRequisition(String newItemId, String newQuantity, String newRequiredDate, String newSalesManagerId, String newRequisitionDate) throws IOException {
         List<Requisition> requisitions = getAllRequisitions();
         StringBuilder updatedRequisitions = new StringBuilder();
 
@@ -85,21 +84,20 @@ public class RequisitionAction {
         String requisitionID = "req" + System.currentTimeMillis();
 
         // Create new Requisition object
-        Requisition newRequisition = new Requisition(requisitionID, newItemId, newQuantity, newRequiredDate, newSalesManagerId, newRequisitionDate, newStatus);
+        Requisition newRequisition = new Requisition(requisitionID, newItemId, newQuantity, newRequiredDate, newSalesManagerId, newRequisitionDate);
 
         // Add new requisition to the list
         requisitions.add(newRequisition);
 
         // Append each requisition’s details to `Requisitions`
         requisitions.forEach(requisition -> updatedRequisitions.append(String.format(
-                "%s|%s|%s|%s|%s|%s|%s%n",
+                "%s|%s|%s|%s|%s|%s%n",
                 requisition.getRequisitionId(),
                 requisition.getItemId(),
                 requisition.getQuantity(),
                 requisition.getRequiredDate(),
                 requisition.getSalesManagerId(),
-                requisition.getRequisitionDate(),
-                requisition.getStatus()
+                requisition.getRequisitionDate()
         )));
 
         // Save the updated requisition data back to the file
@@ -108,7 +106,7 @@ public class RequisitionAction {
         return newRequisition;
     }
 
-    public Requisition updateRequisition(String requisitionId, String newItemId, String newQuantity, String newRequiredDate, String newSalesManagerId, String newRequisitionDate, String newStatus) throws IOException {
+    public Requisition updateRequisition(String requisitionId, String newItemId, String newQuantity, String newRequiredDate, String newSalesManagerId, String newRequisitionDate) throws IOException {
         List<Requisition> requisitions = getAllRequisitions();
 
         Requisition requisitionToUpdate = requisitions.stream()
@@ -122,19 +120,17 @@ public class RequisitionAction {
         requisitionToUpdate.setRequiredDate(newRequiredDate);
         requisitionToUpdate.setSalesManagerId(newSalesManagerId);
         requisitionToUpdate.setRequisitionDate(newRequisitionDate);
-        requisitionToUpdate.setStatus(newStatus);
 
         // Rebuild the file content with updated requisition data
         StringBuilder updatedRequisitions = new StringBuilder();
         requisitions.forEach(requisition -> updatedRequisitions.append(String.format(
-                "%s|%s|%s|%s|%s|%s|%s%n",
+                "%s|%s|%s|%s|%s|%s%n",
                 requisition.getRequisitionId(),
                 requisition.getItemId(),
                 requisition.getQuantity(),
                 requisition.getRequiredDate(),
                 requisition.getSalesManagerId(),
-                requisition.getRequisitionDate(),
-                requisition.getStatus()
+                requisition.getRequisitionDate()
         )));
 
         // Write the updated requisition list back to the file

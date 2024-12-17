@@ -332,9 +332,9 @@ public class PRequisition extends javax.swing.JFrame {
                                 .addGap(68, 68, 68)
                                 .addComponent(jLabel1))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(68, 68, 68)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(CreateRequisitionButton)
-                                .addGap(70, 70, 70)
+                                .addGap(61, 61, 61)
                                 .addComponent(backtodashboardbutton)
                                 .addGap(67, 67, 67)
                                 .addComponent(logoutbutton)))
@@ -448,8 +448,7 @@ public class PRequisition extends javax.swing.JFrame {
                     String.valueOf(quantity),
                     String.valueOf(unixTime),
                     purchaseManager.getUserID(),
-                    String.valueOf(System.currentTimeMillis() / 1000),
-                    "Pending"
+                    String.valueOf(System.currentTimeMillis() / 1000)
             );
 
             JOptionPane.showMessageDialog(this,

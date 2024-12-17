@@ -147,3 +147,13 @@ salesManagerUser|Requisition created successfully! (Requisition ID: req173390034
 salesManagerUser|Sales added successfully! (Sales ID:SE1733901508875)|1733901510
 purchaseManagerUser|Added the Purchase order ( id: po1734426218711, item id: item1730020612894, quantity: 4, expected delivery time: 2024 12 12)|1734426220
 purchaseManagerUser|Added the Purchase requisition (item id: item1730020612892, item name: Vacuum Cleaner, item quantity: 14, required date: 2024 12 17)|1734426272
+salesManagerUser|Requisition created successfully! (Requisition ID: req1734426796178)|1734426797
+purchaseManagerUser|Added the Purchase requisition (item id: item1730020612890, item name: Dishwasher, item quantity: 15, required date: 2024 12 17)|1734427210
+purchaseManagerUser|Added the Purchase requisition (item id: item1730020612889, item name: Dryer, item quantity: 14, required date: 2024 12 17)|1734427526
+purchaseManagerUser|Added the Purchase order ( id: po1734427696862, item id: item1730020612890, quantity: 14, expected delivery time: 2024 12 05)|1734427697
+purchaseManagerUser|Added the Purchase order ( id: po1734427787034, item id: item1730020612889, quantity: 15, expected delivery time: 2024 12 06)|1734427788
+purchaseManagerUser|Added the Purchase requisition (item id: item1730020612891, item name: Air Conditioner, item quantity: 13, required date: 2024 12 17)|1734427843
+salesManagerUser|Requisition created successfully! (Requisition ID: req1734428008394)|1734428012
+purchaseManagerUser|Added the Purchase order ( id: po1734428065158, item id: item1730020612896, quantity: 14, expected delivery time: 2024 12 06)|1734428066
+purchaseManagerUser|Added the Purchase requisition (item id: item1730020612888, item name: Washing Machine, item quantity: 11, required date: 2024 12 17)|1734428239
+purchaseManagerUser|Added the Purchase order ( id: po1734428262069, item id: item1730020612891, quantity: 11, expected delivery time: 2024 12 18)|1734428263

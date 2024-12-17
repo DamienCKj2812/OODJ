@@ -45,12 +45,12 @@ public class PurchaseManager extends User {
         return requisitionAction.removeRequisition(requisitionId);
     }
 
-    public Requisition addRequisition(String newItemId, String newQuantity, String newRequiredDate, String newSalesManagerId, String newRequisitionDate, String newStatus) throws IOException {
-        return requisitionAction.addRequisition(newItemId, newQuantity, newRequiredDate, newSalesManagerId, newRequisitionDate, newStatus);
+    public Requisition addRequisition(String newItemId, String newQuantity, String newRequiredDate, String newSalesManagerId, String newRequisitionDate) throws IOException {
+        return requisitionAction.addRequisition(newItemId, newQuantity, newRequiredDate, newSalesManagerId, newRequisitionDate);
     }
 
-    public Requisition updateRequisition(String requisitionId, String newItemId, String newQuantity, String newRequiredDate, String newSalesManagerId, String newRequisitionDate, String newStatus) throws IOException {
-        return requisitionAction.updateRequisition(requisitionId, newItemId, newQuantity, newRequiredDate, newSalesManagerId, newRequisitionDate, newStatus);
+    public Requisition updateRequisition(String requisitionId, String newItemId, String newQuantity, String newRequiredDate, String newSalesManagerId, String newRequisitionDate) throws IOException {
+        return requisitionAction.updateRequisition(requisitionId, newItemId, newQuantity, newRequiredDate, newSalesManagerId, newRequisitionDate);
     }
 
     // Purchase orders part
