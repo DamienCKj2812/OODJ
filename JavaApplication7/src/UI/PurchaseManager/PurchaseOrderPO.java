@@ -4,6 +4,7 @@
  */
 package UI.PurchaseManager;
 
+import UI.Admin.AdminHomeUI;
 import UI.Authentication.LoginUI;
 import java.awt.GridLayout;
 import java.io.IOException;
@@ -501,7 +502,8 @@ public class PurchaseOrderPO extends javax.swing.JFrame {
     }//GEN-LAST:event_TotalCostTextfieldActionPerformed
 
     private void adminpageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminpageButtonActionPerformed
-        // TODO add your handling code here:
+        new AdminHomeUI(admin).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_adminpageButtonActionPerformed
 
     private void addpoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addpoActionPerformed
@@ -696,7 +698,7 @@ public class PurchaseOrderPO extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void RequisitionidComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RequisitionidComboBoxActionPerformed
-        
+
         updateTotalCost();
     }//GEN-LAST:event_RequisitionidComboBoxActionPerformed
 
