@@ -56,16 +56,15 @@ public class ViewPRequisition extends javax.swing.JFrame {
             while ((line = reader.readLine()) != null) {
                 String[] RDetails = line.split("\\|");
 
-                if (RDetails.length >= 7) {
+                if (RDetails.length >= 6) {
                     String requisitionId = RDetails[0];
                     String itemId = RDetails[1];
                     String quantity = RDetails[2];
                     String requiredDate = RDetails[3];
                     String salesManagerId = RDetails[4];
                     String requisitionDate = RDetails[5];
-                    String status = RDetails[6];
                     // Add row to the table model
-                    model.addRow(new Object[]{requisitionId, itemId, quantity, requiredDate, salesManagerId, requisitionDate, status});
+                    model.addRow(new Object[]{requisitionId, itemId, quantity, requiredDate, salesManagerId, requisitionDate});
                 }
             }
         } catch (IOException e) {
@@ -152,17 +151,17 @@ public class ViewPRequisition extends javax.swing.JFrame {
 
         View_list_of_Requisition_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Requisition ID", "Item ID", "Quantity", "Required Date", "Sales Manager ID", "Requisition Date", "Status"
+                "Requisition ID", "Item ID", "Quantity", "Required Date", "Sales Manager ID", "Requisition Date"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
