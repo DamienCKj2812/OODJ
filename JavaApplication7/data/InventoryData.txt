@@ -1,4 +1,5 @@
 item1730020612888|Washing Machine|High-efficiency washing machine|299.99|36|10|sp1729950430260
+item1730020612889|Microwave Oven|Compact microwave with smart defrost and quick-cook options|200.0|20|5|sp1729950430261
 item1730020612890|Dishwasher|Energy-saving dishwasher with eco mode|349.0|40|5|sp1729950430261
 item1730020612891|Air Conditioner|Split AC unit with rapid cooling|450.0|42|8|sp1729950430262
 item1730020612892|Vacuum Cleaner|Powerful vacuum for home cleaning|129.99|84|12|sp1729950430263

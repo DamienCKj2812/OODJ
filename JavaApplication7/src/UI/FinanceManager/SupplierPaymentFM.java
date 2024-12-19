@@ -72,7 +72,7 @@ public class SupplierPaymentFM extends javax.swing.JFrame {
 
                         // Convert order quantity and item price to double (if necessary)
                         double orderQuantity = Double.parseDouble(purchaseOrder.getOrderQuantity());
-                        double itemPrice = Double.parseDouble(item.getPrice());
+                        double itemPrice = (item != null) ? Double.parseDouble(item.getPrice()) : 0.0;
 
                         // Multiply order quantity with item price and accumulate the result
                         return acc + (orderQuantity * itemPrice);
