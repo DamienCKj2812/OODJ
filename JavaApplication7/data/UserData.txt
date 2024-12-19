@@ -4,3 +4,5 @@ tp1728435334575|purchaseManagerUser|purchaseManager123|purchaseManager|Active
 tp1728727888888|financeManagerUser|financeManager123|financeManager|Active
 tp1728342344195|inventoryManagerUser|inventoryManager123|inventoryManager|Active
 tp1728738654707|kj|kj123|admin|Active
+tp1734446264184|lengzai|lengzai123|SalesManager|Active
+tp1734451562934|salesManager2|salesManager123|SalesManager|Active

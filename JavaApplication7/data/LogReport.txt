@@ -157,3 +157,12 @@ salesManagerUser|Requisition created successfully! (Requisition ID: req173442800
 purchaseManagerUser|Added the Purchase order ( id: po1734428065158, item id: item1730020612896, quantity: 14, expected delivery time: 2024 12 06)|1734428066
 purchaseManagerUser|Added the Purchase requisition (item id: item1730020612888, item name: Washing Machine, item quantity: 11, required date: 2024 12 17)|1734428239
 purchaseManagerUser|Added the Purchase order ( id: po1734428262069, item id: item1730020612891, quantity: 11, expected delivery time: 2024 12 18)|1734428263
+inventoryManagerUser|Modified the Item's Item Name (item1730020612889): from Dryer to Wetter|1734449035
+inventoryManagerUser|Removed the item (item1730020612889 - Wetter)|1734449081
+inventoryManagerUser|Add an supplier (id: sp1734449143392, name: KFC, contact person: Chong Kah Jun, address: Ag2, phone number: 0120210210, products supplied: Fast meal)|1734449143
+inventoryManagerUser|Removed the Supplier (sp1734449143392 - KFC)|1734449152
+inventoryManagerUser|Updated the Item's Quantity (item1730020612891): from 27 to 32|1734449288
+inventoryManagerUser|Updated the Item's Quantity (item1730020612891): from 32 to 37|1734451769
+inventoryManagerUser|Add an item (id: item1734465483018, name: Coke, description: asdkmasd, price: 12.00, supplier: sp1729950430256)|1734465483
+inventoryManagerUser|Removed the item (item1734465483018 - Coke)|1734465511
+inventoryManagerUser|Updated the Item's Quantity (item1730020612891): from 37 to 42|1734465641
